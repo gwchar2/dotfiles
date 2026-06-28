@@ -21,7 +21,7 @@ link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
 
-link_item "$DOTFILES_DIR/tmux/.tmux.conf" "$HOME/.tmux.conf"
+link_item "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 link_item "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 link_item "$DOTFILES_DIR/starship" "$HOME/.config/starship"
 link_item "$DOTFILES_DIR/yazi" "$HOME/.config/yazi"
