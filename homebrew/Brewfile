@@ -1,0 +1,33 @@
+# Core
+brew "git"
+brew "curl"
+brew "zsh"
+
+# Terminal / shell
+brew "starship"
+brew "tmux"
+brew "fzf"
+brew "zoxide"
+brew "eza"
+brew "bat"
+brew "fd"
+brew "ripgrep"
+brew "yazi"
+
+# Editor
+brew "neovim"
+
+# Dev tools
+brew "python"
+brew "node"
+brew "shellcheck"
+brew "shfmt"
+brew "cmake"
+brew "ninja"
+brew "llvm"
+
+# Apps
+cask "wezterm"
+
+# Fonts
+cask "font-jetbrains-mono-nerd-font"
