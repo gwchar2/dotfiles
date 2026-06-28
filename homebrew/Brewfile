@@ -25,6 +25,13 @@ brew "shfmt"
 brew "cmake"
 brew "ninja"
 brew "llvm"
+brew "bear"
+brew "cppcheck"
+brew "lcov"
+brew "gcovr"
+brew "nasm"
+brew "binutils"
+brew "pipx"
 
 # Apps
 cask "wezterm"

@@ -29,7 +29,17 @@ sudo apt install -y \
   cmake \
   ninja-build \
   gdb \
-  lldb
+  lldb \
+  valgrind \
+  strace \
+  ltrace \
+  binutils \
+  nasm \
+  bear \
+  cppcheck \
+  lcov \
+  gcovr \
+  pipx
 
 if [ "${SHELL:-}" != "/usr/bin/zsh" ]; then
   chsh -s /usr/bin/zsh "$USER"
@@ -39,3 +49,12 @@ fi
 if ! command -v codex >/dev/null 2>&1; then
   curl -fsSL https://chatgpt.com/codex/install.sh | sh
 fi
+
+# Python CLI tools
+pipx ensurepath >/dev/null 2>&1 || true
+
+for tool in pytest ruff black mypy; do
+  if ! command -v "$tool" >/dev/null 2>&1; then
+    pipx install "$tool"
+  fi
+done
