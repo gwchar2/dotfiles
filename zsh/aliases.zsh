@@ -44,3 +44,7 @@ alias v='nvim'
 alias vi='nvim'
 alias y='yazi'
 alias cx='codex'
+
+# Dev sessions
+alias dev='~/dotfiles/scripts/dev.sh'
+alias devdot='~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'

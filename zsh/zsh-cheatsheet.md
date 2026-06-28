@@ -65,3 +65,13 @@
 | `Esc` | Enter vi normal mode |
 | `i` | Insert mode |
 | `v` | Edit command line in editor |
+
+
+## Dev sessions
+
+| Command | Meaning |
+|---|---|
+| `dev` | Start/attach default tmux dev session |
+| `dev <name>` | Start/attach named tmux dev session |
+| `dev <name> <path>` | Start/attach session at specific path |
+| `devdot` | Start/attach dotfiles dev session |

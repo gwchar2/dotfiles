@@ -62,6 +62,85 @@ This automatically runs the correct setup for the current machine:
 
     ./scripts/unlink.sh
 
+## Dev layout
+
+
+
+The repo includes a tmux launcher for the main development layout:
+
+
+
+    devdot
+
+
+
+This starts or attaches a tmux session named `dotfiles` at `~/dotfiles`.
+
+
+
+Default layout:
+
+
+
+    left:   Yazi
+
+    center: shell + Codex
+
+    right:  Neovim
+
+
+
+Default sizes:
+
+
+
+    Yazi:   10 columns 
+
+    Center: 28 columns 
+
+    Neovim: remaining space
+
+
+
+For any project:
+
+
+
+    dev <session-name> <project-path>
+
+
+
+Example:
+
+
+
+    dev shell ~/Codes/VSCode/Shell/codecrafters-shell-cpp
+
+
+
+Override pane sizes:
+
+
+
+    DEV_LEFT_WIDTH=14 DEV_CENTER_WIDTH=36 devdot
+
+
+
+Detach from tmux:
+
+
+
+    Ctrl-a d
+
+
+
+Move between panes:
+
+
+
+    Ctrl-a + arrow
+
+
 ## Cheat sheets
 
 - wezterm/wezterm-cheatsheet.md
