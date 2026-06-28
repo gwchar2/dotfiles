@@ -6,6 +6,7 @@ sudo apt update
 sudo apt install -y \
   zsh \
   git \
+  gh \
   curl \
   unzip \
   build-essential \

@@ -62,3 +62,15 @@
 | `gcovr -r .` | C/C++ coverage summary |
 | `gcovr -r . --html --html-details -o coverage.html` | C/C++ HTML coverage |
 | `lcov --capture --directory . --output-file coverage.info` | Capture lcov data |
+
+
+## GitHub CLI
+
+| Command | Meaning |
+|---|---|
+| `gh auth login` | Login to GitHub |
+| `gh auth status` | Check GitHub login |
+| `gh repo create` | Create a GitHub repo |
+| `gh repo view --web` | Open repo in browser |
+| `gh pr create` | Create pull request |
+| `gh pr status` | Show PR status |

@@ -1,5 +1,6 @@
 # Core
 brew "git"
+brew "gh"
 brew "curl"
 brew "zsh"
 
