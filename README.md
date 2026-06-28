@@ -29,6 +29,10 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - macOS: docs/macos.md
 - Dev tools: docs/dev-tools.md
 
+## Templates
+
+- C++ project template: templates/cpp
+
 ## Install
 
     ./scripts/install.sh
