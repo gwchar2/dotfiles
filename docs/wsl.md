@@ -8,7 +8,7 @@ Windows WezTerm -> WSL Ubuntu -> zsh -> tmux / Neovim / Yazi / Codex
 
 Clone the dotfiles repo into WSL:
 
-    git clone <repo-url> ~/dotfiles
+    git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
     cd ~/dotfiles
 
 Run the installer:

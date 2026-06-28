@@ -12,7 +12,7 @@ Install Homebrew first:
 
 Clone the dotfiles repo:
 
-    git clone <repo-url> ~/dotfiles
+    git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
     cd ~/dotfiles
 
 Run the installer:

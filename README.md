@@ -34,6 +34,22 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 
 - C++ project template: templates/cpp
 
+## Automatic install on a new machine
+
+Clone the repo:
+
+    git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
+    cd ~/dotfiles
+
+Run the installer:
+
+    ./scripts/install.sh
+
+This automatically runs the correct setup for the current machine:
+
+- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh
+- macOS: scripts/macos.sh + scripts/link.sh
+
 ## Install
 
     ./scripts/install.sh
