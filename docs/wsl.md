@@ -40,6 +40,7 @@ If tools are already installed:
     tmux -V
     nvim --version
     codex --version
+    coderabbit --version
 
 ## Notes
 

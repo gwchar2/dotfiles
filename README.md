@@ -19,6 +19,7 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Starship
 - Yazi
 - Codex CLI
+- CodeRabbit CLI
 - GitHub CLI
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
 - Debug/dev tools: valgrind, strace, ltrace, binutils, nasm, bear, cppcheck, lcov, gcovr

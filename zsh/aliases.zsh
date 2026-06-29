@@ -49,3 +49,10 @@ alias cx='codex'
 alias dev='~/dotfiles/scripts/dev.sh'
 alias devdot='~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'
 alias devdot-reset='DEV_RESET=1 ~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'
+
+#CodeRabbit CLI
+alias crs='cr auth status'
+alias crd='cr doctor'
+alias crr='cr review --light'
+alias cru='cr --type uncommited'
+alias crua='cr --agent --type uncommited'
