@@ -13,7 +13,7 @@
 | Clear search highlights | `Esc` |
 | Save file | `Ctrl-s` |
 | Save without autocmds/formatting | `Space sn` |
-| Quit file | `Ctrl-q` |
+| Close file | `Ctrl-q` or `Space x` |
 | Exit insert mode | `jk` or `kj` |
 | Toggle line wrap | `Space lw` |
 
@@ -37,7 +37,7 @@
 | Next buffer | `Tab` |
 | Previous buffer | `Shift-Tab` |
 | New buffer | `Space b` |
-| Close buffer | `Space x` |
+| Close file | `Space x` |
 
 ## Windows / Splits
 
@@ -71,6 +71,8 @@
 |---|---|
 | Increment number | `Space +` |
 | Decrement number | `Space -` |
+| Select previous word | `Ctrl-Shift-Left` |
+| Select next word | `Ctrl-Shift-Right` |
 | Move selected text down | `Alt-j` |
 | Move selected text up | `Alt-k` |
 | Keep selection after indent left | `<` in visual mode |

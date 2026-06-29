@@ -1,4 +1,5 @@
 require 'core.options' -- Load general options
+require 'core.quit' -- Make :q/:wq close files before exiting Neovim
 require 'core.keymaps' -- Load general keymaps
 require 'core.snippets' -- Custom code snippets
 require 'tools.sql-runner'
@@ -40,7 +41,7 @@ require('lazy').setup({
   -- require 'plugins.bufferline',
   require 'plugins.neo-tree',
   require 'plugins.oil',
-  -- require 'plugins.alpha',
+  require 'plugins.alpha',
   require 'plugins.indent-blankline',
   require 'plugins.lazygit',
   require 'plugins.comment',

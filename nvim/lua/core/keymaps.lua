@@ -26,7 +26,7 @@ vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts)
 
 -- quit file
-vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts)
+vim.keymap.set('n', '<C-q>', '<cmd>SmartQuit<CR>', opts)
 
 -- delete single character without copying into register
 vim.keymap.set('n', 'x', '"_x', opts)
@@ -45,11 +45,19 @@ vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', opts)
 
+-- Windows-style word selection
+vim.keymap.set('n', '<C-S-Left>', 'vb', opts)
+vim.keymap.set('n', '<C-S-Right>', 've', opts)
+vim.keymap.set('x', '<C-S-Left>', 'b', opts)
+vim.keymap.set('x', '<C-S-Right>', 'e', opts)
+vim.keymap.set('i', '<C-S-Left>', '<Esc>vb', opts)
+vim.keymap.set('i', '<C-S-Right>', '<Esc>ve', opts)
+
 -- Buffers
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts)
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts)
 vim.keymap.set('n', '<C-i>', '<C-i>', opts) -- to restore jump forward
-vim.keymap.set('n', '<leader>x', ':Bdelete!<CR>', opts) -- close buffer
+vim.keymap.set('n', '<leader>x', '<cmd>SmartQuit<CR>', opts) -- close file
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- new buffer
 
 -- Increment/decrement numbers
