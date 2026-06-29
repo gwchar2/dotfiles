@@ -19,7 +19,8 @@ config.max_fps = 120
 config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.window_background_opacity = 0.92
+config.window_background_opacity = 0.97
+config.text_background_opacity = 1.0
 config.font_size = 12.0
 
 config.font = wezterm.font_with_fallback({
@@ -38,11 +39,39 @@ else
   config.color_scheme = "rose-pine-moon"
 end
 
+config.colors = {
+  background = "#111827",
+  tab_bar = {
+    background = "#111827",
+    active_tab = {
+      bg_color = "#1F2937",
+      fg_color = "#E5E7EB",
+      intensity = "Bold",
+    },
+    inactive_tab = {
+      bg_color = "#111827",
+      fg_color = "#9CA3AF",
+    },
+    inactive_tab_hover = {
+      bg_color = "#263244",
+      fg_color = "#E5E7EB",
+    },
+    new_tab = {
+      bg_color = "#111827",
+      fg_color = "#9CA3AF",
+    },
+    new_tab_hover = {
+      bg_color = "#263244",
+      fg_color = "#E5E7EB",
+    },
+  },
+}
+
 config.window_padding = {
-  left = 7,
-  right = 0,
-  top = 2,
-  bottom = 0,
+  left = 6,
+  right = 2,
+  top = 4,
+  bottom = 2,
 }
 
 -- Keys

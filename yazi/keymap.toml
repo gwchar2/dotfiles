@@ -1,0 +1,29 @@
+[[mgr.prepend_keymap]]
+on = [ "h" ]
+run = "arrow -1"
+desc = "Move up"
+
+[[mgr.prepend_keymap]]
+on = [ "j" ]
+run = "arrow 1"
+desc = "Move down"
+
+[[mgr.prepend_keymap]]
+on = [ "k" ]
+run = "leave"
+desc = "Go to parent directory"
+
+[[mgr.prepend_keymap]]
+on = [ "l" ]
+run = "enter"
+desc = "Enter directory or open file"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "n" ]
+run = 'shell -- tmux new-window -c "$(dirname -- %h)" "nvim %h"'
+desc = "Open hovered file in a new tmux window"
+
+[[mgr.prepend_keymap]]
+on = [ "g", "r" ]
+run = 'shell --confirm -- tmux new-window -c "$(dirname -- %h)" "if [ -x %h ]; then %h; else bash %h; fi; code=\$?; printf \"\n[exit %s] Press Enter to close...\" \"\$code\"; read -r"'
+desc = "Run hovered script in a new tmux window"

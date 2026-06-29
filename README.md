@@ -75,6 +75,9 @@ The repo includes a tmux launcher for the main development layout:
 
 
 This starts or attaches a tmux session named `dotfiles` at `~/dotfiles`.
+If an old session is already open, recreate the saved layout with:
+
+    devdot-reset
 
 
 
@@ -82,11 +85,11 @@ Default layout:
 
 
 
-    left:   Yazi
+    left:   Yazi, one directory column
 
-    center: shell + Codex
+    center: Neovim
 
-    right:  Neovim
+    right:  Codex
 
 
 
@@ -94,11 +97,11 @@ Default sizes:
 
 
 
-    Yazi:   10 columns 
+    Yazi:   24 columns
 
-    Center: 28 columns 
+    Codex:  42 columns
 
-    Neovim: remaining space
+    Neovim: remaining middle space
 
 
 
@@ -122,7 +125,7 @@ Override pane sizes:
 
 
 
-    DEV_LEFT_WIDTH=14 DEV_CENTER_WIDTH=36 devdot
+    DEV_YAZI_WIDTH=20 DEV_CODEX_WIDTH=42 devdot
 
 
 
@@ -130,7 +133,7 @@ Detach from tmux:
 
 
 
-    Ctrl-a d
+    Ctrl-b d
 
 
 
@@ -138,7 +141,7 @@ Move between panes:
 
 
 
-    Ctrl-a + arrow
+    Ctrl-b + arrow
 
 
 ## Cheat sheets

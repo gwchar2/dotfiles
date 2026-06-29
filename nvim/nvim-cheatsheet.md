@@ -21,6 +21,10 @@
 
 | Action | Keys |
 |---|---|
+| Move up | `h` |
+| Move down | `j` |
+| Move left | `k` |
+| Move right | `l` |
 | Scroll down and center | `Ctrl-d` |
 | Scroll up and center | `Ctrl-u` |
 | Next search result and center | `n` |
@@ -43,9 +47,9 @@
 | Horizontal split | `Space h` |
 | Equalize split sizes | `Space se` |
 | Close current split | `Space xs` |
-| Move to left split/pane | `Ctrl-h` |
+| Move to upper split/pane | `Ctrl-h` |
 | Move to lower split/pane | `Ctrl-j` |
-| Move to upper split/pane | `Ctrl-k` |
+| Move to left split/pane | `Ctrl-k` |
 | Move to right split/pane | `Ctrl-l` |
 | Resize split up | `Up` |
 | Resize split down | `Down` |

@@ -14,10 +14,14 @@
 | Split pane up/down | `Ctrl-b` then `-` |
 | Close current pane | `exit`, `Ctrl-d`, or `Ctrl-b` then `x` |
 | Maximize / restore current pane | `Ctrl-b` then `m` |
+| Move to upper pane | `Ctrl-h` |
+| Move to lower pane | `Ctrl-j` |
+| Move to left pane | `Ctrl-k` |
+| Move to right pane | `Ctrl-l` |
+| Resize pane up | `Ctrl-b` then `h` |
 | Resize pane down | `Ctrl-b` then `j` |
-| Resize pane up | `Ctrl-b` then `k` |
+| Resize pane left | `Ctrl-b` then `k` |
 | Resize pane right | `Ctrl-b` then `l` |
-| Resize pane left | `Ctrl-b` then `h` |
 
 ## Windows
 

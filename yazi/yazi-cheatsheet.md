@@ -4,10 +4,10 @@
 
 | Action | Keys |
 |---|---|
+| Move up | `h` or `Up` |
 | Move down | `j` or `Down` |
-| Move up | `k` or `Up` |
 | Enter folder / open file | `l` or `Enter` |
-| Go to parent folder | `h` or `Backspace` |
+| Go to parent folder | `k` or `Backspace` |
 | Quit Yazi | `q` |
 
 ## File Visibility
@@ -34,6 +34,14 @@
 | Delete selected files | `d` |
 | Rename file | `r` |
 | Create file/folder | `a` |
+
+## Open / Edit
+
+| Action | Keys |
+|---|---|
+| Open selected file normally | `l` or `Enter` |
+| Open hovered file in Neovim in a new tmux window | `g n` |
+| Run hovered script in a new tmux window | `g r` |
 
 ## Search / Jump
 

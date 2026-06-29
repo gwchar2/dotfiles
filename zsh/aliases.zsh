@@ -48,3 +48,4 @@ alias cx='codex'
 # Dev sessions
 alias dev='~/dotfiles/scripts/dev.sh'
 alias devdot='~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'
+alias devdot-reset='DEV_RESET=1 ~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'

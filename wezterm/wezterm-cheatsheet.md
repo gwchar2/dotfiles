@@ -47,10 +47,10 @@ C:\Users\hwath\.wezterm.lua
 
 | Setting | Value |
 |---|---|
-| Theme | Nord if available, otherwise Rose Pine Moon |
+| Theme | Nord if available, otherwise Rose Pine Moon, with a dark custom background |
 | Font | JetBrainsMono Nerd Font / JetBrains Mono / Cascadia Mono / Consolas |
-| Opacity | 0.92 |
+| Opacity | 0.97 |
 | FPS | 120 |
 | Tab bar | Hidden when only one tab |
 | Window decorations | Integrated buttons + resize |
-| Padding | Small left/top padding |
+| Padding | Compact padding on all sides |

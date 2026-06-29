@@ -75,3 +75,4 @@
 | `dev <name>` | Start/attach named tmux dev session |
 | `dev <name> <path>` | Start/attach session at specific path |
 | `devdot` | Start/attach dotfiles dev session |
+| `devdot-reset` | Recreate dotfiles dev session with saved layout |
