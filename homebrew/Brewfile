@@ -36,6 +36,7 @@ brew "pipx"
 
 # Apps
 cask "wezterm"
+cask "claude-code"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"

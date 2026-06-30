@@ -32,8 +32,8 @@ vim.keymap.set('n', '<C-q>', '<cmd>SmartQuit<CR>', opts)
 vim.keymap.set('n', 'x', '"_x', opts)
 
 -- Vertical scroll and center
-vim.keymap.set('n', '<C-d>', '<C-d>zz', opts)
-vim.keymap.set('n', '<C-u>', '<C-u>zz', opts)
+vim.keymap.set('n', '<C-h>', '<C-u>zz', opts)
+vim.keymap.set('n', '<C-j>', '<C-d>zz', opts)
 
 -- Find and center
 vim.keymap.set('n', 'n', 'nzzzv')
@@ -44,6 +44,18 @@ vim.keymap.set('n', '<Up>', ':resize -2<CR>', opts)
 vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts)
 vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', opts)
 vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', opts)
+
+-- Split with Shift-arrows
+vim.keymap.set('n', '<S-Up>', ':leftabove split<CR>', opts)
+vim.keymap.set('n', '<S-Down>', ':rightbelow split<CR>', opts)
+vim.keymap.set('n', '<S-Left>', ':leftabove vsplit<CR>', opts)
+vim.keymap.set('n', '<S-Right>', ':rightbelow vsplit<CR>', opts)
+
+-- Navigate between splits with Alt-arrows
+vim.keymap.set('n', '<M-Up>', ':wincmd k<CR>', opts)
+vim.keymap.set('n', '<M-Down>', ':wincmd j<CR>', opts)
+vim.keymap.set('n', '<M-Left>', ':wincmd h<CR>', opts)
+vim.keymap.set('n', '<M-Right>', ':wincmd l<CR>', opts)
 
 -- Windows-style word selection
 vim.keymap.set('n', '<C-S-Left>', 'vb', opts)
@@ -69,12 +81,6 @@ vim.keymap.set('n', '<leader>v', '<C-w>v', opts) -- split window vertically
 vim.keymap.set('n', '<leader>h', '<C-w>s', opts) -- split window horizontally
 vim.keymap.set('n', '<leader>se', '<C-w>=', opts) -- make split windows equal width & height
 vim.keymap.set('n', '<leader>xs', ':close<CR>', opts) -- close current split window
-
--- Navigate between splits
-vim.keymap.set('n', '<C-h>', ':wincmd k<CR>', opts)
-vim.keymap.set('n', '<C-j>', ':wincmd j<CR>', opts)
-vim.keymap.set('n', '<C-k>', ':wincmd h<CR>', opts)
-vim.keymap.set('n', '<C-l>', ':wincmd l<CR>', opts)
 
 -- Tabs
 vim.keymap.set('n', '<leader>to', ':tabnew<CR>', opts) -- open new tab

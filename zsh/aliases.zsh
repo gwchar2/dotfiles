@@ -21,7 +21,7 @@ alias ll='eza --all --long --icons=always --git --group-directories-first'
 alias tree='eza --tree --icons=always'
 
 # Navigation
-alias dot='cd ~/dotfiles'
+alias dot='cd "$DOTFILES_DIR"'
 alias ref='cd ~/references/dotfiles-main'
 
 # Git
@@ -46,9 +46,9 @@ alias y='yazi'
 alias cx='codex'
 
 # Dev sessions
-alias dev='~/dotfiles/scripts/dev.sh'
-alias devdot='~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'
-alias devdot-reset='DEV_RESET=1 ~/dotfiles/scripts/dev.sh dotfiles ~/dotfiles'
+alias dev='"$DOTFILES_DIR/scripts/dev.sh"'
+alias devdot='"$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+alias devdot-reset='DEV_RESET=1 "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
 
 #CodeRabbit CLI
 alias crs='cr auth status'

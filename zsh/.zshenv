@@ -16,8 +16,15 @@ export WEZTERM_THEME="nord"
 # User / prompt
 export DEFAULT_USER="$(whoami)"
 
+# Dotfiles
+if [ -z "${DOTFILES_DIR:-}" ]; then
+  _dotfiles_zsh_dir="${${(%):-%N}:A:h}"
+  export DOTFILES_DIR="${_dotfiles_zsh_dir:h}"
+  unset _dotfiles_zsh_dir
+fi
+
 # Paths
-[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -d "/opt/nvim-linux-x86_64/bin" ] && export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.env" ] && source "$HOME/.env"

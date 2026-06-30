@@ -15,8 +15,11 @@ unlink_item() {
 unlink_item "$HOME/.zshenv"
 unlink_item "$HOME/.zshrc"
 unlink_item "$HOME/.config/zsh"
+unlink_item "$HOME/AGENTS.md"
+unlink_item "$HOME/claude/CLAUDE.md"
 
 unlink_item "$HOME/.tmux.conf"
+unlink_item "$HOME/.gitconfig"
 unlink_item "$HOME/.config/nvim"
 unlink_item "$HOME/.config/starship"
 unlink_item "$HOME/.config/yazi"

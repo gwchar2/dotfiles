@@ -1,10 +1,19 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder and wezterm.config_builder() or {}
 
--- Windows WezTerm opens directly into WSL Ubuntu.
+-- Windows WezTerm opens directly into WSL Ubuntu in the WSL home directory.
 -- macOS WezTerm opens into a persistent tmux session.
 if wezterm.target_triple:find("windows") then
-  config.default_domain = "WSL:Ubuntu"
+  config.default_prog = {
+    "wsl.exe",
+    "--distribution",
+    "Ubuntu",
+    "--cd",
+    "~",
+    "--exec",
+    "zsh",
+    "-l",
+  }
 elseif wezterm.target_triple:find("darwin") then
   config.default_prog = {
     "/bin/zsh",
@@ -13,6 +22,11 @@ elseif wezterm.target_triple:find("darwin") then
     "exec tmux new-session -A -s main",
   }
 end
+
+wezterm.on("gui-startup", function(cmd)
+  local _, _, window = wezterm.mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
 
 -- General behavior
 config.automatically_reload_config = true

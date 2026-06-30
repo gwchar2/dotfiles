@@ -9,7 +9,9 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
+brew update
 brew bundle --file "$DOTFILES_DIR/homebrew/Brewfile"
+brew upgrade neovim tmux node || true
 
 if ! command -v codex >/dev/null 2>&1; then
   curl -fsSL https://chatgpt.com/codex/install.sh | sh

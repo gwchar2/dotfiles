@@ -9,6 +9,16 @@ setopt SHARE_HISTORY
 autoload -Uz compinit
 compinit
 
+# WSL launched from Windows shells often inherits C:\Windows\System32.
+# Move to HOME before Starship scans that large Windows directory.
+if [[ -n "${WSL_DISTRO_NAME:-}" ]]; then
+  case "${PWD:l}" in
+    /mnt/c/windows/system32 | /mnt/c/windows/syswow64)
+      cd "$HOME"
+      ;;
+  esac
+fi
+
 # Dotfiles config
 [ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
 [ -f "$HOME/.config/zsh/custom.zsh" ] && source "$HOME/.config/zsh/custom.zsh"

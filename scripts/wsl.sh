@@ -4,6 +4,7 @@ set -euo pipefail
 sudo apt update
 
 sudo apt install -y \
+  ca-certificates \
   zsh \
   git \
   gh \
@@ -42,6 +43,34 @@ sudo apt install -y \
   gcovr \
   pipx
 
+install_latest_neovim() {
+  local install_root="$HOME/.local/opt"
+  local install_dir="$install_root/nvim-linux-x86_64"
+  local bin_dir="$HOME/.local/bin"
+  local tmp_dir
+
+  tmp_dir="$(mktemp -d)"
+  trap 'rm -rf "$tmp_dir"' RETURN
+
+  mkdir -p "$install_root" "$bin_dir"
+
+  curl -fL \
+    -o "$tmp_dir/nvim-linux-x86_64.tar.gz" \
+    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+
+  rm -rf "$install_dir"
+  tar -xzf "$tmp_dir/nvim-linux-x86_64.tar.gz" -C "$install_root"
+  ln -sfn "$install_dir/bin/nvim" "$bin_dir/nvim"
+
+  "$bin_dir/nvim" --version | head -n 1
+}
+
+install_latest_neovim
+
+if ! command -v starship >/dev/null 2>&1; then
+  curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin"
+fi
+
 if [ "${SHELL:-}" != "/usr/bin/zsh" ]; then
   chsh -s /usr/bin/zsh "$USER"
 fi
@@ -49,6 +78,11 @@ fi
 # Codex CLI
 if ! command -v codex >/dev/null 2>&1; then
   curl -fsSL https://chatgpt.com/codex/install.sh | sh
+fi
+
+# Claude Code
+if ! command -v claude >/dev/null 2>&1; then
+  curl -fsSL https://claude.ai/install.sh | bash
 fi
 
 # CodeRabbit CLI

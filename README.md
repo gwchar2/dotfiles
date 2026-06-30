@@ -1,12 +1,12 @@
 # Dotfiles
 
-Personal terminal/dev setup for WSL Ubuntu now and macOS later.
+Personal terminal/dev setup for WSL Ubuntu and macOS.
 
-## Current flow
+## WSL / Windows Flow
 
 Windows WezTerm -> WSL Ubuntu -> zsh -> tmux / Neovim / Yazi / Codex
 
-## Future macOS flow
+## macOS Flow
 
 macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 
@@ -19,6 +19,7 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Starship
 - Yazi
 - Codex CLI
+- Claude Code
 - CodeRabbit CLI
 - GitHub CLI
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
@@ -51,6 +52,11 @@ This automatically runs the correct setup for the current machine:
 - WSL Ubuntu: scripts/wsl.sh + scripts/link.sh
 - macOS: scripts/macos.sh + scripts/link.sh
 
+On Windows, WezTerm runs outside WSL and needs a Windows config shim that loads
+the real config from this repo:
+
+    powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
+
 ## Install
 
     ./scripts/install.sh
@@ -58,6 +64,19 @@ This automatically runs the correct setup for the current machine:
 ## Link configs only
 
     ./scripts/link.sh
+
+Linked and installed config paths:
+
+- `~/dotfiles/zsh/.zshenv` -> `~/.zshenv`
+- `~/dotfiles/zsh/.zshrc` -> `~/.zshrc`
+- `~/dotfiles/zsh` -> `~/.config/zsh`
+- `~/dotfiles/tmux/tmux.conf` -> `~/.tmux.conf`
+- `~/dotfiles/git/.gitconfig` -> `~/.gitconfig`
+- `~/dotfiles/nvim` -> `~/.config/nvim`
+- `~/dotfiles/starship` -> `~/.config/starship`
+- `~/dotfiles/yazi` -> `~/.config/yazi`
+- macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
+- `~/dotfiles/agents/AGENTS.md` can be copied to `~/AGENTS.md` and `~/claude/CLAUDE.md`
 
 ## Unlink configs
 
@@ -142,7 +161,11 @@ Move between panes:
 
 
 
-    Ctrl-b + arrow
+    Alt + arrow
+
+Move between tmux windows:
+
+    Ctrl-Alt + arrow
 
 
 ## Cheat sheets

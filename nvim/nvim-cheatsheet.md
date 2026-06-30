@@ -13,7 +13,7 @@
 | Clear search highlights | `Esc` |
 | Save file | `Ctrl-s` |
 | Save without autocmds/formatting | `Space sn` |
-| Close file | `Ctrl-q` or `Space x` |
+| Close focused split/file | `Ctrl-q` or `Space x` |
 | Exit insert mode | `jk` or `kj` |
 | Toggle line wrap | `Space lw` |
 
@@ -25,8 +25,10 @@
 | Move down | `j` |
 | Move left | `k` |
 | Move right | `l` |
-| Scroll down and center | `Ctrl-d` |
-| Scroll up and center | `Ctrl-u` |
+| Half page up and center | `Ctrl-h` |
+| Half page down and center | `Ctrl-j` |
+| Half page up | `Ctrl-u` |
+| Half page down | `Ctrl-d` |
 | Next search result and center | `n` |
 | Previous search result and center | `N` |
 
@@ -37,7 +39,9 @@
 | Next buffer | `Tab` |
 | Previous buffer | `Shift-Tab` |
 | New buffer | `Space b` |
-| Close file | `Space x` |
+| Close focused split/file | `Space x` |
+| Force close focused split/file without saving | `:fq` |
+| Save and close focused split/file | `:fwq` |
 
 ## Windows / Splits
 
@@ -45,12 +49,16 @@
 |---|---|
 | Vertical split | `Space v` |
 | Horizontal split | `Space h` |
+| Split above | `Shift-Up` |
+| Split below | `Shift-Down` |
+| Split left | `Shift-Left` |
+| Split right | `Shift-Right` |
 | Equalize split sizes | `Space se` |
 | Close current split | `Space xs` |
-| Move to upper split/pane | `Ctrl-h` |
-| Move to lower split/pane | `Ctrl-j` |
-| Move to left split/pane | `Ctrl-k` |
-| Move to right split/pane | `Ctrl-l` |
+| Move to upper split | `Alt-Up` |
+| Move to lower split | `Alt-Down` |
+| Move to left split | `Alt-Left` |
+| Move to right split | `Alt-Right` |
 | Resize split up | `Up` |
 | Resize split down | `Down` |
 | Resize split left | `Left` |

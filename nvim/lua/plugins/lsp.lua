@@ -194,11 +194,18 @@ return {
       -- },
       ruff = {},
       clangd = {},
-      jsonls = {},
+      -- jsonls currently exits immediately with the Mason-installed package in this environment.
+      -- Keep JSON editing usable without a noisy failing LSP until the package/runtime mismatch is fixed.
+      -- jsonls = {},
       sqlls = {},
       terraformls = {},
       yamlls = {},
-      bashls = {},
+      bashls = {
+        cmd = {
+          vim.fn.stdpath 'data' .. '/mason/packages/bash-language-server/node_modules/.bin/bash-language-server',
+          'start',
+        },
+      },
       dockerls = {},
       docker_compose_language_service = {},
       -- tailwindcss = {},

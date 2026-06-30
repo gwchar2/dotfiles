@@ -20,6 +20,10 @@ This runs:
     ./scripts/wsl.sh
     ./scripts/link.sh
 
+Install the Windows WezTerm shim from PowerShell or from WSL:
+
+    powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
+
 ## Manual link only
 
 If tools are already installed:
@@ -40,12 +44,17 @@ If tools are already installed:
     tmux -V
     nvim --version
     codex --version
+    claude --version
     coderabbit --version
 
 ## Notes
 
 - Work inside WSL at ~/dotfiles.
 - Do not work from /mnt/c/... unless specifically needed.
+- From PowerShell or Command Prompt, use `wsl ~` or `wsl --cd ~` to start in the WSL home directory. Plain `wsl` inherits the Windows current directory.
 - WezTerm is installed on Windows, not inside WSL.
-- Windows WezTerm loads C:\Users\hwath\.wezterm.lua.
-- That file points to ~/dotfiles/wezterm/wezterm.lua.
+- Windows WezTerm loads `%USERPROFILE%\.wezterm.lua`.
+- `scripts/windows.ps1` makes that file load `~/dotfiles/wezterm/wezterm.lua`.
+- Neovim is installed from the latest official GitHub release into `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
+- Neovim and tmux keybindings are installed in WSL by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
+- `scripts/link.sh` prompts before overwriting existing `~/AGENTS.md` or `~/claude/CLAUDE.md`, then asks whether `~/claude/CLAUDE.md` should point to `~/AGENTS.md`.

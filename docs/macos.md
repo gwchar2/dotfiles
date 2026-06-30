@@ -45,6 +45,7 @@ If tools are already installed:
     tmux -V
     nvim --version
     codex --version
+    claude --version
     coderabbit --version
 
 ## Notes
@@ -53,3 +54,7 @@ If tools are already installed:
 - macOS uses ~/.config/wezterm.
 - zsh is the default shell on modern macOS.
 - Homebrew packages are listed in homebrew/Brewfile.
+- Neovim is installed and updated through Homebrew.
+- Terminal keybindings use Control, Option/Alt, and Shift. Command is a GUI modifier and is only used where WezTerm binds it explicitly.
+- Neovim and tmux keybindings are installed by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
+- `scripts/link.sh` prompts before overwriting existing `~/AGENTS.md` or `~/claude/CLAUDE.md`, then asks whether `~/claude/CLAUDE.md` should point to `~/AGENTS.md`.

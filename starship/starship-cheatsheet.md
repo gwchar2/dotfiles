@@ -35,7 +35,7 @@ It shows useful context such as:
 | Purpose | Path |
 |---|---|
 | Dotfiles config | `~/dotfiles/starship/starship.toml` |
-| Real linked config | `~/.config/starship.toml` |
+| Real linked config | `~/.config/starship/starship.toml` |
 
 ## Notes
 
