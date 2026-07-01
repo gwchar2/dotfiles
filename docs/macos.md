@@ -57,5 +57,8 @@ If tools are already installed:
 - Homebrew packages are listed in homebrew/Brewfile.
 - Neovim is installed and updated through Homebrew.
 - Terminal keybindings use Control, Option/Alt, and Shift. Command is a GUI modifier and is only used where WezTerm binds it explicitly.
+- WezTerm keybindings are installed by symlinking `~/dotfiles/wezterm` to `~/.config/wezterm`.
 - Neovim and tmux keybindings are installed by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
+- The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
+- Codex paste behavior is installed by ensuring `disable_paste_burst = true` in `~/.codex/config.toml`.
 - `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional skills migration, and optional Claude/Cursor symlinks to `~/AGENTS.md`.

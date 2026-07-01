@@ -61,6 +61,25 @@
 |---|---|
 | Enter copy mode | `Ctrl-b` then `[` |
 | Start selection | `v` |
-| Copy selection to clipboard | `y` |
-| Paste tmux buffer | `Ctrl-b` then `P` |
+| Copy selection to system clipboard | `c` |
+| Paste tmux buffer | `Ctrl-b` then `P` or default `Ctrl-b` then `]` |
 | Exit copy mode | `q` |
+
+## Clipboard Scope
+
+| Action | Owner |
+|---|---|
+| Copy selected visible terminal text | WezTerm: `Ctrl-Shift-C` |
+| Paste system clipboard text | WezTerm: `Ctrl-Shift-V` or right-click |
+| Copy tmux scrollback selection | tmux copy mode: `Ctrl-b [` then `v`, `c` |
+| Paste tmux internal buffer | tmux: `Ctrl-b P` or `Ctrl-b ]` |
+
+## Mouse
+
+| Behavior | Setting |
+|---|---|
+| tmux mouse handling | `mouse on` |
+| Single left-click | Select pane only; not forwarded into the active TUI |
+| Left-click drag | Start tmux copy-mode selection |
+| Copy mouse selection | Press `c` after selecting |
+| Paste system clipboard text | WezTerm: `Ctrl-Shift-V` or right-click |

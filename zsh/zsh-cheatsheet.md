@@ -58,13 +58,12 @@
 | `Ctrl-t` | fzf file picker |
 | `Alt-c` | fzf directory picker |
 
-## Shell mode
+## Shell Editing
 
 | Key | Meaning |
 |---|---|
-| `Esc` | Enter vi normal mode |
-| `i` | Insert mode |
-| `v` | Edit command line in editor |
+| `Ctrl-u` | Clear current input line |
+| `Esc Esc` | Clear current input line |
 
 
 ## Dev sessions

@@ -33,6 +33,6 @@ function yy() {
   rm -f -- "$tmp"
 }
 
-# Vi mode
-bindkey -v
-export KEYTIMEOUT=1
+# Emacs-style shell editing keeps Esc from switching the prompt into vi normal mode.
+bindkey -e
+bindkey '^[^[' kill-whole-line

@@ -32,6 +32,8 @@ C:\Users\hwath\.wezterm.lua
 
 | Shortcut | Platform | Action |
 |---|---|---|
+| Ctrl + Shift + C | Windows / macOS | Copy selected terminal text to the system clipboard |
+| Ctrl + Shift + V | Windows / macOS | Paste system clipboard text into the active terminal pane |
 | Shift + Enter | Windows / macOS | Send Shift + Enter to the active pane |
 | Alt + Enter | Windows / macOS | Toggle fullscreen |
 | Cmd + Enter | macOS | Toggle fullscreen |
@@ -42,7 +44,7 @@ C:\Users\hwath\.wezterm.lua
 | Platform | Behavior |
 |---|---|
 | Windows | WezTerm opens WSL Ubuntu |
-| macOS | WezTerm opens the default macOS shell |
+| macOS | WezTerm opens or attaches to tmux session `main` |
 
 ## Appearance
 

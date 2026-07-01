@@ -58,4 +58,7 @@ If tools are already installed:
 - `scripts/windows.ps1` makes that file load `~/dotfiles/wezterm/wezterm.lua`.
 - Neovim is installed from the latest official GitHub release into `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
 - Neovim and tmux keybindings are installed in WSL by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
+- The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
+- WezTerm keybindings, including `Ctrl-Shift-C` copy and `Ctrl-Shift-V` paste, are installed on Windows through the generated `%USERPROFILE%\.wezterm.lua` shim.
+- Codex paste behavior is installed by ensuring `disable_paste_burst = true` in `~/.codex/config.toml`.
 - `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional skills migration, and optional Claude/Cursor symlinks to `~/AGENTS.md`.

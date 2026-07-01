@@ -98,6 +98,16 @@ config.window_padding = {
 -- Keys
 config.keys = {
   {
+    key = "c",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.CopyTo("Clipboard"),
+  },
+  {
+    key = "v",
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.PasteFrom("Clipboard"),
+  },
+  {
     key = "Enter",
     mods = "SHIFT",
     action = wezterm.action.SendString("\x1b[13;2u"),

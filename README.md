@@ -84,6 +84,7 @@ Linked and installed config paths:
 - `~/dotfiles/starship` -> `~/.config/starship`
 - `~/dotfiles/yazi` -> `~/.config/yazi`
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
+- `~/.codex/config.toml` is created or updated with `disable_paste_burst = true`
 - `~/dotfiles/.agents/AGENTS.md` can be deployed to `~/AGENTS.md`
 - `~/dotfiles/.agents/CLAUDE.md` can be deployed to `~/.claude/CLAUDE.md`
 - `~/dotfiles/.agents/cursor.md` can be deployed to `~/.cursor/cursor.md`
@@ -177,11 +178,35 @@ Move between tmux windows:
 
     Ctrl-Alt + arrow
 
+## Clipboard and AI TUI keys
+
+These bindings are split by terminal layer:
+
+| Action | Keys | Owner |
+|---|---|---|
+| Copy selected terminal text | `Ctrl-Shift-C` | WezTerm |
+| Paste system clipboard text | `Ctrl-Shift-V` or right-click | WezTerm |
+| Enter tmux copy mode | `Ctrl-b` then `[` | tmux |
+| Copy tmux scrollback selection | `v`, then `c` in copy mode | tmux |
+| Select tmux scrollback with mouse | left-click drag, then `c` to copy | tmux |
+| Single left-click in a tmux pane | select pane only; not forwarded into the active TUI | tmux |
+| Paste tmux internal buffer | `Ctrl-b` then `P` or `Ctrl-b` then `]` | tmux |
+| Insert newline in Codex without sending | `Shift-Enter` | tmux sends `Ctrl-j` to the active pane |
+| Clear current shell input line | `Ctrl-U` or `Esc Esc` | zsh |
+| Clear current Codex input line | `Ctrl-U` | Codex |
+| Copy latest completed Codex output | `Ctrl-O` or `/copy` | Codex |
+| Exit Codex | `Ctrl-C` or `/exit` | Codex |
+
+Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`.
+
+AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
+
 
 ## Cheat sheets
 
 - wezterm/wezterm-cheatsheet.md
 - tmux/tmux-cheatsheet.md
+- codex/codex-cheatsheet.md
 - nvim/nvim-cheatsheet.md
 - starship/starship-cheatsheet.md
 - yazi/yazi-cheatsheet.md
