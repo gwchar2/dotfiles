@@ -20,6 +20,9 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Yazi
 - Codex CLI
 - Claude Code
+- GitHub Copilot CLI
+- Gemini CLI
+- Cursor Agent
 - CodeRabbit CLI
 - GitHub CLI
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb

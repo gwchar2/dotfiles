@@ -96,6 +96,71 @@ contains_tool() {
   return 1
 }
 
+run_install() {
+  if [[ "${AI_INSTALL_DRY_RUN:-}" == "1" ]]; then
+    printf 'dry-run:'
+    printf ' %q' "$@"
+    printf '\n'
+  else
+    "$@"
+  fi
+}
+
+run_install_script() {
+  local url="$1"
+  local shell_bin="$2"
+
+  if [[ "${AI_INSTALL_DRY_RUN:-}" == "1" ]]; then
+    printf 'dry-run: curl -fsSL %q | %q\n' "$url" "$shell_bin"
+  else
+    curl -fsSL "$url" | "$shell_bin"
+  fi
+}
+
+install_copilot_cli() {
+  if command -v copilot >/dev/null 2>&1; then
+    echo "already installed: copilot"
+    return
+  fi
+
+  if ! command -v curl >/dev/null 2>&1; then
+    echo "skip: install copilot requires curl" >&2
+    return 1
+  fi
+
+  run_install_script "https://gh.io/copilot-install" bash
+}
+
+install_gemini_cli() {
+  if command -v gemini >/dev/null 2>&1; then
+    echo "already installed: gemini"
+    return
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    run_install brew install gemini-cli
+  elif command -v npm >/dev/null 2>&1; then
+    run_install npm install -g @google/gemini-cli
+  else
+    echo "skip: install gemini requires Homebrew or npm" >&2
+    return 1
+  fi
+}
+
+install_cursor_agent() {
+  if command -v cursor-agent >/dev/null 2>&1; then
+    echo "already installed: cursor-agent"
+    return
+  fi
+
+  if ! command -v curl >/dev/null 2>&1; then
+    echo "skip: install cursor requires curl" >&2
+    return 1
+  fi
+
+  run_install_script "https://cursor.com/install" bash
+}
+
 append_or_copy_file() {
   local source="$1"
   local target="$2"
@@ -142,16 +207,26 @@ install_selected_ai_tools() {
     case "$tool" in
       codex)
         if ! command -v codex >/dev/null 2>&1; then
-          curl -fsSL https://chatgpt.com/codex/install.sh | sh
+          run_install_script "https://chatgpt.com/codex/install.sh" sh
+        else
+          echo "already installed: codex"
         fi
         ;;
       claude)
         if ! command -v claude >/dev/null 2>&1; then
-          curl -fsSL https://claude.ai/install.sh | bash
+          run_install_script "https://claude.ai/install.sh" bash
+        else
+          echo "already installed: claude"
         fi
         ;;
-      copilot | gemini | cursor)
-        echo "skip: automated install for $tool is not configured"
+      copilot)
+        install_copilot_cli
+        ;;
+      gemini)
+        install_gemini_cli
+        ;;
+      cursor)
+        install_cursor_agent
         ;;
     esac
   done
