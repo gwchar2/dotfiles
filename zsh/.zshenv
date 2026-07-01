@@ -28,3 +28,13 @@ fi
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.env" ] && source "$HOME/.env"
+
+# tmux
+# Keep tmux sockets in a per-user directory instead of /tmp.
+if [ -n "${XDG_RUNTIME_DIR:-}" ] && [ -w "$XDG_RUNTIME_DIR" ]; then
+  export TMUX_TMPDIR="$XDG_RUNTIME_DIR/tmux"
+else
+  export TMUX_TMPDIR="$HOME/.local/share/tmux"
+fi
+mkdir -p "$TMUX_TMPDIR"
+chmod 700 "$TMUX_TMPDIR" 2>/dev/null || true

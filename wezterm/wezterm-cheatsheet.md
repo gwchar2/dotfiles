@@ -32,6 +32,7 @@ C:\Users\hwath\.wezterm.lua
 
 | Shortcut | Platform | Action |
 |---|---|---|
+| Shift + Enter | Windows / macOS | Send Shift + Enter to the active pane |
 | Alt + Enter | Windows / macOS | Toggle fullscreen |
 | Cmd + Enter | macOS | Toggle fullscreen |
 | Right-click | Windows / macOS | Paste from clipboard |

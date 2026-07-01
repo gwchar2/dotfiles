@@ -99,6 +99,11 @@ config.window_padding = {
 config.keys = {
   {
     key = "Enter",
+    mods = "SHIFT",
+    action = wezterm.action.SendString("\x1b[13;2u"),
+  },
+  {
+    key = "Enter",
     mods = "ALT",
     action = wezterm.action.ToggleFullScreen,
   },

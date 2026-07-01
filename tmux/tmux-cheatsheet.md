@@ -16,6 +16,7 @@
 | Split pane below | `Shift-Down` |
 | Split pane left | `Shift-Left` |
 | Split pane right | `Shift-Right` |
+| Insert newline in Codex without sending | `Shift-Enter` |
 | Close current pane | `exit`, `Ctrl-d`, or `Ctrl-b` then `x` |
 | Maximize / restore current pane | `Ctrl-b` then `m` |
 | Move to upper pane | `Alt-Up` |
