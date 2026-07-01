@@ -43,24 +43,37 @@ vim.opt.formatoptions:remove { 'c', 'r', 'o' } -- don't insert the current comme
 vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- separate vim plugins from neovim in case vim still in use
 
 -- Clipboard integration.
--- Use OSC52 so clipboard copy works through WezTerm/tmux/WSL
--- without depending on wl-copy or clip.exe.
 if vim.fn.has('wsl') == 1 then
-  local osc52 = require('vim.ui.clipboard.osc52')
+  if vim.fn.executable('win32yank.exe') == 1 then
+    vim.g.clipboard = {
+      name = 'win32yank-wsl',
+      copy = {
+        ['+'] = 'win32yank.exe -i --crlf',
+        ['*'] = 'win32yank.exe -i --crlf',
+      },
+      paste = {
+        ['+'] = 'win32yank.exe -o --lf',
+        ['*'] = 'win32yank.exe -o --lf',
+      },
+      cache_enabled = 0,
+    }
+  else
+    local osc52 = require('vim.ui.clipboard.osc52')
 
-  vim.g.clipboard = {
-    name = 'OSC52',
-    copy = {
-      ['+'] = osc52.copy('+'),
-      ['*'] = osc52.copy('*'),
-    },
-    paste = {
-      ['+'] = function()
-        return { vim.fn.split(vim.fn.getreg('+'), '\n'), vim.fn.getregtype('+') }
-      end,
-      ['*'] = function()
-        return { vim.fn.split(vim.fn.getreg('*'), '\n'), vim.fn.getregtype('*') }
-      end,
-    },
-  }
+    vim.g.clipboard = {
+      name = 'OSC52',
+      copy = {
+        ['+'] = osc52.copy('+'),
+        ['*'] = osc52.copy('*'),
+      },
+      paste = {
+        ['+'] = function()
+          return { vim.fn.split(vim.fn.getreg('+'), '\n'), vim.fn.getregtype('+') }
+        end,
+        ['*'] = function()
+          return { vim.fn.split(vim.fn.getreg('*'), '\n'), vim.fn.getregtype('*') }
+        end,
+      },
+    }
+  end
 end

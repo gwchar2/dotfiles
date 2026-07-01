@@ -20,6 +20,20 @@ if ([string]::IsNullOrWhiteSpace($WslRepoPath)) {
 
 $WslRepoPath = $WslRepoPath.Trim()
 $wslUser = (wsl.exe -d $Distro --exec sh -lc 'printf "%s" "$USER"').Trim()
+
+wsl.exe -d $Distro --exec sh -lc @'
+if command -v apt-get >/dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install -y bubblewrap xclip
+elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y bubblewrap xclip
+elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -Sy --needed bubblewrap xclip
+else
+    echo "skip: install bubblewrap manually inside WSL; unsupported package manager" >&2
+fi
+'@
+
 $uncRepoPath = "\\wsl.localhost\$Distro$($WslRepoPath -replace '/', '\')"
 $weztermConfig = Join-Path $uncRepoPath "wezterm\wezterm.lua"
 

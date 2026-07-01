@@ -9,9 +9,11 @@ sudo apt install -y \
   git \
   gh \
   curl \
+  bubblewrap \
   unzip \
   build-essential \
   ripgrep \
+  xclip \
   fd-find \
   bat \
   eza \

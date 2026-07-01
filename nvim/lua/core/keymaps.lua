@@ -106,6 +106,15 @@ vim.keymap.set('v', '<A-k>', ':m .-2<CR>==', opts)
 -- Keep last yanked when pasting
 vim.keymap.set('v', 'p', '"_dP', opts)
 
+-- Windows-style paste from the system clipboard
+vim.keymap.set('n', '<C-v>', '"+p', opts)
+vim.keymap.set('i', '<C-v>', '<C-r>+', opts)
+vim.keymap.set('c', '<C-v>', '<C-r>+', opts)
+vim.keymap.set('v', '<C-v>', '"+p', opts)
+vim.keymap.set('n', '<RightMouse>', '"+p', opts)
+vim.keymap.set('i', '<RightMouse>', '<C-r>+', opts)
+vim.keymap.set('v', '<RightMouse>', '"+p', opts)
+
 -- Replace word under cursor
 vim.keymap.set('n', '<leader>j', '*``cgn', opts)
 
