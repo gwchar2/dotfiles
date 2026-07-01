@@ -23,6 +23,7 @@ This runs:
 
     ./scripts/macos.sh
     ./scripts/link.sh
+    ./scripts/ai.sh
 
 ## Manual link only
 
@@ -57,4 +58,4 @@ If tools are already installed:
 - Neovim is installed and updated through Homebrew.
 - Terminal keybindings use Control, Option/Alt, and Shift. Command is a GUI modifier and is only used where WezTerm binds it explicitly.
 - Neovim and tmux keybindings are installed by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
-- `scripts/link.sh` prompts before overwriting existing `~/AGENTS.md` or `~/claude/CLAUDE.md`, then asks whether `~/claude/CLAUDE.md` should point to `~/AGENTS.md`.
+- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional skills migration, and optional Claude/Cursor symlinks to `~/AGENTS.md`.

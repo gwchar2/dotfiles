@@ -35,6 +35,11 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 ## Templates
 
 - C++ project template: templates/cpp
+- Python project template: templates/python
+
+Copy a template into the current directory:
+
+    ~/dotfiles/scripts/copy_template.sh python
 
 ## Automatic install on a new machine
 
@@ -49,8 +54,8 @@ Run the installer:
 
 This automatically runs the correct setup for the current machine:
 
-- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh
-- macOS: scripts/macos.sh + scripts/link.sh
+- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/ai.sh
+- macOS: scripts/macos.sh + scripts/link.sh + scripts/ai.sh
 
 On Windows, WezTerm runs outside WSL and needs a Windows config shim that loads
 the real config from this repo:
@@ -76,7 +81,9 @@ Linked and installed config paths:
 - `~/dotfiles/starship` -> `~/.config/starship`
 - `~/dotfiles/yazi` -> `~/.config/yazi`
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
-- `~/dotfiles/agents/AGENTS.md` can be copied to `~/AGENTS.md` and `~/claude/CLAUDE.md`
+- `~/dotfiles/.agents/AGENTS.md` can be deployed to `~/AGENTS.md`
+- `~/dotfiles/.agents/CLAUDE.md` can be deployed to `~/.claude/CLAUDE.md`
+- `~/dotfiles/.agents/cursor.md` can be deployed to `~/.cursor/cursor.md`
 
 ## Unlink configs
 

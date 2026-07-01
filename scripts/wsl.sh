@@ -75,16 +75,6 @@ if [ "${SHELL:-}" != "/usr/bin/zsh" ]; then
   chsh -s /usr/bin/zsh "$USER"
 fi
 
-# Codex CLI
-if ! command -v codex >/dev/null 2>&1; then
-  curl -fsSL https://chatgpt.com/codex/install.sh | sh
-fi
-
-# Claude Code
-if ! command -v claude >/dev/null 2>&1; then
-  curl -fsSL https://claude.ai/install.sh | bash
-fi
-
 # CodeRabbit CLI
 if ! command -v coderabbit >/dev/null 2>&1; then
   curl -fsSL https://cli.coderabbit.ai/install.sh | CI=1 sh

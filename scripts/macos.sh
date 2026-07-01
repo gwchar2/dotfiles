@@ -13,10 +13,6 @@ brew update
 brew bundle --file "$DOTFILES_DIR/homebrew/Brewfile"
 brew upgrade neovim tmux node || true
 
-if ! command -v codex >/dev/null 2>&1; then
-  curl -fsSL https://chatgpt.com/codex/install.sh | sh
-fi
-
 if ! command -v coderabbit >/dev/null 2>&1; then
   curl -fsSL https://cli.coderabbit.ai/install.sh | CI=1 sh
 fi

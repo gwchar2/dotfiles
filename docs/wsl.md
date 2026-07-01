@@ -19,6 +19,7 @@ This runs:
 
     ./scripts/wsl.sh
     ./scripts/link.sh
+    ./scripts/ai.sh
 
 Install the Windows WezTerm shim from PowerShell or from WSL:
 
@@ -57,4 +58,4 @@ If tools are already installed:
 - `scripts/windows.ps1` makes that file load `~/dotfiles/wezterm/wezterm.lua`.
 - Neovim is installed from the latest official GitHub release into `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
 - Neovim and tmux keybindings are installed in WSL by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
-- `scripts/link.sh` prompts before overwriting existing `~/AGENTS.md` or `~/claude/CLAUDE.md`, then asks whether `~/claude/CLAUDE.md` should point to `~/AGENTS.md`.
+- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional skills migration, and optional Claude/Cursor symlinks to `~/AGENTS.md`.
