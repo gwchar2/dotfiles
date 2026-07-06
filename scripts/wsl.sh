@@ -45,6 +45,32 @@ sudo apt install -y \
   gcovr \
   pipx
 
+install_current_node() {
+  if command -v node >/dev/null 2>&1 && node -e "process.exit(Number(process.versions.node.split('.')[0]) >= 22 ? 0 : 1)"; then
+    return
+  fi
+
+  local install_root="$HOME/.local/opt/node-v22"
+  local bin_dir="$HOME/.local/bin"
+  local tmp_dir
+  local archive
+
+  tmp_dir="$(mktemp -d)"
+  archive="$(curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt | awk '/linux-x64.tar.gz/ { print $2; exit }')"
+
+  mkdir -p "$install_root" "$bin_dir"
+  curl -fL -o "$tmp_dir/$archive" "https://nodejs.org/dist/latest-v22.x/$archive"
+  rm -rf "$install_root"
+  mkdir -p "$install_root"
+  tar -xzf "$tmp_dir/$archive" -C "$install_root" --strip-components=1
+
+  for exe in node npm npx corepack; do
+    ln -sfn "$install_root/bin/$exe" "$bin_dir/$exe"
+  done
+
+  rm -rf "$tmp_dir"
+}
+
 install_latest_neovim() {
   local install_root="$HOME/.local/opt"
   local install_dir="$install_root/nvim-linux-x86_64"
@@ -67,7 +93,27 @@ install_latest_neovim() {
   "$bin_dir/nvim" --version | head -n 1
 }
 
+install_current_node
 install_latest_neovim
+
+if ! command -v rustup >/dev/null 2>&1; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
+
+if [ -f "$HOME/.cargo/env" ]; then
+  # shellcheck disable=SC1091
+  . "$HOME/.cargo/env"
+fi
+
+rustup component add rustfmt clippy >/dev/null 2>&1 || true
+
+if ! command -v dotnet >/dev/null 2>&1; then
+  tmp_dir="$(mktemp -d)"
+
+  curl -fsSL https://dot.net/v1/dotnet-install.sh -o "$tmp_dir/dotnet-install.sh"
+  bash "$tmp_dir/dotnet-install.sh" --channel 8.0 --install-dir "$HOME/.dotnet"
+  rm -rf "$tmp_dir"
+fi
 
 if ! command -v starship >/dev/null 2>&1; then
   curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b "$HOME/.local/bin"

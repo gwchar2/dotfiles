@@ -21,6 +21,8 @@ brew "neovim"
 # Dev tools
 brew "python"
 brew "node"
+brew "rust"
+brew "dotnet"
 brew "shellcheck"
 brew "shfmt"
 brew "cmake"

@@ -26,8 +26,8 @@ return {
       },
     },
 
-    -- Allows extra capabilities provided by nvim-cmp
-    'hrsh7th/cmp-nvim-lsp',
+    -- Completion capabilities for LSP.
+    'saghen/blink.cmp',
   },
   config = function()
     vim.api.nvim_create_autocmd('LspAttach', {
@@ -124,12 +124,7 @@ return {
       end,
     })
 
-    -- LSP servers and clients are able to communicate to each other what features they support.
-    -- By default, Neovim doesn't support everything that is in the LSP specification.
-    -- When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-    -- So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
     -- Enable the following language servers
     --
@@ -193,7 +188,32 @@ return {
       --   },
       -- },
       ruff = {},
-      clangd = {},
+      clangd = {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--completion-style=detailed',
+          '--header-insertion=iwyu',
+        },
+      },
+      rust_analyzer = {
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = { allFeatures = true },
+            check = { command = 'clippy' },
+            inlayHints = {
+              bindingModeHints = { enable = true },
+              closureReturnTypeHints = { enable = 'always' },
+            },
+          },
+        },
+      },
+      omnisharp = {
+        enable_import_completion = true,
+        organize_imports_on_format = true,
+        enable_roslyn_analyzers = true,
+      },
       -- jsonls currently exits immediately with the Mason-installed package in this environment.
       -- Keep JSON editing usable without a noisy failing LSP until the package/runtime mismatch is fixed.
       -- jsonls = {},
@@ -220,6 +240,16 @@ return {
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'prettier',
+      'eslint_d',
+      'shfmt',
+      'shellcheck',
+      'checkmake',
+      'clang-format',
+      'csharpier',
+      'debugpy',
+      'codelldb',
+      'netcoredbg',
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

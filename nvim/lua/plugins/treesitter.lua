@@ -11,6 +11,10 @@ return {
       -- Add languages to be installed here that you want installed for treesitter
       ensure_installed = {
         'lua',
+        'c',
+        'cpp',
+        'rust',
+        'c_sharp',
         'python',
         'javascript',
         'typescript',

@@ -183,6 +183,15 @@ append_or_copy_file() {
   fi
 }
 
+copy_file() {
+  local source="$1"
+  local target="$2"
+
+  mkdir -p "$(dirname "$target")"
+  cp "$source" "$target"
+  echo "installed: $target"
+}
+
 ingest_before_symlink() {
   local target="$1"
   local agents_target="$2"
@@ -198,6 +207,28 @@ ingest_before_symlink() {
     printf '\n'
     printf '<!-- dotfiles: %s configuration is now symbolically linked to ~/AGENTS.md -->\n' "$label"
   } >>"$agents_target"
+}
+
+deploy_tool_markdown() {
+  local label="$1"
+  local target="$2"
+  local agents_target="$3"
+
+  if [[ ! -e "$agents_target" && ! -L "$agents_target" ]]; then
+    echo "skip: deploy $label configuration requires $agents_target" >&2
+    return
+  fi
+
+  if prompt_yes_no "Deploy $label configuration to $target by copying $agents_target? Creates parent directories if missing and writes the tool-required filename. (y/n)"; then
+    copy_file "$agents_target" "$target"
+  fi
+
+  if prompt_yes_no "Symlink $label configuration ($target) to global AGENTS.md ($agents_target)? Existing $label config is first appended into $agents_target, then $target becomes a symlink. (y/n)"; then
+    ingest_before_symlink "$target" "$agents_target" "$label"
+    mkdir -p "$(dirname "$target")"
+    ln -sf "$agents_target" "$target"
+    echo "linked: $target -> $agents_target"
+  fi
 }
 
 install_selected_ai_tools() {
@@ -234,60 +265,66 @@ install_selected_ai_tools() {
 
 deploy_ai_configs() {
   local -a selected_tools=("$@")
-  local deployed_agents=0
-  local deployed_claude=0
-  local deployed_cursor=0
   local agents_source="$DOTFILES_DIR/.agents/AGENTS.md"
-  local claude_source="$DOTFILES_DIR/.agents/CLAUDE.md"
-  local cursor_source="$DOTFILES_DIR/.agents/cursor.md"
   local agents_target="$HOME/AGENTS.md"
+  local codex_target="$HOME/.codex/AGENTS.md"
   local claude_target="$HOME/.claude/CLAUDE.md"
   local cursor_target="$HOME/.cursor/cursor.md"
+  local gemini_target="$HOME/.gemini/GEMINI.md"
 
   if ((${#selected_tools[@]} == 0)); then
     return
   fi
 
-  if prompt_yes_no "Deploy global AGENTS.md configuration? (y/n)"; then
+  if prompt_yes_no "Deploy global AGENTS.md configuration to ~/AGENTS.md? Creates it from the dotfiles source if missing; if it already exists, non-empty source content is appended, and empty source files leave it unchanged. (y/n)"; then
     append_or_copy_file "$agents_source" "$agents_target"
-    deployed_agents=1
   fi
 
-  if contains_tool claude "${selected_tools[@]}" && prompt_yes_no "Deploy Claude global configuration? (y/n)"; then
-    append_or_copy_file "$claude_source" "$claude_target"
-    deployed_claude=1
+  if contains_tool codex "${selected_tools[@]}"; then
+    deploy_tool_markdown "Codex" "$codex_target" "$agents_target"
   fi
 
-  if contains_tool cursor "${selected_tools[@]}" && prompt_yes_no "Deploy Cursor global configuration? (y/n)"; then
-    append_or_copy_file "$cursor_source" "$cursor_target"
-    deployed_cursor=1
+  if contains_tool claude "${selected_tools[@]}"; then
+    deploy_tool_markdown "Claude" "$claude_target" "$agents_target"
   fi
 
-  if ((deployed_agents == 1 && deployed_claude == 1)) && prompt_yes_no "Symlink Claude configuration to global AGENTS.md? (y/n)"; then
-    ingest_before_symlink "$claude_target" "$agents_target" "Claude"
-    ln -sf "$agents_target" "$claude_target"
-    echo "linked: $claude_target -> $agents_target"
+  if contains_tool cursor "${selected_tools[@]}"; then
+    deploy_tool_markdown "Cursor" "$cursor_target" "$agents_target"
   fi
 
-  if ((deployed_agents == 1 && deployed_cursor == 1)) && prompt_yes_no "Symlink Cursor configuration to global AGENTS.md? (y/n)"; then
-    ingest_before_symlink "$cursor_target" "$agents_target" "Cursor"
-    ln -sf "$agents_target" "$cursor_target"
-    echo "linked: $cursor_target -> $agents_target"
+  if contains_tool gemini "${selected_tools[@]}"; then
+    deploy_tool_markdown "Gemini" "$gemini_target" "$agents_target"
   fi
 }
 
 transfer_ai_skills() {
-  local tool source target
+  local source="$DOTFILES_DIR/.agents/skills"
+  local target="$HOME/.agents/skills"
 
-  for tool in "$@"; do
-    if prompt_yes_no "Transfer global skills for $tool? (y/n)"; then
-      source="$DOTFILES_DIR/.agents/skills/$tool"
-      target="$HOME/.agents/skills/$tool"
-      mkdir -p "$target"
-      cp -R "$source"/. "$target"/
-      echo "installed skills: $target"
-    fi
-  done
+  if (($# == 0)) || [[ ! -d "$source" ]]; then
+    return
+  fi
+
+  if prompt_yes_no "Transfer shared global skills from .agents/skills to ~/.agents/skills? Creates the destination if missing. (y/n)"; then
+    mkdir -p "$target"
+    cp -R "$source"/. "$target"/
+    echo "installed skills: $target"
+  fi
+}
+
+transfer_ai_rules() {
+  local source="$DOTFILES_DIR/.agents/rules"
+  local codex_target="$HOME/.codex/rules"
+
+  if (($# == 0)) || [[ ! -d "$source" ]]; then
+    return
+  fi
+
+  if contains_tool codex "$@" && prompt_yes_no "Transfer Codex rules from .agents/rules to ~/.codex/rules? Creates the destination if missing. (y/n)"; then
+    mkdir -p "$codex_target"
+    cp -R "$source"/. "$codex_target"/
+    echo "installed rules: $codex_target"
+  fi
 }
 
 main() {
@@ -295,6 +332,7 @@ main() {
   install_selected_ai_tools "${SELECTED_AI_TOOLS[@]}"
   deploy_ai_configs "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_skills "${SELECTED_AI_TOOLS[@]}"
+  transfer_ai_rules "${SELECTED_AI_TOOLS[@]}"
 }
 
 main "$@"

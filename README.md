@@ -26,8 +26,52 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - CodeRabbit CLI
 - GitHub CLI
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
+- Rust tools: rustup/rust, rust-analyzer, rustfmt, clippy
+- C#/.NET tools: .NET SDK, OmniSharp, csharpier, netcoredbg
 - Debug/dev tools: valgrind, strace, ltrace, binutils, nasm, bear, cppcheck, lcov, gcovr
 - Python tools: pytest, ruff, black, mypy
+
+## Neovim baseline
+
+Neovim is linked from `~/dotfiles/nvim` to `~/.config/nvim` and bootstrapped
+by `scripts/nvim.sh` during `./scripts/install.sh`.
+
+Plugin management:
+
+- `lazy.nvim`: plugin manager
+- `mason.nvim`, `mason-lspconfig.nvim`, `mason-tool-installer.nvim`: editor-side tool installation
+- `nvim-lspconfig`: LSP setup
+- `blink.cmp`: completion
+- `nvim-treesitter`: syntax parsing and text objects
+- `telescope.nvim`: fuzzy finding
+- `neo-tree.nvim` and `oil.nvim`: file navigation
+- `gitsigns.nvim`, `vim-fugitive`, `lazygit.nvim`: Git workflow
+- `lualine.nvim`, `which-key.nvim`: status line and key discovery
+- `conform.nvim`: formatting
+- `nvim-lint`: linting
+- `nvim-dap`, `nvim-dap-ui`: debugging
+- `overseer.nvim`: build/test/task runner
+- `auto-session`: workspace session persistence
+- `copilot.lua`: inline GitHub Copilot suggestions
+
+Neovim-managed language tools installed by Mason:
+
+- C/C++: `clangd`, `clang-format`, `codelldb`
+- Rust: `rust-analyzer`, `codelldb`
+- C#/.NET: `omnisharp`, `csharpier`, `netcoredbg`
+- Python: `python-lsp-server`, `ruff`, `debugpy`
+- Shell: `bash-language-server`, `shellcheck`, `shfmt`
+- Web/config/devops: `prettier`, `eslint_d`, `html-lsp`, `yaml-language-server`,
+  `terraform-ls`, `dockerfile-language-server`, `docker-compose-language-service`,
+  `sqlls`, `stylua`, `checkmake`
+
+Automatic Neovim bootstrap:
+
+    ./scripts/nvim.sh
+
+This runs `Lazy! sync` and `MasonToolsInstallSync` headlessly, so plugins and
+Mason-managed LSPs, formatters, linters, and debug adapters are installed before
+the first interactive Neovim launch.
 
 ## Setup docs
 
@@ -57,8 +101,8 @@ Run the installer:
 
 This automatically runs the correct setup for the current machine:
 
-- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/ai.sh
-- macOS: scripts/macos.sh + scripts/link.sh + scripts/ai.sh
+- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
+- macOS: scripts/macos.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 
 On Windows, WezTerm runs outside WSL and needs a Windows config shim that loads
 the real config from this repo:
@@ -86,8 +130,11 @@ Linked and installed config paths:
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
 - `~/.codex/config.toml` is created or updated with `disable_paste_burst = true`
 - `~/dotfiles/.agents/AGENTS.md` can be deployed to `~/AGENTS.md`
-- `~/dotfiles/.agents/CLAUDE.md` can be deployed to `~/.claude/CLAUDE.md`
-- `~/dotfiles/.agents/cursor.md` can be deployed to `~/.cursor/cursor.md`
+- `~/AGENTS.md` can be copied or symlinked to tool-specific instruction paths:
+  `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
+  `~/.gemini/GEMINI.md`
+- `~/dotfiles/.agents/skills` can be copied to `~/.agents/skills`
+- If `~/dotfiles/.agents/rules` exists, Codex rules can be copied to `~/.codex/rules`
 
 ## Unlink configs
 
@@ -116,7 +163,7 @@ Default layout:
 
 
 
-    left:   Yazi, one directory column
+    left:   Yazi, compact browser column
 
     center: Neovim
 
@@ -128,9 +175,9 @@ Default sizes:
 
 
 
-    Yazi:   24 columns
+    Yazi:   21 columns
 
-    Codex:  42 columns
+    Codex:  65 columns
 
     Neovim: remaining middle space
 
@@ -156,7 +203,7 @@ Override pane sizes:
 
 
 
-    DEV_YAZI_WIDTH=20 DEV_CODEX_WIDTH=42 devdot
+    DEV_YAZI_WIDTH=21 DEV_CODEX_WIDTH=65 devdot
 
 
 

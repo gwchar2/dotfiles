@@ -5,10 +5,6 @@ return {
     'rcarriga/nvim-dap-ui',
     'nvim-neotest/nvim-nio',
 
-    -- Installs the debug adapters for you
-    'williamboman/mason.nvim',
-    'jay-babu/mason-nvim-dap.nvim',
-
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
     'mfussenegger/nvim-dap-python',
@@ -16,25 +12,6 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
-
-    require('mason-nvim-dap').setup {
-      -- Makes a best effort to setup the various debuggers with
-      -- reasonable debug configurations
-      automatic_setup = true,
-      automatic_installation = true,
-
-      -- You can provide additional configuration to the handlers,
-      -- see mason-nvim-dap README for more information
-      handlers = {},
-
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
-      ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
-        -- 'delve',
-        'debugpy',
-      },
-    }
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue, { desc = 'Debug: Start/Continue' })
@@ -78,5 +55,59 @@ return {
     -- Install golang specific config
     -- require('dap-go').setup()
     require('dap-python').setup()
+
+    local mason_path = vim.fn.stdpath 'data' .. '/mason/packages'
+    local codelldb = mason_path .. '/codelldb/extension/adapter/codelldb'
+    local netcoredbg = mason_path .. '/netcoredbg/netcoredbg'
+
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = codelldb,
+        args = { '--port', '${port}' },
+      },
+    }
+
+    local cpp_debug = {
+      {
+        name = 'Launch executable',
+        type = 'codelldb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = false,
+      },
+      {
+        name = 'Attach to process',
+        type = 'codelldb',
+        request = 'attach',
+        pid = require('dap.utils').pick_process,
+        cwd = '${workspaceFolder}',
+      },
+    }
+
+    dap.configurations.c = cpp_debug
+    dap.configurations.cpp = cpp_debug
+    dap.configurations.rust = cpp_debug
+
+    dap.adapters.coreclr = {
+      type = 'executable',
+      command = netcoredbg,
+      args = { '--interpreter=vscode' },
+    }
+
+    dap.configurations.cs = {
+      {
+        type = 'coreclr',
+        name = 'Launch .NET executable',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to dll: ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+        end,
+      },
+    }
   end,
 }

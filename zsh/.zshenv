@@ -26,6 +26,9 @@ fi
 # Paths
 [ -d "/opt/nvim-linux-x86_64/bin" ] && export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.dotnet" ] && export DOTNET_ROOT="$HOME/.dotnet"
+[ -d "$HOME/.dotnet" ] && export PATH="$HOME/.dotnet:$PATH"
+[ -d "$HOME/.dotnet/tools" ] && export PATH="$HOME/.dotnet/tools:$PATH"
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 [ -f "$HOME/.env" ] && source "$HOME/.env"
 

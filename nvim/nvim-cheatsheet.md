@@ -1,5 +1,37 @@
 # Neovim Hotkey Cheat Sheet
 
+## Baseline
+
+This config uses `lazy.nvim` for plugins and Mason for editor-side language
+tools. `scripts/nvim.sh` installs plugins and Mason tools headlessly during the
+repo installer.
+
+Core plugins:
+
+- `blink.cmp`: completion
+- `nvim-lspconfig`: LSP client configuration
+- `nvim-treesitter`: syntax parsing and text objects
+- `telescope.nvim`: fuzzy finding
+- `neo-tree.nvim` and `oil.nvim`: file navigation
+- `gitsigns.nvim`, `vim-fugitive`, `lazygit.nvim`: Git workflow
+- `conform.nvim`: formatting
+- `nvim-lint`: linting
+- `nvim-dap`, `nvim-dap-ui`: debugging
+- `overseer.nvim`: build/test/task runner
+- `auto-session`: session persistence
+- `copilot.lua`: inline GitHub Copilot suggestions
+
+Mason-managed tools:
+
+- C/C++: `clangd`, `clang-format`, `codelldb`
+- Rust: `rust-analyzer`, `codelldb`
+- C#/.NET: `omnisharp`, `csharpier`, `netcoredbg`
+- Python: `python-lsp-server`, `ruff`, `debugpy`
+- Shell: `bash-language-server`, `shellcheck`, `shfmt`
+- Web/config/devops: `prettier`, `eslint_d`, `html-lsp`, `yaml-language-server`,
+  `terraform-ls`, `dockerfile-language-server`, `docker-compose-language-service`,
+  `sqlls`, `stylua`, `checkmake`
+
 ## Leader Key
 
 | Action | Keys |
@@ -99,6 +131,13 @@
 | Open diagnostic float | `Space d` |
 | Open diagnostic list | `Space q` |
 
+## Formatting / Linting
+
+| Action | Keys |
+|---|---|
+| Format buffer or selection | `Space cf` |
+| Run configured linters | `Space cl` |
+
 ## LSP
 
 | Action | Keys |
@@ -124,6 +163,27 @@
 |---|---|
 | Save session | `Space ss` |
 | Load session | `Space sl` |
+| Delete session | `Space sd` |
+| Find session | `Space sf` |
+
+## Tasks
+
+| Action | Keys |
+|---|---|
+| Run task | `Space or` |
+| Toggle task list | `Space ot` |
+| Task action | `Space oa` |
+
+## Copilot
+
+| Action | Keys |
+|---|---|
+| Accept suggestion | `Alt-y` |
+| Accept word | `Alt-w` |
+| Accept line | `Alt-l` |
+| Next suggestion | `Alt-]` |
+| Previous suggestion | `Alt-[` |
+| Dismiss suggestion | `Ctrl-]` |
 
 ## Plugins
 
@@ -132,6 +192,8 @@
 | Open LazyGit | `Space lg` |
 | Open Lazy plugin manager | `:Lazy` |
 | Open Mason tool manager | `:Mason` |
+| Install/update plugins | `:Lazy sync` |
+| Install/update Mason tools | `:MasonToolsInstallSync` |
 | Update Treesitter parsers | `:TSUpdate` |
 | Run health check | `:checkhealth` |
 

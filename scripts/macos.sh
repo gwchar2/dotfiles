@@ -13,6 +13,10 @@ brew update
 brew bundle --file "$DOTFILES_DIR/homebrew/Brewfile"
 brew upgrade neovim tmux node || true
 
+if command -v rustup >/dev/null 2>&1; then
+  rustup component add rustfmt clippy >/dev/null 2>&1 || true
+fi
+
 if ! command -v coderabbit >/dev/null 2>&1; then
   curl -fsSL https://cli.coderabbit.ai/install.sh | CI=1 sh
 fi

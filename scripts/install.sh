@@ -25,4 +25,5 @@ case "$OS" in
 esac
 
 "$DOTFILES_DIR/scripts/link.sh"
+"$DOTFILES_DIR/scripts/nvim.sh"
 "$DOTFILES_DIR/scripts/ai.sh"
