@@ -199,6 +199,14 @@ ingest_before_symlink() {
 
   [[ -e "$target" || -L "$target" ]] || return
 
+  if [[ -L "$target" && "$(readlink "$target")" == "$agents_target" ]]; then
+    return
+  fi
+
+  if cmp -s "$target" "$agents_target"; then
+    return
+  fi
+
   mkdir -p "$(dirname "$agents_target")"
   {
     printf '\n'

@@ -96,9 +96,9 @@ Clone the repo:
     git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
     cd ~/dotfiles
 
-Run the installer:
+Run the bootstrap entrypoint:
 
-    ./scripts/install.sh
+    ./bootstrap.sh
 
 This automatically runs the correct setup for the current machine:
 
@@ -112,6 +112,10 @@ writes a WezTerm shim that loads the real config from this repo. From WSL, run:
     powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
 
 ## Install
+
+    ./bootstrap.sh
+
+Equivalent direct installer:
 
     ./scripts/install.sh
 
@@ -139,6 +143,36 @@ Linked and installed config paths:
 - `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to `~/.agents/skills`
 - If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy Codex rules to
   `~/.codex/rules`
+
+## Make It Yours
+
+This is a personal setup. Before running it on a new machine, review:
+
+- `.agents/AGENTS.md`: global AI assistant instructions that can be deployed to
+  `~/AGENTS.md`.
+- `git/.gitconfig`: Git defaults and identity.
+- `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
+- `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that
+  will be installed.
+- `scripts/ai.sh`: optional AI CLI installers and instruction-file symlinks.
+
+## Repo Layout
+
+- `bootstrap.sh`: top-level fresh-machine entrypoint.
+- `scripts/`: OS install, config linking, AI setup, Neovim bootstrap, checks, and
+  tmux dev-layout helpers.
+- `.agents/`: shared global agent instructions, skills, and optional rules.
+- `zsh/`, `tmux/`, `nvim/`, `wezterm/`, `starship/`, `yazi/`: tool configs.
+- `homebrew/`: macOS package list.
+- `docs/`: platform and tool setup notes.
+- `templates/`: project templates.
+- `codex/`: Codex-specific notes and cheatsheets.
+
+## Check
+
+Run repository checks after changing scripts, install flow, or docs:
+
+    ./scripts/check.sh
 
 ## Unlink configs
 
