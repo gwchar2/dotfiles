@@ -32,6 +32,27 @@ Mason-managed tools:
   `terraform-ls`, `dockerfile-language-server`, `docker-compose-language-service`,
   `sqlls`, `stylua`, `checkmake`
 
+## Real Editing Workflow
+
+Use Neovim as the primary file navigation and editing surface in `devdot`.
+Yazi is available on demand with `y` or `yy`, but it is not the default way to
+open files in the main editor pane.
+
+| Goal | Keys |
+|---|---|
+| Find files by name | `Space sf` |
+| Find Git-tracked files | `Space gf` |
+| Search text in the project | `Space sg` |
+| Search open buffers | `Space Space` or `Space Tab` |
+| Open left file explorer | `Space e` |
+| Open floating file explorer | `Space w` |
+| Open Oil in current directory | `-` |
+| Open current file directory in Oil | `:e %:h` |
+| Open LazyGit | `Space lg` |
+
+Use Telescope for fast jumping, Oil for directory-style editing, Neo-tree for a
+persistent file tree, and Yazi for standalone filesystem operations.
+
 ## Leader Key
 
 | Action | Keys |
