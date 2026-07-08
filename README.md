@@ -194,15 +194,13 @@ If an old session is already open, recreate the saved layout with:
 
 Default layout:
 
-    left:   Yazi, compact browser column
-    center: Neovim
-    right:  Codex
+    left:  Neovim
+    right: Codex
 
 Default sizes:
 
-    Yazi:   21 columns
     Codex:  65 columns
-    Neovim: remaining middle space
+    Neovim: remaining left space
 
 For any project:
 
@@ -214,7 +212,12 @@ Example:
 
 Override pane sizes:
 
-    DEV_YAZI_WIDTH=21 DEV_CODEX_WIDTH=65 devdot
+    DEV_CODEX_WIDTH=65 devdot
+
+Yazi is still installed and configured, but it is no longer part of the default
+dev layout. Use `y` to open Yazi, `yy` to open Yazi and cd to the selected
+directory on exit, or use Neovim's `Space sf`, `Space gf`, `Space sg`,
+`Space e`, and `-` for editing-focused file navigation.
 
 Detach from tmux:
 
