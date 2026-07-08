@@ -26,7 +26,7 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - CodeRabbit CLI
 - GitHub CLI
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
-- Rust tools: rustup/rust, rust-analyzer, rustfmt, clippy
+- Rust tools: rust/rustup, rust-analyzer, rustfmt, clippy
 - C#/.NET tools: .NET SDK, OmniSharp, csharpier, netcoredbg
 - Debug/dev tools: valgrind, strace, ltrace, binutils, nasm, bear, cppcheck, lcov, gcovr
 - Python tools: pytest, ruff, black, mypy
@@ -60,10 +60,11 @@ Neovim-managed language tools installed by Mason:
 - Rust: `rust-analyzer`, `codelldb`
 - C#/.NET: `omnisharp`, `csharpier`, `netcoredbg`
 - Python: `python-lsp-server`, `ruff`, `debugpy`
+- Lua: `lua-language-server`, `stylua`
 - Shell: `bash-language-server`, `shellcheck`, `shfmt`
 - Web/config/devops: `prettier`, `eslint_d`, `html-lsp`, `yaml-language-server`,
   `terraform-ls`, `dockerfile-language-server`, `docker-compose-language-service`,
-  `sqlls`, `stylua`, `checkmake`
+  `sqlls`, `checkmake`
 
 Automatic Neovim bootstrap:
 
@@ -104,8 +105,9 @@ This automatically runs the correct setup for the current machine:
 - WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 - macOS: scripts/macos.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 
-On Windows, WezTerm runs outside WSL and needs a Windows config shim that loads
-the real config from this repo:
+On Windows, WezTerm runs outside WSL. The Windows helper installs Claude Code
+for Windows if needed, ensures WSL has sandbox/clipboard prerequisites, and
+writes a WezTerm shim that loads the real config from this repo. From WSL, run:
 
     powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
 
@@ -129,12 +131,14 @@ Linked and installed config paths:
 - `~/dotfiles/yazi` -> `~/.config/yazi`
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
 - `~/.codex/config.toml` is created or updated with `disable_paste_burst = true`
-- `~/dotfiles/.agents/AGENTS.md` can be deployed to `~/AGENTS.md`
-- `~/AGENTS.md` can be copied or symlinked to tool-specific instruction paths:
+- `scripts/ai.sh` can deploy `~/dotfiles/.agents/AGENTS.md` to `~/AGENTS.md`
+- For selected AI tools, `~/AGENTS.md` can be copied or symlinked to
+  tool-specific instruction paths:
   `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
   `~/.gemini/GEMINI.md`
-- `~/dotfiles/.agents/skills` can be copied to `~/.agents/skills`
-- If `~/dotfiles/.agents/rules` exists, Codex rules can be copied to `~/.codex/rules`
+- `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to `~/.agents/skills`
+- If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy Codex rules to
+  `~/.codex/rules`
 
 ## Unlink configs
 
@@ -142,82 +146,44 @@ Linked and installed config paths:
 
 ## Dev layout
 
-
-
 The repo includes a tmux launcher for the main development layout:
 
-
-
     devdot
-
-
 
 This starts or attaches a tmux session named `dotfiles` at `~/dotfiles`.
 If an old session is already open, recreate the saved layout with:
 
     devdot-reset
 
-
-
 Default layout:
 
-
-
     left:   Yazi, compact browser column
-
     center: Neovim
-
     right:  Codex
-
-
 
 Default sizes:
 
-
-
     Yazi:   21 columns
-
     Codex:  65 columns
-
     Neovim: remaining middle space
-
-
 
 For any project:
 
-
-
     dev <session-name> <project-path>
-
-
 
 Example:
 
-
-
     dev shell ~/Codes/VSCode/Shell/codecrafters-shell-cpp
-
-
 
 Override pane sizes:
 
-
-
     DEV_YAZI_WIDTH=21 DEV_CODEX_WIDTH=65 devdot
-
-
 
 Detach from tmux:
 
-
-
     Ctrl-b d
 
-
-
 Move between panes:
-
-
 
     Alt + arrow
 
@@ -247,7 +213,6 @@ These bindings are split by terminal layer:
 Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`.
 
 AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
-
 
 ## Cheat sheets
 
