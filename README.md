@@ -18,6 +18,8 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Neovim
 - Starship
 - Yazi
+- jq
+- lazygit
 - Codex CLI
 - Claude Code
 - GitHub Copilot CLI
@@ -25,6 +27,7 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Cursor Agent
 - CodeRabbit CLI
 - GitHub CLI
+- zsh autosuggestions and syntax highlighting
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
 - Rust tools: rust/rustup, rust-analyzer, rustfmt, clippy
 - C#/.NET tools: .NET SDK, OmniSharp, csharpier, netcoredbg

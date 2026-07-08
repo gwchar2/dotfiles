@@ -33,6 +33,8 @@ for path in \
   docs/wsl.md \
   docs/macos.md \
   docs/dev-tools.md \
+  CONTRIBUTING.md \
+  LICENSE \
   templates/cpp \
   templates/python \
   scripts/copy_template.sh \
@@ -71,4 +73,3 @@ for path in \
 done
 
 echo "checks passed"
-

@@ -2,13 +2,17 @@
 brew "git"
 brew "gh"
 brew "curl"
+brew "jq"
 brew "zsh"
 
 # Terminal / shell
 brew "starship"
 brew "tmux"
+brew "lazygit"
 brew "fzf"
 brew "zoxide"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 brew "eza"
 brew "bat"
 brew "fd"

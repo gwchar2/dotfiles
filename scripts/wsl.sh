@@ -11,6 +11,7 @@ sudo apt install -y \
   curl \
   bubblewrap \
   unzip \
+  jq \
   build-essential \
   ripgrep \
   xclip \
@@ -19,7 +20,10 @@ sudo apt install -y \
   eza \
   fzf \
   zoxide \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting \
   tmux \
+  lazygit \
   python3 \
   python3-pip \
   nodejs \

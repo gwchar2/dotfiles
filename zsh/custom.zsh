@@ -24,6 +24,18 @@ if command -v zoxide >/dev/null 2>&1; then
   eval "$(zoxide init zsh)"
 fi
 
+# zsh plugins
+source_if_readable() {
+  local file="$1"
+  [ -r "$file" ] && source "$file"
+}
+
+source_if_readable /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source_if_readable /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source_if_readable /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source_if_readable /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unfunction source_if_readable
+
 # Yazi cd-on-exit wrapper
 function yy() {
   local tmp="$(mktemp -t yazi-cwd.XXXXXX)" cwd

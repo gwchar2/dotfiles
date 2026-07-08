@@ -46,6 +46,8 @@ If tools are already installed:
     wezterm --version
     tmux -V
     nvim --version
+    jq --version
+    lazygit --version
     codex --version
     claude --version
     coderabbit --version
@@ -56,6 +58,7 @@ If tools are already installed:
 - macOS uses ~/.config/wezterm.
 - zsh is the default shell on modern macOS.
 - Homebrew packages are listed in homebrew/Brewfile.
+- `jq`, `lazygit`, zsh autosuggestions, and zsh syntax highlighting are installed through Homebrew.
 - Neovim is installed and updated through Homebrew.
 - Terminal keybindings use Control, Option/Alt, and Shift. Command is a GUI modifier and is only used where WezTerm binds it explicitly.
 - WezTerm keybindings are installed by symlinking `~/dotfiles/wezterm` to `~/.config/wezterm`.

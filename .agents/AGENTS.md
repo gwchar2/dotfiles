@@ -11,3 +11,9 @@
 - Apply a high standard to engineering quality: lint failures, test failures,
   and flaky checks should be treated as real issues.
 - Preserve user changes. Do not revert unrelated work unless explicitly asked.
+- After finishing an instruction or a sub task, always commit your changes. Make sure to
+  include a thorough commit message explaining what you currently implemented/changed/fixed.
+- Do not use 'co-author' when writing a commit message.
+- Do not push before receiving authorization from the user (me). Pushes should occur when we are done implementing a major
+  feature or fixing a bug, and not on every task.
+
