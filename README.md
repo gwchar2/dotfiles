@@ -199,7 +199,7 @@ Default layout:
 
 Default sizes:
 
-    Codex:  65 columns
+    Codex:  91 columns
     Neovim: remaining left space
 
 For any project:
@@ -212,7 +212,7 @@ Example:
 
 Override pane sizes:
 
-    DEV_CODEX_WIDTH=65 devdot
+    DEV_CODEX_WIDTH=91 devdot
 
 Yazi is still installed and configured, but it is no longer part of the default
 dev layout. Use `y` to open Yazi, `yy` to open Yazi and cd to the selected
