@@ -174,6 +174,7 @@ Current global skills:
   push discipline.
 - `architecture-decision-records`: when and how to document meaningful
   architecture decisions.
+- `skill-creator`: create, modify, evaluate, and improve agent skills.
 
 ## Repository Maintenance
 
