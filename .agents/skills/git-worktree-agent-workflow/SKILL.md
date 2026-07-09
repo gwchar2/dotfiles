@@ -1,0 +1,36 @@
+---
+name: git-worktree-agent-workflow
+description: Use when an agent starts a coding task, creates branches or worktrees, stages files, commits, prepares PRs, or coordinates multiple agent tasks.
+---
+
+# Git Worktree Agent Workflow
+
+## Local First
+
+Follow project-local git, branch, commit, and PR rules. If local rules conflict
+with this workflow, use the local rules unless they risk data loss.
+
+## Workspace Discipline
+
+- Inspect `git status` before editing.
+- Treat existing changes as user-owned unless clearly produced by the current
+  task.
+- Use a task branch or worktree for isolated work when the change is nontrivial,
+  risky, or parallel to other work.
+- Keep one worktree focused on one task.
+- Do not run destructive git commands without explicit approval.
+- Do not broad-stage blindly. Stage only files that belong to the task.
+- Commit coherent, reviewable units.
+- Do not add AI attribution, generated-by notices, or co-author metadata unless
+  the repository explicitly requires it.
+- Do not push without explicit user approval.
+
+## PR Preparation
+
+For coworker-facing PRs, include:
+
+- what changed and why
+- architecture or compatibility impact
+- test evidence
+- skipped checks and residual risk
+- notes for reviewers about hardware, lab, or environment assumptions

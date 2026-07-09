@@ -143,9 +143,36 @@ Linked and installed config paths:
   tool-specific instruction paths:
   `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
   `~/.gemini/GEMINI.md`
-- `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to `~/.agents/skills`
-- If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy Codex rules to
-  `~/.codex/rules`
+- `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to the shared
+  `~/.agents/skills` directory. When Codex or Claude are selected, it also
+  copies those skills to their native global skill directories:
+  `~/.codex/skills` and `~/.claude/skills`.
+- If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy shared global
+  rules to `~/.agents/rules`. When Codex is selected, it also copies those rules
+  to `~/.codex/rules`.
+
+Current global skills:
+
+- `project-orientation`: inspect local instructions, architecture docs, test
+  commands, and repo structure before making assumptions.
+- `systems-cpp-design`: C++ ownership, lifetime, error handling, threading, and
+  debuggability guidance for systems work.
+- `clean-architecture-boundaries`: keep CLI, domain, hardware/OS adapters, and
+  infrastructure concerns separated according to the project's architecture.
+- `serviceability-tool-design`: design diagnostics and customer/operator support
+  tooling around actionable evidence.
+- `failure-oriented-design`: handle missing hardware, timeouts, permissions,
+  malformed data, partial responses, and inconsistent state.
+- `terminal-cli-contracts`: preserve flags, stdout/stderr behavior, exit codes,
+  help text, and machine-readable schemas.
+- `pytest-for-cpp-systems`: pytest strategy for C++ binaries, integration flows,
+  fake/simulated hardware, subprocess checks, and marked hardware tests.
+- `code-review-for-systems-cpp`: review checklist for systems C++, CLI
+  compatibility, serviceability, architecture, and tests.
+- `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
+  push discipline.
+- `architecture-decision-records`: when and how to document meaningful
+  architecture decisions.
 
 ## Make It Yours
 
@@ -153,6 +180,10 @@ This is a personal setup. Before running it on a new machine, review:
 
 - `.agents/AGENTS.md`: global AI assistant instructions that can be deployed to
   `~/AGENTS.md`.
+- `.agents/skills`: global skills copied to shared and supported tool-specific
+  skill directories by `scripts/ai.sh`.
+- `.agents/rules`: compact global rules copied to shared and supported
+  tool-specific rule directories by `scripts/ai.sh`.
 - `git/.gitconfig`: Git defaults and identity.
 - `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
 - `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that

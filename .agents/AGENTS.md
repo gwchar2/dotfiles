@@ -1,5 +1,8 @@
 # Global agent instructions
 
+- Project-local instructions, rules, skills, architecture docs, ADRs, and
+  repository conventions override these global preferences. If local guidance is
+  missing, inspect the project structure before applying global defaults.
 - Prefer simple, direct, maintainable solutions.
 - Read relevant files before editing and follow existing project conventions.
 - Keep changes focused. Do not refactor unrelated code or manually edit generated
@@ -11,6 +14,17 @@
   and what was not run.
 - When fixing a bug, reproduce it as closely as practical to how an end user
   would experience it.
+- For C++ work, make ownership, lifetime, error handling, failure paths, and
+  thread-safety explicit. Prefer debuggable C++ over clever abstractions.
+- For terminal tools, preserve public CLI behavior unless explicitly changing it:
+  flags, stdout/stderr separation, exit codes, schemas, and machine-readable
+  output are user-facing contracts.
+- For serviceability, diagnostics, observability, or hardware-adjacent work,
+  design for missing devices, partial data, timeouts, permission failures, and
+  actionable customer/operator evidence.
+- Treat destructive, mutating, privileged, or hardware-affecting operations as
+  unsafe by default. Use clear guardrails and ask before taking irreversible
+  action.
 - Commit completed coherent work with a clear message after finishing a task.
 - Do not add `Co-authored-by`, AI attribution, generated-by notices, or similar
   metadata.

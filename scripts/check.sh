@@ -65,7 +65,8 @@ for path in \
   zsh/zsh-cheatsheet.md \
   homebrew/Brewfile \
   .agents/AGENTS.md \
-  .agents/skills; do
+  .agents/skills \
+  .agents/rules; do
   if [[ ! -e "$path" ]]; then
     echo "missing README path: $path" >&2
     exit 1
