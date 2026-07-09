@@ -156,6 +156,8 @@ Current global skills:
 
 - `mutual-understanding`: clarify requirements, design, architecture fit, tests,
   and risks before planning or implementation.
+- `agent-facing-cli-design`: design AXI-style CLIs with compact structured
+  output, self-correcting errors, truncation, and useful defaults for agents.
 - `project-orientation`: inspect local instructions, architecture docs, test
   commands, and repo structure before making assumptions.
 - `context-budgeting`: manage token use during large tasks, long docs, broad
@@ -174,6 +176,14 @@ Current global skills:
   help text, and machine-readable schemas.
 - `pytest-for-cpp-systems`: pytest strategy for C++ binaries, integration flows,
   fake/simulated hardware, subprocess checks, and marked hardware tests.
+- `worktree-pool-workflow`: use Treehouse-style reusable isolated worktrees for
+  parallel agents, expensive builds, and safe experiments.
+- `crew-orchestration`: coordinate Firstmate-style scout and ship tasks through
+  one supervising agent.
+- `quota-aware-agent-routing`: use quota/reset state to choose when and where
+  agent work should run.
+- `validation-gate-workflow`: apply No-Mistakes-style review, test, lint, docs,
+  and CI gates before push, PR, or handoff.
 - `code-review-for-systems-cpp`: review checklist for systems C++, CLI
   compatibility, serviceability, architecture, and tests.
 - `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
