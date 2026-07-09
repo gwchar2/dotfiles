@@ -229,6 +229,20 @@ install_firstmate_repo() {
   run_install git clone https://github.com/kunchenguid/firstmate.git "$target"
 }
 
+install_no_mistakes() {
+  if command -v no-mistakes >/dev/null 2>&1; then
+    echo "already installed: no-mistakes"
+    return
+  fi
+
+  if ! command -v curl >/dev/null 2>&1; then
+    echo "skip: install no-mistakes requires curl" >&2
+    return 1
+  fi
+
+  run_install_script "https://raw.githubusercontent.com/kunchenguid/no-mistakes/main/docs/install.sh" sh
+}
+
 append_or_copy_file() {
   local source="$1"
   local target="$2"
@@ -354,10 +368,11 @@ install_agent_workflow_tools() {
     return
   fi
 
-  if prompt_yes_no "Install optional agent workflow tools from Kun Chen's repositories? Installs treehouse, quota-axi, and a firstmate checkout. AXI itself is installed as a skill, not a binary. (y/n)"; then
+  if prompt_yes_no "Install optional agent workflow tools from Kun Chen's repositories? Installs treehouse, quota-axi, no-mistakes, and a firstmate checkout. AXI itself is installed as a skill, not a binary. (y/n)"; then
     install_treehouse
     install_quota_axi
     install_firstmate_repo
+    install_no_mistakes
   fi
 }
 

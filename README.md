@@ -29,6 +29,7 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - GitHub CLI
 - Treehouse
 - Quota-AXI
+- No-Mistakes
 - Firstmate checkout
 - zsh autosuggestions and syntax highlighting
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
@@ -158,6 +159,7 @@ Linked and installed config paths:
   repositories:
   - `treehouse`: installed from `https://kunchenguid.github.io/treehouse/install.sh`
   - `quota-axi`: installed globally with `npm install -g quota-axi`
+  - `no-mistakes`: installed from `https://raw.githubusercontent.com/kunchenguid/no-mistakes/main/docs/install.sh`
   - `firstmate`: cloned or updated at `~/.local/share/firstmate` by default
     (`FIRSTMATE_DIR` overrides this path)
 - AXI itself is a skill/design standard, not a standalone `axi` binary.
@@ -194,8 +196,10 @@ Current global skills:
   one supervising agent.
 - `quota-aware-agent-routing`: use quota/reset state to choose when and where
   agent work should run.
-- `validation-gate-workflow`: apply No-Mistakes-style review, test, lint, docs,
-  and CI gates before push, PR, or handoff.
+- `no-mistakes`: upstream No-Mistakes skill for driving the real
+  `no-mistakes axi` validation pipeline.
+- `validation-gate-workflow`: prefer No-Mistakes when available, or apply a
+  fallback review, test, lint, docs, and CI gate before push, PR, or handoff.
 - `code-review-for-systems-cpp`: review checklist for systems C++, CLI
   compatibility, serviceability, architecture, and tests.
 - `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
@@ -244,6 +248,47 @@ Quota-AXI:
 
 Use `quota-axi` before launching long or parallel agent work. It reports local
 provider quota windows; it does not route work or mutate provider state.
+
+No-Mistakes:
+
+    no-mistakes init
+    git push no-mistakes
+    no-mistakes
+
+Initialize `no-mistakes` once per work repository. It creates a local git proxy
+remote named `no-mistakes`. Push a committed feature branch to that remote to
+run the gate in a disposable worktree:
+
+    intent -> rebase -> review -> test -> document -> lint -> push -> PR -> CI
+
+The gate forwards the branch and opens a PR only after checks pass. Product,
+architecture, behavior, and compatibility findings still belong to the human.
+
+Recommended Treehouse + No-Mistakes workflow:
+
+1. Clone the work repository normally.
+2. Initialize No-Mistakes once in that repository:
+
+       no-mistakes init
+
+3. Use Treehouse for isolated task work:
+
+       path=$(treehouse get --lease)
+       cd "$path"
+
+4. Plan, implement, test, and commit one coherent task on a feature branch.
+5. Run the validation gate when the branch is ready:
+
+       git push no-mistakes
+
+   or let an agent drive it with:
+
+       /no-mistakes
+
+6. Respond to No-Mistakes gates. Mechanical fixes may be accepted; `ask-user`
+   findings should come back to you unless you explicitly requested unattended
+   `--yes` behavior.
+7. Review the opened PR and merge it yourself.
 
 Firstmate:
 

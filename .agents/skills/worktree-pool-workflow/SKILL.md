@@ -35,8 +35,10 @@ parallel without stepping on each other or rebuilding dependencies every session
 4. Record the task, branch, path, and owner.
 5. Run the agent or task inside that worktree.
 6. Keep changes scoped to that task.
-7. Verify, commit, and hand off results.
-8. Return or keep the worktree leased depending on whether follow-up is needed.
+7. Verify and commit the task branch.
+8. For push/PR readiness, run No-Mistakes from the committed feature branch
+   when the repo is initialized for it.
+9. Return or keep the worktree leased depending on whether follow-up is needed.
 
 ## If Treehouse Is Installed
 
@@ -74,4 +76,5 @@ Always report:
 - branch name or detached state
 - commit status
 - tests/checks run
+- whether No-Mistakes was run, skipped, or still needs initialization
 - whether the worktree should be returned, kept, or reviewed

@@ -28,7 +28,10 @@
 - Commit completed coherent work with a clear message after finishing a task.
 - Do not add `Co-authored-by`, AI attribution, generated-by notices, or similar
   metadata.
-- Do not push without explicit user approval.
+- Do not push without explicit user approval. A user request to run
+  `no-mistakes` or `/no-mistakes` counts as approval to push the current feature
+  branch to the local No-Mistakes gate only; it is not approval to merge, bypass
+  `ask-user` findings, or push unrelated branches.
 - Be concise and direct. State important assumptions, uncertainty, blockers, and
   remaining risks.
 - Do not use em dashes. Use plain hyphens instead.

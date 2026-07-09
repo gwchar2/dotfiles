@@ -1,18 +1,43 @@
 ---
 name: validation-gate-workflow
-description: Apply a no-mistakes-style validation gate before push, PR, merge, or handoff. Use when preparing committed work for review, checking agent-generated changes, deciding whether to push, or running review/test/lint/docs/CI gates in an isolated worktree.
+description: Apply a validation gate before push, PR, merge, or handoff. Use when preparing committed work for review, checking agent-generated changes, deciding whether to push, running No-Mistakes, or running review/test/lint/docs/CI gates in an isolated worktree.
 ---
 
 # Validation Gate Workflow
 
-Inspired by No-Mistakes, without requiring that tool. Use this as a push/PR
-quality gate that protects the user's main worktree and keeps humans in charge.
+Use the real `no-mistakes` tool when it is installed and the repo is initialized.
+Otherwise use this skill as the fallback push/PR quality gate that protects the
+user's main worktree and keeps humans in charge.
 
 ## Principle
 
 Nothing should be pushed or presented as ready until the relevant checks are
 green, skipped checks are named, and product/architecture decisions are approved
 by the user.
+
+## Preferred Tool Path
+
+When `no-mistakes` is available:
+
+1. Confirm the work is committed on a feature branch.
+2. Confirm the repo has been initialized with `no-mistakes init`.
+3. Run the gate with `git push no-mistakes`, `no-mistakes`, or the
+   `/no-mistakes` skill.
+4. Let the pipeline own in-flight fixes. Do not edit code manually while a
+   no-mistakes run is parked at a gate.
+5. Escalate `ask-user` findings to the user unless they explicitly requested
+   unattended `--yes` behavior.
+
+The no-mistakes pipeline is:
+
+```text
+intent -> rebase -> review -> test -> document -> lint -> push -> PR -> CI
+```
+
+It validates committed history in a disposable worktree and forwards/open PRs
+only after the configured gate passes. A user request to run No-Mistakes
+authorizes pushing to the local gate, not merging the PR or bypassing human
+decisions.
 
 ## Gate Order
 

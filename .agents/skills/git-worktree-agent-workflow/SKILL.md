@@ -18,7 +18,9 @@ description: Use when an agent starts a coding task, creates branches or worktre
 - Commit coherent, reviewable units.
 - Do not add AI attribution, generated-by notices, or co-author metadata unless
   the repository explicitly requires it.
-- Do not push without explicit user approval.
+- Do not push without explicit user approval. A user request to run
+  `no-mistakes` or `/no-mistakes` authorizes pushing the current feature branch
+  to the local No-Mistakes gate only.
 
 ## PR Preparation
 
