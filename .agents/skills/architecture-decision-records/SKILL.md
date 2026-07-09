@@ -5,12 +5,6 @@ description: Use when making or reviewing architectural choices, introducing maj
 
 # Architecture Decision Records
 
-## Local First
-
-Use the project's ADR format and location if one exists. Search for `docs/adr`,
-`adr`, `decisions`, `architecture`, and local templates before creating a new
-format.
-
 ## When To Write An ADR
 
 Write or propose an ADR for decisions that future maintainers will need to

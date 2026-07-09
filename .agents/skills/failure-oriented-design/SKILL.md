@@ -5,11 +5,6 @@ description: Use for feature design, bug fixes, tests, and reviews where reliabi
 
 # Failure-Oriented Design
 
-## Local First
-
-Use local fault models, incident docs, runbooks, and hardware behavior notes
-before generic assumptions.
-
 ## Failure Questions
 
 For each meaningful change, ask:

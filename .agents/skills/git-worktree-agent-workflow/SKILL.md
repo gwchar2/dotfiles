@@ -5,11 +5,6 @@ description: Use when an agent starts a coding task, creates branches or worktre
 
 # Git Worktree Agent Workflow
 
-## Local First
-
-Follow project-local git, branch, commit, and PR rules. If local rules conflict
-with this workflow, use the local rules unless they risk data loss.
-
 ## Workspace Discipline
 
 - Inspect `git status` before editing.

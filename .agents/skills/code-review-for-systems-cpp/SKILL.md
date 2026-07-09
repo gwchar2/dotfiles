@@ -5,11 +5,6 @@ description: Use when reviewing C++, CLI, diagnostics, hardware-adjacent, servic
 
 # Code Review For Systems C++
 
-## Local First
-
-Review against project-local architecture, style, test, and release rules. Do
-not treat this checklist as stronger than local maintainers' guidance.
-
 ## Review Order
 
 1. Correctness and customer/operator impact.

@@ -10,11 +10,6 @@ description: Use when building or reviewing debugability, diagnostics, observabi
 Serviceability code should help an operator, customer, support engineer, or
 developer move from symptom to evidence to likely cause with minimal ambiguity.
 
-## Local First
-
-Read product docs, architecture docs, runbooks, existing diagnostic commands,
-and output compatibility notes. Preserve local operational contracts.
-
 ## Design Checklist
 
 - State what question the tool answers.

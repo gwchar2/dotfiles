@@ -5,11 +5,6 @@ description: Use when creating or changing terminal commands, command flags, sub
 
 # Terminal CLI Contracts
 
-## Local First
-
-Read existing command docs, golden tests, shell scripts, support docs, and
-compatibility notes. Existing customer-visible behavior is a contract.
-
 ## Contract Checklist
 
 - Preserve flag names, defaults, output fields, and exit codes unless the task

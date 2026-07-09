@@ -5,12 +5,6 @@ description: Use for C++ implementation, refactoring, review, or design work, es
 
 # Systems C++ Design
 
-## Local First
-
-Read project-local instructions, architecture docs, style guides, and nearby
-code before applying this guidance. Local C++ standards, compiler constraints,
-and existing abstractions win over global preferences.
-
 ## Principles
 
 - Prefer simple, explicit, debuggable C++ over clever abstraction.

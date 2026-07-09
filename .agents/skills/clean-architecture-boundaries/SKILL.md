@@ -5,12 +5,6 @@ description: Use when adding modules, changing project structure, reviewing arch
 
 # Clean Architecture Boundaries
 
-## Local First
-
-Inspect project architecture docs, ADRs, package layout, and dependency patterns
-before proposing structure. Do not impose a new architecture over a working local
-one.
-
 ## Boundary Rules
 
 - Keep CLI parsing, output formatting, domain decisions, hardware/OS access, and

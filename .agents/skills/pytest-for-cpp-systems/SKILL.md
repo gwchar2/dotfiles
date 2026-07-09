@@ -5,11 +5,6 @@ description: Use when writing, reviewing, or running pytest tests for C++ binari
 
 # Pytest For C++ Systems
 
-## Local First
-
-Read local test docs, `pytest.ini`, `pyproject.toml`, fixtures, markers, build
-scripts, and CI commands before adding tests.
-
 ## Test Strategy
 
 - Unit-test pure C++ logic close to the codebase's established test framework.

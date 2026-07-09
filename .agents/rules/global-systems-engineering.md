@@ -1,7 +1,5 @@
 # Global Systems Engineering Rules
 
-- Project-local `AGENTS.md`, rules, skills, architecture docs, ADRs, and code
-  conventions override global preferences.
 - Before changing a new project, inspect local docs and the actual structure.
   Do not impose global architecture patterns blindly.
 - Keep C++ ownership, lifetime, error handling, failure behavior, and
