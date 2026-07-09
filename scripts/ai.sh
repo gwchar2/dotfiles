@@ -117,6 +117,28 @@ run_install_script() {
   fi
 }
 
+link_npm_global_bin() {
+  local exe="$1"
+  local npm_prefix
+  local source
+  local target="$HOME/.local/bin/$exe"
+
+  npm_prefix="$(npm prefix -g)"
+  source="$npm_prefix/bin/$exe"
+
+  if [[ ! -x "$source" ]]; then
+    return 1
+  fi
+
+  mkdir -p "$HOME/.local/bin"
+
+  if [[ "${AI_INSTALL_DRY_RUN:-}" == "1" ]]; then
+    printf 'dry-run: ln -sfn %q %q\n' "$source" "$target"
+  else
+    ln -sfn "$source" "$target"
+  fi
+}
+
 install_copilot_cli() {
   if command -v copilot >/dev/null 2>&1; then
     echo "already installed: copilot"
@@ -159,6 +181,52 @@ install_cursor_agent() {
   fi
 
   run_install_script "https://cursor.com/install" bash
+}
+
+install_treehouse() {
+  if command -v treehouse >/dev/null 2>&1; then
+    echo "already installed: treehouse"
+    return
+  fi
+
+  if ! command -v curl >/dev/null 2>&1; then
+    echo "skip: install treehouse requires curl" >&2
+    return 1
+  fi
+
+  run_install_script "https://kunchenguid.github.io/treehouse/install.sh" sh
+}
+
+install_quota_axi() {
+  if command -v quota-axi >/dev/null 2>&1; then
+    echo "already installed: quota-axi"
+    return
+  fi
+
+  if ! command -v npm >/dev/null 2>&1; then
+    echo "skip: install quota-axi requires npm" >&2
+    return 1
+  fi
+
+  run_install npm install -g quota-axi
+  link_npm_global_bin quota-axi || true
+}
+
+install_firstmate_repo() {
+  local target="${FIRSTMATE_DIR:-$HOME/.local/share/firstmate}"
+
+  if [[ -d "$target/.git" ]]; then
+    run_install git -C "$target" pull --ff-only
+    return
+  fi
+
+  if [[ -e "$target" ]]; then
+    echo "skip: firstmate target exists but is not a git checkout: $target" >&2
+    return 1
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  run_install git clone https://github.com/kunchenguid/firstmate.git "$target"
 }
 
 append_or_copy_file() {
@@ -281,6 +349,18 @@ install_selected_ai_tools() {
   done
 }
 
+install_agent_workflow_tools() {
+  if (($# == 0)); then
+    return
+  fi
+
+  if prompt_yes_no "Install optional agent workflow tools from Kun Chen's repositories? Installs treehouse, quota-axi, and a firstmate checkout. AXI itself is installed as a skill, not a binary. (y/n)"; then
+    install_treehouse
+    install_quota_axi
+    install_firstmate_repo
+  fi
+}
+
 deploy_ai_configs() {
   local -a selected_tools=("$@")
   local agents_source="$DOTFILES_DIR/.agents/AGENTS.md"
@@ -363,6 +443,7 @@ transfer_ai_rules() {
 main() {
   select_ai_tools
   install_selected_ai_tools "${SELECTED_AI_TOOLS[@]}"
+  install_agent_workflow_tools "${SELECTED_AI_TOOLS[@]}"
   deploy_ai_configs "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_skills "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_rules "${SELECTED_AI_TOOLS[@]}"

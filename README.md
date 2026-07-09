@@ -27,6 +27,9 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 - Cursor Agent
 - CodeRabbit CLI
 - GitHub CLI
+- Treehouse
+- Quota-AXI
+- Firstmate checkout
 - zsh autosuggestions and syntax highlighting
 - C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
 - Rust tools: rust/rustup, rust-analyzer, rustfmt, clippy
@@ -151,11 +154,20 @@ Linked and installed config paths:
   `~/.agents/skills`, `~/.codex/skills`, and `~/.claude/skills`.
 - Rule install targets currently managed by `scripts/ai.sh`:
   `~/.agents/rules` and `~/.codex/rules`.
+- `scripts/ai.sh` can install optional agent workflow tools from Kun Chen's
+  repositories:
+  - `treehouse`: installed from `https://kunchenguid.github.io/treehouse/install.sh`
+  - `quota-axi`: installed globally with `npm install -g quota-axi`
+  - `firstmate`: cloned or updated at `~/.local/share/firstmate` by default
+    (`FIRSTMATE_DIR` overrides this path)
+- AXI itself is a skill/design standard, not a standalone `axi` binary.
 
 Current global skills:
 
 - `mutual-understanding`: clarify requirements, design, architecture fit, tests,
   and risks before planning or implementation.
+- `axi`: upstream AXI skill for building agent-facing CLIs with token-efficient
+  output.
 - `agent-facing-cli-design`: design AXI-style CLIs with compact structured
   output, self-correcting errors, truncation, and useful defaults for agents.
 - `project-orientation`: inspect local instructions, architecture docs, test
@@ -193,6 +205,8 @@ Current global skills:
 - `skill-creator`: create, modify, evaluate, and improve agent skills.
 - `session-handoff-summary`: save compact continuation state for long tasks,
   context compaction, or agent handoff.
+- `stow`: upstream Firstmate public skill for saving durable session knowledge
+  into local project conventions or `.stow-notes.md`.
 
 ## Repository Maintenance
 
@@ -205,6 +219,40 @@ Current global skills:
 - For Neovim bootstrap or plugin changes, run `./scripts/nvim.sh` when network
   and time allow.
 - Report checks that were run and any checks that were skipped.
+
+## Agent Workflow Tools
+
+Treehouse:
+
+    treehouse
+    path=$(treehouse get --lease)
+    treehouse status
+    treehouse return "$path"
+    treehouse prune
+
+Use `treehouse` from inside a git repo to enter a reusable isolated worktree.
+Use `treehouse get --lease` when an agent or script needs a durable worktree
+path instead of a subshell. `treehouse prune` is a dry run unless `--yes` is
+provided.
+
+Quota-AXI:
+
+    quota-axi
+    quota-axi --provider claude,codex
+    quota-axi --json
+    quota-axi auth
+
+Use `quota-axi` before launching long or parallel agent work. It reports local
+provider quota windows; it does not route work or mutate provider state.
+
+Firstmate:
+
+    cd ~/.local/share/firstmate
+    claude
+
+Firstmate is an orchestrator repo, not a normal binary. Open an agent inside the
+checkout and let its `AGENTS.md` guide the session. Use it for larger work where
+one supervising agent should spawn scout or ship tasks in isolated worktrees.
 
 ## Make It Yours
 
