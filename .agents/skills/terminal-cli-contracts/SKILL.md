@@ -1,6 +1,6 @@
 ---
 name: terminal-cli-contracts
-description: Use when creating or changing terminal commands, command flags, subprocess behavior, text output, JSON output, exit codes, or shell-facing workflows.
+description: Use when creating or changing terminal commands, agent-facing CLIs, command flags, subprocess behavior, text output, JSON output, exit codes, shell workflows, diagnostic tools, or automation-facing command output.
 ---
 
 # Terminal CLI Contracts
@@ -20,6 +20,26 @@ description: Use when creating or changing terminal commands, command flags, sub
 - Use deterministic ordering where scripts, tests, or support workflows may
   consume the output.
 - Avoid interactive prompts in automation paths unless explicitly requested.
+- Reject unknown flags and invalid combinations clearly.
+- Make empty states explicit and useful.
+- Keep default output compact. Put large details behind explicit detail commands,
+  filters, or `--full`.
+- Prefer structured errors with stable codes, concise messages, and actionable
+  next steps.
+- Include enough identifiers for follow-up commands without dumping unrelated
+  state.
+
+## Agent-Facing Output
+
+When an AI agent or automation may consume the CLI, design for low-token,
+high-signal output:
+
+- list commands should show only key fields by default
+- detail commands should retrieve one object or focused subset
+- long output should be truncation-aware and explain how to fetch the rest
+- machine-readable modes should be stable and schema-like
+- next-step hints should be short and command-shaped
+- progress output should not pollute stdout data streams
 
 ## Testing
 

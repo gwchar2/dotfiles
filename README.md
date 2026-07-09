@@ -154,8 +154,14 @@ Linked and installed config paths:
 
 Current global skills:
 
+- `mutual-understanding`: clarify requirements, design, architecture fit, tests,
+  and risks before planning or implementation.
 - `project-orientation`: inspect local instructions, architecture docs, test
   commands, and repo structure before making assumptions.
+- `context-budgeting`: manage token use during large tasks, long docs, broad
+  searches, and multi-phase work.
+- `focused-file-reading`: inspect only the files and ranges needed for the next
+  decision.
 - `systems-cpp-design`: C++ ownership, lifetime, error handling, threading, and
   debuggability guidance for systems work.
 - `clean-architecture-boundaries`: keep CLI, domain, hardware/OS adapters, and
@@ -175,6 +181,8 @@ Current global skills:
 - `architecture-decision-records`: when and how to document meaningful
   architecture decisions.
 - `skill-creator`: create, modify, evaluate, and improve agent skills.
+- `session-handoff-summary`: save compact continuation state for long tasks,
+  context compaction, or agent handoff.
 
 ## Repository Maintenance
 
