@@ -128,12 +128,12 @@ if wezterm.target_triple:find("darwin") then
   })
 end
 
--- Right-click paste
+-- Open hyperlinks with Ctrl + left-click.
 config.mouse_bindings = {
   {
-    event = { Down = { streak = 1, button = "Right" } },
-    mods = "NONE",
-    action = wezterm.action.PasteFrom("Clipboard"),
+    event = { Up = { streak = 1, button = "Left" } },
+    mods = "CTRL",
+    action = wezterm.action.OpenLinkAtMouseCursor,
   },
 }
 
