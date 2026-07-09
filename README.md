@@ -175,6 +175,18 @@ Current global skills:
 - `architecture-decision-records`: when and how to document meaningful
   architecture decisions.
 
+## Repository Maintenance
+
+- Read relevant scripts and configs before changing them.
+- Keep WSL Ubuntu and macOS behavior intact. Treat Windows support as the WezTerm
+  shim plus WSL prerequisites unless the change explicitly says otherwise.
+- Prefer existing repo patterns over new framework choices.
+- Run `./scripts/check.sh` after script, shell, README, AI preset, or
+  install-flow changes.
+- For Neovim bootstrap or plugin changes, run `./scripts/nvim.sh` when network
+  and time allow.
+- Report checks that were run and any checks that were skipped.
+
 ## Make It Yours
 
 This is a personal setup. Before running it on a new machine, review:
@@ -196,7 +208,8 @@ This is a personal setup. Before running it on a new machine, review:
 - `bootstrap.sh`: top-level fresh-machine entrypoint.
 - `scripts/`: OS install, config linking, AI setup, Neovim bootstrap, checks, and
   tmux dev-layout helpers.
-- `.agents/`: shared global agent instructions, skills, and optional rules.
+- `.agents/`: source of truth for the global AI preset: instructions, skills,
+  and optional rules.
 - `zsh/`, `tmux/`, `nvim/`, `wezterm/`, `starship/`, `yazi/`: tool configs.
 - `homebrew/`: macOS package list.
 - `docs/`: platform and tool setup notes.
