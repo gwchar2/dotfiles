@@ -143,13 +143,14 @@ Linked and installed config paths:
   tool-specific instruction paths:
   `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
   `~/.gemini/GEMINI.md`
-- `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to the shared
-  `~/.agents/skills` directory. When Codex or Claude are selected, it also
-  copies those skills to their native global skill directories:
-  `~/.codex/skills` and `~/.claude/skills`.
-- If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy shared global
-  rules to `~/.agents/rules`. When Codex is selected, it also copies those rules
-  to `~/.codex/rules`.
+- The dotfiles repo is the single source of truth for global agent skills and
+  rules. `scripts/ai.sh` can install that source into the global skills/rules
+  paths and into selected tool-specific paths when a tool requires its own
+  location.
+- Skill install targets currently managed by `scripts/ai.sh`:
+  `~/.agents/skills`, `~/.codex/skills`, and `~/.claude/skills`.
+- Rule install targets currently managed by `scripts/ai.sh`:
+  `~/.agents/rules` and `~/.codex/rules`.
 
 Current global skills:
 
@@ -180,10 +181,10 @@ This is a personal setup. Before running it on a new machine, review:
 
 - `.agents/AGENTS.md`: global AI assistant instructions that can be deployed to
   `~/AGENTS.md`.
-- `.agents/skills`: global skills copied to shared and supported tool-specific
-  skill directories by `scripts/ai.sh`.
-- `.agents/rules`: compact global rules copied to shared and supported
-  tool-specific rule directories by `scripts/ai.sh`.
+- `.agents/skills`: repo source of truth for global skills installed by
+  `scripts/ai.sh`.
+- `.agents/rules`: repo source of truth for compact global rules installed by
+  `scripts/ai.sh`.
 - `git/.gitconfig`: Git defaults and identity.
 - `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
 - `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that

@@ -325,19 +325,19 @@ transfer_ai_skills() {
     return
   fi
 
-  if prompt_yes_no "Transfer global skills from .agents/skills? Installs shared skills to ~/.agents/skills, plus native skill directories for selected tools that support them. (y/n)"; then
-    copy_dir_contents "$source" "$shared_target" "shared skills"
+  if prompt_yes_no "Install this repo's global agent skills for the selected AI tools? Copies the single dotfiles source of truth into the global skills path and any selected tool-specific skills path this installer supports. (y/n)"; then
+    copy_dir_contents "$source" "$shared_target" "global agent skills"
 
     if contains_tool codex "$@"; then
-      copy_dir_contents "$source" "$codex_target" "Codex skills"
+      copy_dir_contents "$source" "$codex_target" "Codex global agent skills"
     fi
 
     if contains_tool claude "$@"; then
-      copy_dir_contents "$source" "$claude_target" "Claude skills"
+      copy_dir_contents "$source" "$claude_target" "Claude global agent skills"
     fi
 
     if contains_tool copilot "$@" || contains_tool cursor "$@" || contains_tool gemini "$@"; then
-      echo "note: Copilot, Cursor, and Gemini do not have a native skills directory managed by this installer; shared skills are available in $shared_target"
+      echo "note: Copilot, Cursor, and Gemini do not have a native skills path managed by this installer; the installed global skills copy is available in $shared_target"
     fi
   fi
 }
@@ -351,11 +351,11 @@ transfer_ai_rules() {
     return
   fi
 
-  if prompt_yes_no "Transfer global rules from .agents/rules? Installs shared rules to ~/.agents/rules, plus Codex rules when Codex is selected. (y/n)"; then
-    copy_dir_contents "$source" "$shared_target" "shared rules"
+  if prompt_yes_no "Install this repo's global agent rules for the selected AI tools? Copies the single dotfiles source of truth into the global rules path and any selected tool-specific rules path this installer supports. (y/n)"; then
+    copy_dir_contents "$source" "$shared_target" "global agent rules"
 
     if contains_tool codex "$@"; then
-      copy_dir_contents "$source" "$codex_target" "Codex rules"
+      copy_dir_contents "$source" "$codex_target" "Codex global agent rules"
     fi
   fi
 }
