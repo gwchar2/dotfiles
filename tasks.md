@@ -8,10 +8,17 @@ Make this dotfiles repo a clear, reproducible setup for:
 - NixOS as a first-class Linux target
 - WSL/Windows as a supported fallback path
 - shared terminal, editor, shell, AI, and agent workflow configuration
+- a small, boring, easy-to-edit layout that does not preserve complexity just
+  because it already exists
 
 The target outcome is one understandable repo where each layer has a clear owner:
 system settings, packages, user config, application config, AI instructions, and
 bootstrap/rebuild commands.
+
+This migration is also a simplification project. Do not just wrap the current
+repo in Nix. Prefer Kun's clean shape where user files live under `home/`, app
+configs live where the apps expect them, and Nix declares how those files are
+installed.
 
 ## Current State
 
@@ -28,6 +35,21 @@ The repo is currently script-first:
 
 This works, but it is not fully declarative. It installs a lot of things, but it
 does not describe the entire desired state of a macOS or NixOS machine.
+
+The repo is also too broad for the desired daily workflow. Several root-level
+config folders exist because tools were added incrementally:
+
+- `starship/`
+- `yazi/`
+- `tmux/`
+- `wezterm/`
+- `nvim/`
+- `zsh/`
+
+Some of these may still be useful, but their current placement makes the repo
+feel larger than the actual workflow. During migration, every tool should earn
+its place. If a tool is not part of the desired daily loop, remove or archive its
+config instead of carrying it forward.
 
 ## Tools To Use
 
@@ -239,7 +261,9 @@ Use only if we need App Store apps in the bootstrap.
 
 ### herdr
 
-`herdr` is an agent-era terminal multiplexer that may replace or complement tmux.
+`herdr` is the intended default terminal multiplexer for the new setup. tmux can
+remain temporarily as a fallback during migration, but the goal is not to keep
+two equal multiplexing systems forever.
 
 What it requires:
 
@@ -253,8 +277,10 @@ What it owns:
 
 Open decision:
 
-- evaluate it before replacing tmux. Current tmux config is mature and already
-  tuned for Codex/TUI key behavior.
+- what exact herdr keybindings preserve the useful parts of the current tmux
+  muscle memory
+- whether herdr is available and stable enough on NixOS for tomorrow's setup
+- how Windows/WSL should behave if herdr is not available there
 
 ## Target File Layout
 
@@ -266,6 +292,16 @@ Proposed structure:
 ├── flake.lock
 ├── rebuild.sh
 ├── bootstrap.sh
+├── home/
+│   ├── AGENTS.md
+│   ├── .claude/
+│   │   └── settings.json
+│   └── .config/
+│       ├── nvim/
+│       ├── wezterm/
+│       ├── herdr/
+│       ├── zsh/
+│       └── starship/        # only if we keep Starship
 ├── nix/
 │   ├── darwin/
 │   │   ├── default.nix
@@ -288,18 +324,52 @@ Proposed structure:
 │   └── nixos/
 │       ├── default.nix
 │       └── hardware-configuration.nix
-├── zsh/
-├── tmux/
-├── nvim/
-├── wezterm/
-├── starship/
-├── yazi/
 ├── .agents/
 └── scripts/
 ```
 
-This keeps real application configs where they already are and adds a Nix layer
-that declares how those configs are installed.
+This moves real application configs under `home/`, mirroring their installed
+locations. It should feel obvious that:
+
+- `home/.config/nvim` becomes `~/.config/nvim`
+- `home/.config/wezterm` becomes `~/.config/wezterm`
+- `home/.config/herdr` becomes `~/.config/herdr`
+- `home/.claude/settings.json` becomes `~/.claude/settings.json`
+- `home/AGENTS.md` fans out to supported agent instruction paths
+
+The root of the repo should mostly contain orchestration and documentation, not
+one folder per app.
+
+## Tool Retention Review
+
+Before moving each current config, decide whether the tool belongs in the new
+daily workflow.
+
+### Keep By Default
+
+- Neovim: primary editor.
+- WezTerm: terminal emulator on macOS and Windows.
+- herdr: target multiplexer/session manager.
+- zsh: shell.
+- shared agent instructions and skills.
+- Homebrew/Nix package declarations.
+
+### Question Before Keeping
+
+- Starship: useful if prompt customization matters, but it is another config
+  surface. If the desired prompt is simple, use a small home-manager Starship
+  declaration or remove it.
+- Yazi: useful if it is actually part of daily navigation. If Neovim Oil and
+  Telescope cover file work, drop Yazi from the default setup.
+- tmux: keep only as a migration fallback until herdr is proven.
+- large Neovim plugin set: keep core editing features, but review UI and workflow
+  plugins that are not part of the actual daily loop.
+
+### Remove Or Archive By Default
+
+- configs for tools that are no longer in the default workflow
+- duplicate package installation paths once Nix owns macOS/NixOS
+- scripts that only exist to compensate for missing Nix ownership
 
 ## Configuration Ownership
 
@@ -368,6 +438,7 @@ Declare:
 
 - shared CLI packages available on macOS and NixOS
 - fonts where Nix can own them
+- only packages that are part of the default workflow
 
 Examples:
 
@@ -377,10 +448,10 @@ Examples:
 - `jq`
 - `lazygit`
 - `neovim`
-- `yazi`
 - `eza`
 - `bat`
 - `zoxide`
+- `herdr`, if available through the selected package channel
 
 ### `nix/home/shell.nix`
 
@@ -389,8 +460,8 @@ Declare:
 - zsh enablement
 - autosuggestions
 - syntax highlighting
-- aliases from `zsh/aliases.zsh`, if we migrate them
-- Starship enablement
+- only aliases that are used daily
+- Starship enablement only if we keep Starship
 - fzf and zoxide shell integration
 - environment variables like `EDITOR=nvim`
 
@@ -398,17 +469,19 @@ Decision:
 
 - either keep `zsh/*.zsh` as source files and link them, or express most shell
   behavior in home-manager. Prefer incremental migration.
+- avoid a sprawling shell layer. If an alias or helper is rarely used, do not
+  migrate it by default.
 
 ### `nix/home/files.nix`
 
 Declare symlinks for:
 
-- `~/.config/nvim` -> repo `nvim`
-- `~/.config/wezterm` -> repo `wezterm`
-- `~/.config/starship` -> repo `starship`
-- `~/.config/yazi` -> repo `yazi`
-- `~/.tmux.conf` -> repo `tmux/tmux.conf`
-- `~/.gitconfig` -> repo `git/.gitconfig`
+- `~/.config/nvim` -> repo `home/.config/nvim`
+- `~/.config/wezterm` -> repo `home/.config/wezterm`
+- `~/.config/herdr` -> repo `home/.config/herdr`
+- `~/.config/zsh` -> repo `home/.config/zsh`, if zsh remains file-based
+- `~/.config/starship` -> repo `home/.config/starship`, only if Starship stays
+- `~/.gitconfig` -> repo `home/.gitconfig`, if we manage Git config as a file
 
 Prefer `mkOutOfStoreSymlink` for edit-in-place config.
 
@@ -465,7 +538,10 @@ Decisions needed:
   - standalone home-manager, if we only control the user
 - Apple Silicon vs Intel Mac.
 - Homebrew cleanup policy.
-- tmux only, herdr only, or both during evaluation.
+- herdr as intended default, with tmux fallback only if herdr cannot cover a
+  required workflow.
+- which current root-level app configs should survive the simplification.
+- whether Starship and Yazi are part of the new default workflow.
 
 Exit criteria:
 
@@ -481,6 +557,9 @@ Tasks:
 - add shared home-manager module
 - add `rebuild.sh`
 - keep current scripts untouched
+- add `home/` target layout
+- start new config ownership under `home/` rather than adding more root-level
+  app folders
 
 Validation:
 
@@ -508,20 +587,43 @@ Validation:
 Tasks:
 
 - move user package ownership into home-manager
-- link app configs from repo through home-manager
+- move kept app configs under `home/`
+- link app configs from `home/` through home-manager
 - migrate zsh/Starship integration carefully
 - keep Neovim plugin bootstrap unchanged initially
 - link AI instruction files declaratively
+- remove or stop linking configs for tools we decide not to keep
 
 Validation:
 
 - `zsh -ic 'echo zsh ok'`
 - `nvim --headless +qa`
 - `wezterm --version`
-- `starship --version`
+- `herdr --version`, if available
+- `starship --version`, only if Starship stays
 - agent instruction paths exist and point to expected source
 
-### Phase 4 - NixOS Readiness
+### Phase 4 - Herdr As Default
+
+Tasks:
+
+- add herdr config under `home/.config/herdr`
+- install herdr on macOS through Homebrew declaration
+- install herdr on NixOS if available, or document fallback if not
+- adjust WezTerm startup to launch herdr instead of tmux on macOS
+- migrate only the tmux keybindings/workflows that are still useful
+- remove tmux from the default flow after herdr is validated
+
+Validation:
+
+- create tabs/workspaces
+- split panes
+- run Codex/Claude sessions
+- verify copy mode
+- verify agent visibility/status behavior
+- verify startup from WezTerm
+
+### Phase 5 - NixOS Readiness
 
 Tasks:
 
@@ -535,25 +637,6 @@ Validation:
 
 - `nixos-rebuild build --flake .#<host>` for full NixOS
 - or `home-manager build --flake .#<user>@nixos` for user-only
-
-### Phase 5 - Herdr Evaluation
-
-Tasks:
-
-- add optional herdr config under `herdr/` or `.config/herdr`
-- install herdr on macOS through Homebrew declaration
-- test against current tmux workflow:
-  - multiple agents
-  - pane splitting
-  - copy mode
-  - Codex and Claude status visibility
-  - Windows/WSL behavior
-
-Decision:
-
-- keep tmux as default
-- switch to herdr
-- support both with clear aliases
 
 ### Phase 6 - Cleanup And Strict Reproducibility
 
@@ -578,17 +661,24 @@ Validation:
    account?
 3. Should Homebrew cleanup start strict or conservative?
 4. Should WezTerm stop auto-maximizing immediately, or wait for the Nix migration?
-5. Should herdr be installed as an experiment while tmux remains default?
+5. Which of these tools are truly default workflow tools: Starship, Yazi, tmux?
+6. Should tmux be archived immediately after herdr works, or kept as a documented
+   fallback for WSL only?
 
 ## Suggested Defaults
 
 - host label: `mac`
 - NixOS output label: `nixos`
 - Homebrew cleanup: conservative first, strict later
-- terminal multiplexer: keep tmux default, install herdr for evaluation
+- terminal multiplexer: herdr default, tmux temporary fallback only
 - WezTerm: remove startup maximize and set explicit initial rows/columns
-- migration style: add Nix alongside current scripts, then retire duplicated
-  script ownership gradually
+- repo layout: move user-facing files under `home/`, mirroring their installed
+  paths
+- Starship: keep only if the prompt configuration is intentionally useful; if
+  kept, prefer a small home-manager declaration over a large standalone folder
+- Yazi: remove from the default setup unless it is actively used
+- migration style: add Nix alongside current scripts, simplify the layout, then
+  retire duplicated script ownership gradually
 
 ## Definition Of Done
 
