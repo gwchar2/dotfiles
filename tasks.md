@@ -12,7 +12,7 @@ home.nix
 nixos.nix
 rebuild.sh
 bootstrap.sh
-Brewfile
+check.sh
 home/
   AGENTS.md
   .gitconfig
@@ -27,8 +27,6 @@ home/
 .agents/
   skills/
   rules/
-legacy/tmux/
-scripts/
 ```
 
 No `nix/` or `hosts/` directories. The root Nix files are the map.
@@ -41,7 +39,6 @@ No `nix/` or `hosts/` directories. The root Nix files are the map.
 - `nixos.nix`: optional NixOS system module.
 - `home/`: actual user files mirrored into `$HOME`.
 - `.agents/skills` and `.agents/rules`: global skills and rules linked on rebuild.
-- `legacy/tmux`: archived tmux reference only.
 
 ## Core Workflow
 
@@ -62,10 +59,6 @@ Keep:
 - global AGENTS.md
 - global skills/rules
 
-Archive:
-
-- tmux default workflow
-
 ## Completed In This Branch
 
 - Created branch `simplify-nix-home-layout`.
@@ -73,14 +66,13 @@ Archive:
 - Moved Git config to `home/.gitconfig`.
 - Added `home/AGENTS.md`.
 - Kept skills/rules under `.agents`.
-- Archived tmux under `legacy/tmux`.
 - Added root Nix files.
 - Added `rebuild.sh`.
 - Switched macOS WezTerm startup to herdr with zsh fallback.
 - Removed WezTerm auto-maximize and set explicit initial size.
 - Added Neovim Esc-to-save behavior.
-- Updated fallback scripts to link from `home/`.
-- Updated README and platform docs.
+- Removed old scripts, tmux, WSL setup docs, Brewfile, and generated Neovim log.
+- Updated README and macOS docs.
 
 ## Remaining Manual Decisions
 
@@ -88,15 +80,13 @@ Archive:
 - Confirm Apple Silicon is correct for the Mac. `configuration.nix` currently
   uses `aarch64-darwin`.
 - Confirm Herdr is available through Homebrew as `herdr`.
-- Decide whether to keep the legacy script path long term.
-- Decide whether to eventually remove `Brewfile` once Nix is the only macOS path.
 
 ## Validation To Run
 
 Always:
 
 ```sh
-./scripts/check.sh
+./check.sh
 ```
 
 When Neovim is available:

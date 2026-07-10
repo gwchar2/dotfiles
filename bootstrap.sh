@@ -24,4 +24,13 @@ if [[ "$OS" == "Darwin" ]]; then
   exec "$DIR/rebuild.sh"
 fi
 
-exec "$DIR/scripts/install.sh" "$@"
+if [[ "$OS" == "Linux" ]]; then
+  echo "For NixOS user setup, run:"
+  echo "  home-manager switch --flake $DIR#gwchar2@nixos"
+  echo
+  echo "For full NixOS system setup, import $DIR/nixos.nix from the host configuration."
+  exit 0
+fi
+
+echo "Unsupported OS: $OS"
+exit 1

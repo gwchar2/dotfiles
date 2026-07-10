@@ -24,7 +24,7 @@ The repo is intentionally split into two kinds of files:
 ├── nixos.nix           # optional NixOS system module
 ├── rebuild.sh          # apply the current machine config
 ├── bootstrap.sh        # fresh-machine entrypoint
-├── Brewfile            # legacy non-Nix Homebrew fallback
+├── check.sh            # local repository checks
 ├── home/
 │   ├── AGENTS.md
 │   ├── .gitconfig
@@ -39,8 +39,9 @@ The repo is intentionally split into two kinds of files:
 ├── .agents/
 │   ├── skills/
 │   └── rules/
-├── legacy/tmux/
-└── scripts/
+├── docs/
+├── templates/
+└── codex/
 ```
 
 ## What Owns What
@@ -131,24 +132,6 @@ configuration and use your normal `nixos-rebuild switch` command.
 This repo does not include hardware configuration. Keep generated hardware files
 with the specific NixOS machine.
 
-## Legacy WSL / Non-Nix
-
-The old script path still exists for WSL and fallback installs:
-
-```sh
-./scripts/install.sh
-```
-
-This path links the same `home/` files, but it is no longer the primary macOS
-architecture.
-
-Windows WezTerm still uses `scripts/windows.ps1`, which writes a Windows shim
-that loads:
-
-```text
-~/dotfiles/home/.config/wezterm/wezterm.lua
-```
-
 ## Daily Editing
 
 Most day-to-day changes are just file edits:
@@ -207,12 +190,6 @@ Key behavior preserved or added:
 - visual paste keeps the previous yank.
 - `Esc` saves modified buffers with `:update`.
 
-Plugin bootstrap:
-
-```sh
-./scripts/nvim.sh
-```
-
 ## WezTerm
 
 Config lives at:
@@ -251,8 +228,7 @@ Config lives at:
 home/.config/herdr/config.toml
 ```
 
-This is the default multiplexer target. tmux is archived under `legacy/tmux/`
-only as a reference for old keybindings.
+This is the default multiplexer target.
 
 ## Starship And Yazi
 
@@ -269,8 +245,7 @@ If either stops being part of the daily workflow, remove it from `home.nix`,
 Add a macOS GUI app or Homebrew tool:
 
 1. Edit `homebrew.nix`.
-2. Optionally edit `Brewfile` if the legacy fallback should install it.
-3. Run `./rebuild.sh`.
+2. Run `./rebuild.sh`.
 
 Add a shared Nix user package:
 
@@ -296,7 +271,7 @@ Add a Neovim plugin:
 
 1. Add a plugin spec under `home/.config/nvim/lua/plugins/`.
 2. Add it to `home/.config/nvim/init.lua` if needed.
-3. Run `./scripts/nvim.sh` or `:Lazy sync`.
+3. Run `:Lazy sync`.
 
 Add an agent rule:
 
@@ -310,14 +285,13 @@ Add an agent rule:
 Run:
 
 ```sh
-./scripts/check.sh
+./check.sh
 ```
 
 For Neovim:
 
 ```sh
 nvim --headless +qa
-./scripts/nvim.sh
 ```
 
 Nix is not required for the shell checks, but full macOS/NixOS validation needs
