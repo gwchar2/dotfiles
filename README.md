@@ -39,9 +39,9 @@ The repo is intentionally split into two kinds of files:
 ├── .agents/
 │   ├── skills/
 │   └── rules/
-├── docs/
-├── templates/
-└── codex/
+├── README.md
+├── CONTRIBUTING.md
+└── LICENSE
 ```
 
 ## What Owns What
