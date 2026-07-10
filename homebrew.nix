@@ -56,6 +56,7 @@
 
     casks = [
       "claude-code"
+      "codex"
       "font-jetbrains-mono-nerd-font"
       "wezterm"
     ];
