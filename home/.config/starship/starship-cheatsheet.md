@@ -28,13 +28,13 @@ It shows useful context such as:
 | Show Starship version | `starship --version` |
 | Explain current prompt | `starship explain` |
 | Reload bash config | `source ~/.bashrc` |
-| Edit Starship config | `nvim ~/dotfiles/starship/starship.toml` |
+| Edit Starship config | `nvim ~/dotfiles/home/.config/starship/starship.toml` |
 
 ## Config Location
 
 | Purpose | Path |
 |---|---|
-| Dotfiles config | `~/dotfiles/starship/starship.toml` |
+| Dotfiles config | `~/dotfiles/home/.config/starship/starship.toml` |
 | Real linked config | `~/.config/starship/starship.toml` |
 
 ## Notes

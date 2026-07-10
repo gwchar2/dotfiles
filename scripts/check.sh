@@ -7,6 +7,7 @@ cd "$DOTFILES_DIR"
 
 shell_scripts=(
   bootstrap.sh
+  rebuild.sh
   scripts/install.sh
   scripts/wsl.sh
   scripts/macos.sh
@@ -14,7 +15,7 @@ shell_scripts=(
   scripts/ai.sh
   scripts/nvim.sh
   scripts/unlink.sh
-  scripts/dev.sh
+  legacy/tmux/dev.sh
   scripts/copy_template.sh
 )
 
@@ -46,25 +47,31 @@ for path in \
   scripts/wsl.sh \
   scripts/macos.sh \
   scripts/ai.sh \
-  scripts/dev.sh \
-  zsh/.zshenv \
-  zsh/.zshrc \
-  zsh \
-  tmux/tmux.conf \
-  git/.gitconfig \
-  nvim \
-  starship \
-  yazi \
-  wezterm \
-  wezterm/wezterm-cheatsheet.md \
-  tmux/tmux-cheatsheet.md \
+  legacy/tmux/dev.sh \
+  rebuild.sh \
+  flake.nix \
+  configuration.nix \
+  home.nix \
+  homebrew.nix \
+  nixos.nix \
+  home/AGENTS.md \
+  home/.config/zsh/.zshenv \
+  home/.config/zsh/.zshrc \
+  home/.gitconfig \
+  home/.config/zsh \
+  home/.config/nvim \
+  home/.config/starship \
+  home/.config/yazi \
+  home/.config/wezterm \
+  home/.config/herdr \
+  home/.config/wezterm/wezterm-cheatsheet.md \
+  legacy/tmux/tmux-cheatsheet.md \
   codex/codex-cheatsheet.md \
-  nvim/nvim-cheatsheet.md \
-  starship/starship-cheatsheet.md \
-  yazi/yazi-cheatsheet.md \
-  zsh/zsh-cheatsheet.md \
-  homebrew/Brewfile \
-  .agents/AGENTS.md \
+  home/.config/nvim/nvim-cheatsheet.md \
+  home/.config/starship/starship-cheatsheet.md \
+  home/.config/yazi/yazi-cheatsheet.md \
+  home/.config/zsh/zsh-cheatsheet.md \
+  Brewfile \
   .agents/skills \
   .agents/rules; do
   if [[ ! -e "$path" ]]; then

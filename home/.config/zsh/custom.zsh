@@ -32,8 +32,12 @@ source_if_readable() {
 
 source_if_readable /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source_if_readable /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source_if_readable "$HOME/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source_if_readable "/etc/profiles/per-user/$USER/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source_if_readable /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source_if_readable /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source_if_readable "$HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source_if_readable "/etc/profiles/per-user/$USER/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 unfunction source_if_readable
 
 # Yazi cd-on-exit wrapper

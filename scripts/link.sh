@@ -32,18 +32,18 @@ ensure_codex_config() {
     echo "configured: $config_file disable_paste_burst = true"
 }
 
-link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
-link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
-link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
+link_item "$DOTFILES_DIR/home/.config/zsh/.zshenv" "$HOME/.zshenv"
+link_item "$DOTFILES_DIR/home/.config/zsh/.zshrc" "$HOME/.zshrc"
+link_item "$DOTFILES_DIR/home/.config/zsh" "$HOME/.config/zsh"
 
-link_item "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
-link_item "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-link_item "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
-link_item "$DOTFILES_DIR/starship" "$HOME/.config/starship"
-link_item "$DOTFILES_DIR/yazi" "$HOME/.config/yazi"
+link_item "$DOTFILES_DIR/home/.gitconfig" "$HOME/.gitconfig"
+link_item "$DOTFILES_DIR/home/.config/nvim" "$HOME/.config/nvim"
+link_item "$DOTFILES_DIR/home/.config/starship" "$HOME/.config/starship"
+link_item "$DOTFILES_DIR/home/.config/yazi" "$HOME/.config/yazi"
+link_item "$DOTFILES_DIR/home/.config/herdr" "$HOME/.config/herdr"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    link_item "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
+    link_item "$DOTFILES_DIR/home/.config/wezterm" "$HOME/.config/wezterm"
 fi
 
 ensure_codex_config

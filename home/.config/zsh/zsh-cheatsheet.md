@@ -44,6 +44,7 @@
 | `v` / `vi` | Open Neovim |
 | `y` | Open Yazi |
 | `yy` | Open Yazi and cd to selected directory |
+| `h` | Open herdr |
 | `cx` | Open Codex CLI |
 | `fd` | Find files/directories, mapped to `fdfind` on WSL if needed |
 | `bat` | Pretty file viewer, mapped to `batcat` on WSL if needed |
@@ -66,12 +67,8 @@
 | `Esc Esc` | Clear current input line |
 
 
-## Dev sessions
+## Multiplexer
 
 | Command | Meaning |
 |---|---|
-| `dev` | Start/attach default tmux dev session |
-| `dev <name>` | Start/attach named tmux dev session |
-| `dev <name> <path>` | Start/attach session at specific path |
-| `devdot` | Start/attach dotfiles dev session with Neovim and Codex panes |
-| `devdot-reset` | Recreate dotfiles dev session with saved layout |
+| `h` | Start herdr |

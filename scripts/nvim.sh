@@ -17,7 +17,7 @@ fi
 
 if [ ! -e "$HOME/.config/nvim" ]; then
   mkdir -p "$HOME/.config"
-  ln -sfn "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+  ln -sfn "$DOTFILES_DIR/home/.config/nvim" "$HOME/.config/nvim"
 fi
 
 mkdir -p "$HOME/.cache/nvim" "$HOME/.local/state/nvim" "$HOME/.local/share/nvim"

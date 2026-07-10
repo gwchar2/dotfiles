@@ -43,12 +43,8 @@ alias gpl='git pull'
 alias v='nvim'
 alias vi='nvim'
 alias y='yazi'
+alias h='herdr'
 alias cx='codex'
-
-# Dev sessions
-alias dev='"$DOTFILES_DIR/scripts/dev.sh"'
-alias devdot='"$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
-alias devdot-reset='DEV_RESET=1 "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
 
 #CodeRabbit CLI
 alias crs='cr auth status'

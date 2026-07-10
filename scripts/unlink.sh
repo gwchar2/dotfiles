@@ -21,11 +21,11 @@ unlink_item "$HOME/.claude/CLAUDE.md"
 unlink_item "$HOME/.cursor/cursor.md"
 unlink_item "$HOME/.gemini/GEMINI.md"
 
-unlink_item "$HOME/.tmux.conf"
 unlink_item "$HOME/.gitconfig"
 unlink_item "$HOME/.config/nvim"
 unlink_item "$HOME/.config/starship"
 unlink_item "$HOME/.config/yazi"
+unlink_item "$HOME/.config/herdr"
 
 if [[ "$(uname -s)" == "Darwin" ]]; then
   unlink_item "$HOME/.config/wezterm"

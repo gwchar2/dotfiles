@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder and wezterm.config_builder() or {}
 
 -- Windows WezTerm opens directly into WSL Ubuntu in the WSL home directory.
--- macOS WezTerm opens into a persistent tmux session.
+-- macOS WezTerm opens Herdr when available, then falls back to zsh.
 if wezterm.target_triple:find("windows") then
   config.default_prog = {
     "wsl.exe",
@@ -19,14 +19,9 @@ elseif wezterm.target_triple:find("darwin") then
     "/bin/zsh",
     "-l",
     "-c",
-    "exec tmux new-session -A -s main",
+    "command -v herdr >/dev/null 2>&1 && exec herdr || exec zsh -l",
   }
 end
-
-wezterm.on("gui-startup", function(cmd)
-  local _, _, window = wezterm.mux.spawn_window(cmd or {})
-  window:gui_window():maximize()
-end)
 
 -- General behavior
 config.automatically_reload_config = true
@@ -43,6 +38,8 @@ config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_background_opacity = 0.97
 config.text_background_opacity = 1.0
 config.font_size = 10.0
+config.initial_cols = 140
+config.initial_rows = 42
 
 config.font = wezterm.font_with_fallback({
   "JetBrainsMono Nerd Font",

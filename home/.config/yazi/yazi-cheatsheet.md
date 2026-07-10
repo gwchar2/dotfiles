@@ -40,16 +40,13 @@
 | Action | Keys |
 |---|---|
 | Open selected file normally | `l` or `Enter` |
-| Open hovered file in Neovim in a new tmux window | `g n` |
-| Run hovered script in a new tmux window | `g r` |
 
 ## Workflow
 
 Yazi is installed as an on-demand file manager, not as part of the default
-`devdot` layout. Use `y` to open it directly, or `yy` to open it and change the
-shell directory to the selected directory on exit. For editing files in the main
-dev layout, prefer Neovim file navigation: `Space sf`, `Space gf`, `Space sg`,
-`Space e`, or `-`.
+herdr workflow. Use `y` to open it directly, or `yy` to open it and change the
+shell directory to the selected directory on exit. For editing files, prefer
+Neovim file navigation: `Space sf`, `Space gf`, `Space sg`, `Space e`, or `-`.
 
 ## Search / Jump
 
@@ -69,5 +66,5 @@ dev layout, prefer Neovim file navigation: `Space sf`, `Space gf`, `Space sg`,
 
 | Purpose | Path |
 |---|---|
-| Dotfiles config | `~/dotfiles/yazi/` |
+| Dotfiles config | `~/dotfiles/home/.config/yazi/` |
 | Real linked config | `~/.config/yazi` |

@@ -10,8 +10,8 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 brew update
-brew bundle --file "$DOTFILES_DIR/homebrew/Brewfile"
-brew upgrade neovim tmux node || true
+brew bundle --file "$DOTFILES_DIR/Brewfile"
+brew upgrade neovim herdr node || true
 
 if command -v rustup >/dev/null 2>&1; then
   rustup component add rustfmt clippy >/dev/null 2>&1 || true

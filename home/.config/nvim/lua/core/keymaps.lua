@@ -16,8 +16,9 @@ vim.keymap.set({ 'n', 'x', 'o' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = tru
 vim.keymap.set({ 'n', 'x', 'o' }, 'k', 'h', opts)
 vim.keymap.set({ 'n', 'x', 'o' }, 'l', 'l', opts)
 
--- clear highlights
-vim.keymap.set('n', '<Esc>', ':noh<CR>', opts)
+-- clear highlights and save modified buffers
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR><cmd>silent! update<CR>', opts)
+vim.keymap.set('i', '<Esc>', '<Esc><cmd>silent! update<CR>', opts)
 
 -- save file
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts)

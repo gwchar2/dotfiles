@@ -34,9 +34,9 @@ Mason-managed tools:
 
 ## Real Editing Workflow
 
-Use Neovim as the primary file navigation and editing surface in `devdot`.
+Use Neovim as the primary file navigation and editing surface inside herdr.
 Yazi is available on demand with `y` or `yy`, but it is not the default way to
-open files in the main editor pane.
+open files while editing.
 
 | Goal | Keys |
 |---|---|
@@ -222,5 +222,5 @@ persistent file tree, and Yazi for standalone filesystem operations.
 
 | Purpose | Path |
 |---|---|
-| Dotfiles config | `~/dotfiles/nvim/` |
+| Dotfiles config | `~/dotfiles/home/.config/nvim/` |
 | Real linked config | `~/.config/nvim` |

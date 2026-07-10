@@ -1,423 +1,324 @@
 # Dotfiles
 
-Personal terminal/dev setup for WSL Ubuntu and macOS.
+Small, reproducible terminal/dev setup for macOS first and NixOS second.
 
-## WSL / Windows Flow
+The default workflow is:
 
-Windows WezTerm -> WSL Ubuntu -> zsh -> tmux / Neovim / Yazi / Codex
+```text
+WezTerm -> herdr -> zsh -> Neovim / Yazi / agent CLIs
+```
 
-## macOS Flow
+The repo is intentionally split into two kinds of files:
 
-macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
+- root-level Nix files declare the machine and package setup
+- `home/` mirrors files that should appear in your home directory
 
-## Main tools
+## Layout
+
+```text
+.
+├── flake.nix           # Nix entrypoint
+├── configuration.nix   # macOS system settings through nix-darwin
+├── homebrew.nix        # macOS Homebrew brews/casks through nix-homebrew
+├── home.nix            # shared user packages and home-manager file links
+├── nixos.nix           # optional NixOS system module
+├── rebuild.sh          # apply the current machine config
+├── bootstrap.sh        # fresh-machine entrypoint
+├── Brewfile            # legacy non-Nix Homebrew fallback
+├── home/
+│   ├── AGENTS.md
+│   ├── .gitconfig
+│   ├── .claude/settings.json
+│   └── .config/
+│       ├── nvim/
+│       ├── wezterm/
+│       ├── herdr/
+│       ├── zsh/
+│       ├── starship/
+│       └── yazi/
+├── .agents/
+│   ├── skills/
+│   └── rules/
+├── legacy/tmux/
+└── scripts/
+```
+
+## What Owns What
+
+`configuration.nix` owns macOS settings:
+
+- dark mode
+- fast key repeat
+- menu bar autohide
+- Dock autohide
+- Finder list view
+- show file extensions
+- hide desktop icons
+- tap-to-click
+
+`homebrew.nix` owns macOS Homebrew packages and casks:
 
 - WezTerm
-- zsh
-- tmux
-- Neovim
-- Starship
-- Yazi
-- jq
-- lazygit
-- Codex CLI
+- herdr
 - Claude Code
-- GitHub Copilot CLI
-- Gemini CLI
-- Cursor Agent
-- CodeRabbit CLI
-- GitHub CLI
-- Treehouse
-- Quota-AXI
-- No-Mistakes
-- Firstmate checkout
-- zsh autosuggestions and syntax highlighting
-- C/C++ tools: clang, clangd, clang-format, clang-tidy, cmake, ninja, gdb, lldb
-- Rust tools: rust/rustup, rust-analyzer, rustfmt, clippy
-- C#/.NET tools: .NET SDK, OmniSharp, csharpier, netcoredbg
-- Debug/dev tools: valgrind, strace, ltrace, binutils, nasm, bear, cppcheck, lcov, gcovr
-- Python tools: pytest, ruff, black, mypy
+- fonts
+- CLI tools that are better installed through Homebrew on macOS
 
-## Neovim baseline
+`home.nix` owns user-level packages and links:
 
-Neovim is linked from `~/dotfiles/nvim` to `~/.config/nvim` and bootstrapped
-by `scripts/nvim.sh` during `./scripts/install.sh`.
+- `~/.config/nvim` -> `~/dotfiles/home/.config/nvim`
+- `~/.config/wezterm` -> `~/dotfiles/home/.config/wezterm`
+- `~/.config/herdr` -> `~/dotfiles/home/.config/herdr`
+- `~/.config/zsh` -> `~/dotfiles/home/.config/zsh`
+- `~/.config/starship` -> `~/dotfiles/home/.config/starship`
+- `~/.config/yazi` -> `~/dotfiles/home/.config/yazi`
+- `~/.gitconfig` -> `~/dotfiles/home/.gitconfig`
+- `~/AGENTS.md` -> `~/dotfiles/home/AGENTS.md`
 
-Plugin management:
+It also links the same global agent instructions into tool-specific locations:
 
-- `lazy.nvim`: plugin manager
-- `mason.nvim`, `mason-lspconfig.nvim`, `mason-tool-installer.nvim`: editor-side tool installation
-- `nvim-lspconfig`: LSP setup
-- `blink.cmp`: completion
-- `nvim-treesitter`: syntax parsing and text objects
-- `telescope.nvim`: fuzzy finding
-- `neo-tree.nvim` and `oil.nvim`: file navigation
-- `gitsigns.nvim`, `vim-fugitive`, `lazygit.nvim`: Git workflow
-- `lualine.nvim`, `which-key.nvim`: status line and key discovery
-- `conform.nvim`: formatting
-- `nvim-lint`: linting
-- `nvim-dap`, `nvim-dap-ui`: debugging
-- `overseer.nvim`: build/test/task runner
-- `auto-session`: workspace session persistence
-- `copilot.lua`: inline GitHub Copilot suggestions
+- `~/.codex/AGENTS.md`
+- `~/.claude/CLAUDE.md`
+- `~/.cursor/cursor.md`
+- `~/.gemini/GEMINI.md`
 
-Neovim-managed language tools installed by Mason:
+Global skills and rules stay under `.agents/` and are linked by home-manager:
 
-- C/C++: `clangd`, `clang-format`, `codelldb`
-- Rust: `rust-analyzer`, `codelldb`
-- C#/.NET: `omnisharp`, `csharpier`, `netcoredbg`
-- Python: `python-lsp-server`, `ruff`, `debugpy`
-- Lua: `lua-language-server`, `stylua`
-- Shell: `bash-language-server`, `shellcheck`, `shfmt`
-- Web/config/devops: `prettier`, `eslint_d`, `html-lsp`, `yaml-language-server`,
-  `terraform-ls`, `dockerfile-language-server`, `docker-compose-language-service`,
-  `sqlls`, `checkmake`
+- `~/.agents/skills`
+- `~/.codex/skills`
+- `~/.claude/skills`
+- `~/.agents/rules`
+- `~/.codex/rules`
 
-Automatic Neovim bootstrap:
-
-    ./scripts/nvim.sh
-
-This runs `Lazy! sync` and `MasonToolsInstallSync` headlessly, so plugins and
-Mason-managed LSPs, formatters, linters, and debug adapters are installed before
-the first interactive Neovim launch.
-
-## Setup docs
-
-- WSL: docs/wsl.md
-- macOS: docs/macos.md
-- Dev tools: docs/dev-tools.md
-
-## Templates
-
-- C++ project template: templates/cpp
-- Python project template: templates/python
-
-Copy a template into the current directory:
-
-    ~/dotfiles/scripts/copy_template.sh python
-
-## Automatic install on a new machine
+## Fresh macOS
 
 Clone the repo:
 
-    git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
-    cd ~/dotfiles
-
-Run the bootstrap entrypoint:
-
-    ./bootstrap.sh
-
-This automatically runs the correct setup for the current machine:
-
-- WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
-- macOS: scripts/macos.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
-
-On Windows, WezTerm runs outside WSL. The Windows helper installs Claude Code
-for Windows if needed, ensures WSL has sandbox/clipboard prerequisites, and
-writes a WezTerm shim that loads the real config from this repo. From WSL, run:
-
-    powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
-
-## Install
-
-    ./bootstrap.sh
-
-Equivalent direct installer:
-
-    ./scripts/install.sh
-
-## Link configs only
-
-    ./scripts/link.sh
-
-Linked and installed config paths:
-
-- `~/dotfiles/zsh/.zshenv` -> `~/.zshenv`
-- `~/dotfiles/zsh/.zshrc` -> `~/.zshrc`
-- `~/dotfiles/zsh` -> `~/.config/zsh`
-- `~/dotfiles/tmux/tmux.conf` -> `~/.tmux.conf`
-- `~/dotfiles/git/.gitconfig` -> `~/.gitconfig`
-- `~/dotfiles/nvim` -> `~/.config/nvim`
-- `~/dotfiles/starship` -> `~/.config/starship`
-- `~/dotfiles/yazi` -> `~/.config/yazi`
-- macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
-- `~/.codex/config.toml` is created or updated with `disable_paste_burst = true`
-- `scripts/ai.sh` can deploy `~/dotfiles/.agents/AGENTS.md` to `~/AGENTS.md`
-- For selected AI tools, `~/AGENTS.md` can be copied or symlinked to
-  tool-specific instruction paths:
-  `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
-  `~/.gemini/GEMINI.md`
-- The dotfiles repo is the single source of truth for global agent skills and
-  rules. `scripts/ai.sh` can install that source into the global skills/rules
-  paths and into selected tool-specific paths when a tool requires its own
-  location.
-- Skill install targets currently managed by `scripts/ai.sh`:
-  `~/.agents/skills`, `~/.codex/skills`, and `~/.claude/skills`.
-- Rule install targets currently managed by `scripts/ai.sh`:
-  `~/.agents/rules` and `~/.codex/rules`.
-- `scripts/ai.sh` can install optional agent workflow tools from Kun Chen's
-  repositories:
-  - `treehouse`: installed from `https://kunchenguid.github.io/treehouse/install.sh`
-  - `quota-axi`: installed globally with `npm install -g quota-axi`
-  - `no-mistakes`: installed from `https://raw.githubusercontent.com/kunchenguid/no-mistakes/main/docs/install.sh`
-  - `firstmate`: cloned or updated at `~/.local/share/firstmate` by default
-    (`FIRSTMATE_DIR` overrides this path)
-- AXI itself is a skill/design standard, not a standalone `axi` binary.
-
-Current global skills:
-
-- `mutual-understanding`: clarify requirements, design, architecture fit, tests,
-  and risks before planning or implementation.
-- `axi`: upstream AXI skill for building agent-facing CLIs with token-efficient
-  output.
-- `agent-facing-cli-design`: design AXI-style CLIs with compact structured
-  output, self-correcting errors, truncation, and useful defaults for agents.
-- `project-orientation`: inspect local instructions, architecture docs, test
-  commands, and repo structure before making assumptions.
-- `context-budgeting`: manage token use during large tasks, long docs, broad
-  searches, and multi-phase work.
-- `focused-file-reading`: inspect only the files and ranges needed for the next
-  decision.
-- `systems-cpp-design`: C++ ownership, lifetime, error handling, threading, and
-  debuggability guidance for systems work.
-- `clean-architecture-boundaries`: keep CLI, domain, hardware/OS adapters, and
-  infrastructure concerns separated according to the project's architecture.
-- `serviceability-tool-design`: design diagnostics and customer/operator support
-  tooling around actionable evidence.
-- `failure-oriented-design`: handle missing hardware, timeouts, permissions,
-  malformed data, partial responses, and inconsistent state.
-- `terminal-cli-contracts`: preserve flags, stdout/stderr behavior, exit codes,
-  help text, and machine-readable schemas.
-- `pytest-for-cpp-systems`: pytest strategy for C++ binaries, integration flows,
-  fake/simulated hardware, subprocess checks, and marked hardware tests.
-- `worktree-pool-workflow`: use Treehouse-style reusable isolated worktrees for
-  parallel agents, expensive builds, and safe experiments.
-- `crew-orchestration`: coordinate Firstmate-style scout and ship tasks through
-  one supervising agent.
-- `quota-aware-agent-routing`: use quota/reset state to choose when and where
-  agent work should run.
-- `no-mistakes`: upstream No-Mistakes skill for driving the real
-  `no-mistakes axi` validation pipeline.
-- `validation-gate-workflow`: prefer No-Mistakes when available, or apply a
-  fallback review, test, lint, docs, and CI gate before push, PR, or handoff.
-- `code-review-for-systems-cpp`: review checklist for systems C++, CLI
-  compatibility, serviceability, architecture, and tests.
-- `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
-  push discipline.
-- `architecture-decision-records`: when and how to document meaningful
-  architecture decisions.
-- `skill-creator`: create, modify, evaluate, and improve agent skills.
-- `session-handoff-summary`: save compact continuation state for long tasks,
-  context compaction, or agent handoff.
-- `stow`: upstream Firstmate public skill for saving durable session knowledge
-  into local project conventions or `.stow-notes.md`.
+```sh
+git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+```
 
-## Repository Maintenance
+Run:
 
-- Read relevant scripts and configs before changing them.
-- Keep WSL Ubuntu and macOS behavior intact. Treat Windows support as the WezTerm
-  shim plus WSL prerequisites unless the change explicitly says otherwise.
-- Prefer existing repo patterns over new framework choices.
-- Run `./scripts/check.sh` after script, shell, README, AI preset, or
-  install-flow changes.
-- For Neovim bootstrap or plugin changes, run `./scripts/nvim.sh` when network
-  and time allow.
-- Report checks that were run and any checks that were skipped.
+```sh
+./bootstrap.sh
+```
 
-## Agent Workflow Tools
+On macOS, `bootstrap.sh` installs Determinate Nix if needed, then runs:
 
-Treehouse:
+```sh
+darwin-rebuild switch --flake ~/dotfiles#mac
+```
 
-    treehouse
-    path=$(treehouse get --lease)
-    treehouse status
-    treehouse return "$path"
-    treehouse prune
+After the first setup, apply changes with:
 
-Use `treehouse` from inside a git repo to enter a reusable isolated worktree.
-Use `treehouse get --lease` when an agent or script needs a durable worktree
-path instead of a subshell. `treehouse prune` is a dry run unless `--yes` is
-provided.
+```sh
+./rebuild.sh
+```
 
-Quota-AXI:
+## NixOS
 
-    quota-axi
-    quota-axi --provider claude,codex
-    quota-axi --json
-    quota-axi auth
+For a user-level setup on NixOS:
 
-Use `quota-axi` before launching long or parallel agent work. It reports local
-provider quota windows; it does not route work or mutate provider state.
+```sh
+home-manager switch --flake ~/dotfiles#gwchar2@nixos
+```
 
-No-Mistakes:
+For full system integration, import `nixos.nix` from your NixOS system
+configuration and use your normal `nixos-rebuild switch` command.
 
-    no-mistakes init
-    git push no-mistakes
-    no-mistakes
+This repo does not include hardware configuration. Keep generated hardware files
+with the specific NixOS machine.
 
-Initialize `no-mistakes` once per work repository. It creates a local git proxy
-remote named `no-mistakes`. Push a committed feature branch to that remote to
-run the gate in a disposable worktree:
+## Legacy WSL / Non-Nix
 
-    intent -> rebase -> review -> test -> document -> lint -> push -> PR -> CI
+The old script path still exists for WSL and fallback installs:
 
-The gate forwards the branch and opens a PR only after checks pass. Product,
-architecture, behavior, and compatibility findings still belong to the human.
+```sh
+./scripts/install.sh
+```
 
-Recommended Treehouse + No-Mistakes workflow:
+This path links the same `home/` files, but it is no longer the primary macOS
+architecture.
 
-1. Clone the work repository normally.
-2. Initialize No-Mistakes once in that repository:
+Windows WezTerm still uses `scripts/windows.ps1`, which writes a Windows shim
+that loads:
 
-       no-mistakes init
+```text
+~/dotfiles/home/.config/wezterm/wezterm.lua
+```
 
-3. Use Treehouse for isolated task work:
+## Daily Editing
 
-       path=$(treehouse get --lease)
-       cd "$path"
+Most day-to-day changes are just file edits:
 
-4. Plan, implement, test, and commit one coherent task on a feature branch.
-5. Run the validation gate when the branch is ready:
+| Change | Edit |
+|---|---|
+| Neovim options/keybindings/plugins | `home/.config/nvim/` |
+| WezTerm font/window/keybindings/startup | `home/.config/wezterm/wezterm.lua` |
+| herdr behavior | `home/.config/herdr/config.toml` |
+| zsh aliases and shell behavior | `home/.config/zsh/` |
+| Starship prompt | `home/.config/starship/starship.toml` |
+| Yazi file manager | `home/.config/yazi/` |
+| Git config | `home/.gitconfig` |
+| Global agent behavior | `home/AGENTS.md` |
+| Global skills/rules | `.agents/skills/`, `.agents/rules/` |
+| macOS system settings | `configuration.nix` |
+| macOS packages/casks | `homebrew.nix` |
+| shared user packages/links | `home.nix` |
+| NixOS system defaults | `nixos.nix` |
 
-       git push no-mistakes
+For app config edits, restart or reload the app. For Nix, package, link, or
+macOS defaults changes, run:
 
-   or let an agent drive it with:
+```sh
+./rebuild.sh
+```
 
-       /no-mistakes
+## Neovim
 
-6. Respond to No-Mistakes gates. Mechanical fixes may be accepted; `ask-user`
-   findings should come back to you unless you explicitly requested unattended
-   `--yes` behavior.
-7. Review the opened PR and merge it yourself.
+Neovim config lives at:
 
-Firstmate:
+```text
+home/.config/nvim
+```
 
-    cd ~/.local/share/firstmate
-    claude
+The current setup keeps the existing plugin stack:
 
-Firstmate is an orchestrator repo, not a normal binary. Open an agent inside the
-checkout and let its `AGENTS.md` guide the session. Use it for larger work where
-one supervising agent should spawn scout or ship tasks in isolated worktrees.
+- Lazy.nvim
+- Mason and LSP setup
+- Treesitter
+- Telescope
+- Oil
+- Neo-tree
+- Gitsigns and Lazygit
+- Which-key
+- Conform and nvim-lint
+- DAP tooling
+- Copilot integration
 
-## Make It Yours
+Key behavior preserved or added:
 
-This is a personal setup. Before running it on a new machine, review:
+- `Space` is leader.
+- `Space sf` searches files.
+- `Space sg` live-greps.
+- `-` opens Oil.
+- visual paste keeps the previous yank.
+- `Esc` saves modified buffers with `:update`.
 
-- `.agents/AGENTS.md`: global AI assistant instructions that can be deployed to
-  `~/AGENTS.md`.
-- `.agents/skills`: repo source of truth for global skills installed by
-  `scripts/ai.sh`.
-- `.agents/rules`: repo source of truth for compact global rules installed by
-  `scripts/ai.sh`.
-- `git/.gitconfig`: Git defaults and identity.
-- `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
-- `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that
-  will be installed.
-- `scripts/ai.sh`: optional AI CLI installers and instruction-file symlinks.
+Plugin bootstrap:
 
-## Repo Layout
+```sh
+./scripts/nvim.sh
+```
 
-- `bootstrap.sh`: top-level fresh-machine entrypoint.
-- `scripts/`: OS install, config linking, AI setup, Neovim bootstrap, checks, and
-  tmux dev-layout helpers.
-- `.agents/`: source of truth for the global AI preset: instructions, skills,
-  and optional rules.
-- `zsh/`, `tmux/`, `nvim/`, `wezterm/`, `starship/`, `yazi/`: tool configs.
-- `homebrew/`: macOS package list.
-- `docs/`: platform and tool setup notes.
-- `templates/`: project templates.
-- `codex/`: Codex-specific notes and cheatsheets.
+## WezTerm
 
-## Check
+Config lives at:
 
-Run repository checks after changing scripts, install flow, or docs:
+```text
+home/.config/wezterm/wezterm.lua
+```
 
-    ./scripts/check.sh
+macOS startup opens herdr when installed and falls back to zsh:
 
-## Unlink configs
+```text
+command -v herdr >/dev/null 2>&1 && exec herdr || exec zsh -l
+```
 
-    ./scripts/unlink.sh
+The window no longer auto-maximizes. Initial size is controlled in
+`wezterm.lua`:
 
-## Dev layout
+```lua
+config.initial_cols = 140
+config.initial_rows = 42
+```
 
-The repo includes a tmux launcher for the main development layout:
+Useful bindings:
 
-    devdot
+- `Ctrl-Shift-C`: copy
+- `Ctrl-Shift-V`: paste
+- `Shift-Enter`: send shifted Enter to TUIs
+- `Alt-Enter`: fullscreen
+- `Cmd-Enter`: fullscreen on macOS
 
-This starts or attaches a tmux session named `dotfiles` at `~/dotfiles`.
-If an old session is already open, recreate the saved layout with:
+## herdr
 
-    devdot-reset
+Config lives at:
 
-Default layout:
+```text
+home/.config/herdr/config.toml
+```
 
-    left:  Neovim
-    right: Codex
+This is the default multiplexer target. tmux is archived under `legacy/tmux/`
+only as a reference for old keybindings.
 
-Default sizes:
+## Starship And Yazi
 
-    Codex:  91 columns
-    Neovim: remaining left space
+Both are still kept because they are useful and already configured:
 
-For any project:
+- Starship config: `home/.config/starship/starship.toml`
+- Yazi config: `home/.config/yazi/`
 
-    dev <session-name> <project-path>
+If either stops being part of the daily workflow, remove it from `home.nix`,
+`homebrew.nix`, and `home/.config/`.
 
-Example:
+## Adding Things
 
-    dev shell ~/Codes/VSCode/Shell/codecrafters-shell-cpp
+Add a macOS GUI app or Homebrew tool:
 
-Override pane sizes:
+1. Edit `homebrew.nix`.
+2. Optionally edit `Brewfile` if the legacy fallback should install it.
+3. Run `./rebuild.sh`.
 
-    DEV_CODEX_WIDTH=91 devdot
+Add a shared Nix user package:
 
-Yazi is still installed and configured, but it is no longer part of the default
-dev layout. Use `y` to open Yazi, `yy` to open Yazi and cd to the selected
-directory on exit, or use Neovim's `Space sf`, `Space gf`, `Space sg`,
-`Space e`, and `-` for editing-focused file navigation.
+1. Edit `home.nix`.
+2. Run `./rebuild.sh`.
 
-Detach from tmux:
+Add a macOS setting:
 
-    Ctrl-b d
+1. Edit `configuration.nix`.
+2. Run `./rebuild.sh`.
 
-Move between panes:
+Add a NixOS system setting:
 
-    Alt + arrow
+1. Edit `nixos.nix`.
+2. Rebuild the NixOS host that imports it.
 
-Move between tmux windows:
+Add a Neovim keybinding:
 
-    Ctrl-Alt + arrow
+1. Edit `home/.config/nvim/lua/core/keymaps.lua`.
+2. Restart Neovim or source the file.
 
-## Clipboard and AI TUI keys
+Add a Neovim plugin:
 
-These bindings are split by terminal layer:
+1. Add a plugin spec under `home/.config/nvim/lua/plugins/`.
+2. Add it to `home/.config/nvim/init.lua` if needed.
+3. Run `./scripts/nvim.sh` or `:Lazy sync`.
 
-| Action | Keys | Owner |
-|---|---|---|
-| Copy selected terminal text | `Ctrl-Shift-C` | WezTerm |
-| Paste system clipboard text | `Ctrl-Shift-V` or right-click | WezTerm |
-| Enter tmux copy mode | `Ctrl-b` then `[` | tmux |
-| Copy tmux scrollback selection | `v`, then `c` in copy mode | tmux |
-| Select tmux scrollback with mouse | left-click drag, then `c` to copy | tmux |
-| Single left-click in a tmux pane | select pane only; not forwarded into the active TUI | tmux |
-| Paste tmux internal buffer | `Ctrl-b` then `P` or `Ctrl-b` then `]` | tmux |
-| Insert newline in Codex without sending | `Shift-Enter` | tmux sends `Ctrl-j` to the active pane |
-| Clear current shell input line | `Ctrl-U` or `Esc Esc` | zsh |
-| Clear current Codex input line | `Ctrl-U` | Codex |
-| Copy latest completed Codex output | `Ctrl-O` or `/copy` | Codex |
-| Exit Codex | `Ctrl-C` or `/exit` | Codex |
+Add an agent rule:
 
-Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`.
+1. Edit `home/AGENTS.md` for global behavior.
+2. Add or edit skill files under `.agents/skills/`.
+3. Add compact rules under `.agents/rules/`.
+4. Run `./rebuild.sh`.
 
-AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
+## Validation
 
-## Cheat sheets
+Run:
 
-- wezterm/wezterm-cheatsheet.md
-- tmux/tmux-cheatsheet.md
-- codex/codex-cheatsheet.md
-- nvim/nvim-cheatsheet.md
-- starship/starship-cheatsheet.md
-- yazi/yazi-cheatsheet.md
-- zsh/zsh-cheatsheet.md
-- docs/dev-tools.md
+```sh
+./scripts/check.sh
+```
+
+For Neovim:
+
+```sh
+nvim --headless +qa
+./scripts/nvim.sh
+```
+
+Nix is not required for the shell checks, but full macOS/NixOS validation needs
+Nix installed.

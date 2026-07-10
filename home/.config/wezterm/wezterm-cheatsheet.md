@@ -12,17 +12,17 @@ It is only documentation.
 
 On Windows:
 
-Windows WezTerm -> WSL Ubuntu -> tmux / Neovim / Yazi / Codex
+Windows WezTerm -> WSL Ubuntu -> zsh -> Neovim / Yazi / agent CLIs
 
 On macOS:
 
-macOS WezTerm -> macOS shell -> tmux / Neovim / Yazi / Codex
+macOS WezTerm -> herdr -> zsh -> Neovim / Yazi / agent CLIs
 
 ## Actual Config File
 
 The real WezTerm config is:
 
-~/dotfiles/wezterm/wezterm.lua
+~/dotfiles/home/.config/wezterm/wezterm.lua
 
 On Windows, WezTerm reads it through:
 
@@ -44,7 +44,7 @@ C:\Users\hwath\.wezterm.lua
 | Platform | Behavior |
 |---|---|
 | Windows | WezTerm opens WSL Ubuntu |
-| macOS | WezTerm opens or attaches to tmux session `main` |
+| macOS | WezTerm opens herdr when available, otherwise zsh |
 
 ## Appearance
 

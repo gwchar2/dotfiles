@@ -378,7 +378,7 @@ install_agent_workflow_tools() {
 
 deploy_ai_configs() {
   local -a selected_tools=("$@")
-  local agents_source="$DOTFILES_DIR/.agents/AGENTS.md"
+  local agents_source="$DOTFILES_DIR/home/AGENTS.md"
   local agents_target="$HOME/AGENTS.md"
   local codex_target="$HOME/.codex/AGENTS.md"
   local claude_target="$HOME/.claude/CLAUDE.md"

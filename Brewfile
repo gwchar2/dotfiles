@@ -7,7 +7,7 @@ brew "zsh"
 
 # Terminal / shell
 brew "starship"
-brew "tmux"
+brew "herdr"
 brew "lazygit"
 brew "fzf"
 brew "zoxide"

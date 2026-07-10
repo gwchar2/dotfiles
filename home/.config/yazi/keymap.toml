@@ -1,0 +1,19 @@
+[[mgr.prepend_keymap]]
+on = [ "h" ]
+run = "arrow -1"
+desc = "Move up"
+
+[[mgr.prepend_keymap]]
+on = [ "j" ]
+run = "arrow 1"
+desc = "Move down"
+
+[[mgr.prepend_keymap]]
+on = [ "k" ]
+run = "leave"
+desc = "Go to parent directory"
+
+[[mgr.prepend_keymap]]
+on = [ "l" ]
+run = "enter"
+desc = "Enter directory or open file"
