@@ -106,11 +106,16 @@ Run:
 ./bootstrap.sh
 ```
 
-On macOS, `bootstrap.sh` installs Determinate Nix if needed, then runs:
+On macOS, `bootstrap.sh` installs Determinate Nix if needed, then applies the
+flake. If `darwin-rebuild` is not installed yet, `rebuild.sh` bootstraps it via
+`nix run`.
 
 ```sh
 darwin-rebuild switch --flake ~/dotfiles#mac
 ```
+
+Homebrew is not installed manually. `homebrew.nix` enables `nix-homebrew`, and
+the Darwin rebuild installs Homebrew plus the declared brews and casks.
 
 After the first setup, apply changes with:
 

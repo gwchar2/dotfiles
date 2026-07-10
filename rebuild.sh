@@ -6,7 +6,11 @@ OS="$(uname -s)"
 
 case "$OS" in
   Darwin)
-    exec darwin-rebuild switch --flake "$DIR#mac"
+    if command -v darwin-rebuild >/dev/null 2>&1; then
+      exec darwin-rebuild switch --flake "$DIR#mac"
+    fi
+
+    exec nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake "$DIR#mac"
     ;;
 
   Linux)
