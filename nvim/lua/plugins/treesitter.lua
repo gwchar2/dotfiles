@@ -2,6 +2,9 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   branch = 'master', -- keep legacy nvim-treesitter.configs API
+  cond = function()
+    return vim.fn.has 'nvim-0.12' == 0
+  end,
   build = ':TSUpdate',
   dependencies = {
     'nvim-treesitter/nvim-treesitter-textobjects',

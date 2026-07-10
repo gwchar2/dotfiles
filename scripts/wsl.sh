@@ -75,11 +75,18 @@ install_current_node() {
   rm -rf "$tmp_dir"
 }
 
-install_latest_neovim() {
+install_supported_neovim() {
+  local version="${NVIM_VERSION:-v0.11.4}"
   local install_root="$HOME/.local/opt"
-  local install_dir="$install_root/nvim-linux-x86_64"
+  local install_dir="$install_root/nvim-linux-x86_64-$version"
+  local legacy_install_dir="$install_root/nvim-linux-x86_64"
   local bin_dir="$HOME/.local/bin"
   local tmp_dir
+
+  if command -v nvim >/dev/null 2>&1 && nvim --version | head -n 1 | grep -q 'NVIM v0\.11\.'; then
+    nvim --version | head -n 1
+    return
+  fi
 
   tmp_dir="$(mktemp -d)"
   trap 'rm -rf "$tmp_dir"' RETURN
@@ -88,17 +95,18 @@ install_latest_neovim() {
 
   curl -fL \
     -o "$tmp_dir/nvim-linux-x86_64.tar.gz" \
-    https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    "https://github.com/neovim/neovim/releases/download/$version/nvim-linux-x86_64.tar.gz"
 
-  rm -rf "$install_dir"
+  rm -rf "$install_dir" "$legacy_install_dir"
   tar -xzf "$tmp_dir/nvim-linux-x86_64.tar.gz" -C "$install_root"
+  mv "$legacy_install_dir" "$install_dir"
   ln -sfn "$install_dir/bin/nvim" "$bin_dir/nvim"
 
   "$bin_dir/nvim" --version | head -n 1
 }
 
 install_current_node
-install_latest_neovim
+install_supported_neovim
 
 if ! command -v rustup >/dev/null 2>&1; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
