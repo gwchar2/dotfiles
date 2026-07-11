@@ -60,7 +60,9 @@ If tools are already installed:
 - Windows WezTerm loads `%USERPROFILE%\.wezterm.lua`.
 - `scripts/windows.ps1` makes that file load `~/dotfiles/wezterm/wezterm.lua`.
 - Neovim is installed from the latest official GitHub release into `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
-- `jq`, `lazygit`, zsh autosuggestions, and zsh syntax highlighting are installed through apt.
+- `jq`, zsh autosuggestions, and zsh syntax highlighting are installed through apt.
+- `lazygit` is installed from the latest GitHub release because it is not
+  available in every supported Ubuntu apt repository.
 - Neovim and tmux keybindings are installed in WSL by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
 - The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
 - WezTerm keybindings, including `Ctrl-Shift-C` copy and `Ctrl-Shift-V` paste, are installed on Windows through the generated `%USERPROFILE%\.wezterm.lua` shim.

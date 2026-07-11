@@ -23,7 +23,6 @@ sudo apt install -y \
   zsh-autosuggestions \
   zsh-syntax-highlighting \
   tmux \
-  lazygit \
   python3 \
   python3-pip \
   nodejs \
@@ -48,6 +47,54 @@ sudo apt install -y \
   lcov \
   gcovr \
   pipx
+
+install_lazygit() {
+  if command -v lazygit >/dev/null 2>&1; then
+    return
+  fi
+
+  local arch
+  local asset_url
+  local tmp_dir
+
+  case "$(uname -m)" in
+    x86_64 | amd64)
+      arch="x86_64"
+      ;;
+    aarch64 | arm64)
+      arch="arm64"
+      ;;
+    *)
+      echo "unsupported architecture for lazygit install: $(uname -m)" >&2
+      exit 1
+      ;;
+  esac
+
+  tmp_dir="$(mktemp -d)"
+  trap 'rm -rf "$tmp_dir"' RETURN
+
+  asset_url="$(
+    curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest |
+      jq -r --arg arch "$arch" '
+        .assets[]
+        | select(.name | test("Linux_" + $arch + "\\.tar\\.gz$"))
+        | .browser_download_url
+      ' |
+      head -n 1
+  )"
+
+  if [ -z "$asset_url" ] || [ "$asset_url" = "null" ]; then
+    echo "failed to find lazygit Linux $arch release asset" >&2
+    exit 1
+  fi
+
+  mkdir -p "$HOME/.local/bin"
+  curl -fL -o "$tmp_dir/lazygit.tar.gz" "$asset_url"
+  tar -xzf "$tmp_dir/lazygit.tar.gz" -C "$tmp_dir" lazygit
+  install -m 0755 "$tmp_dir/lazygit" "$HOME/.local/bin/lazygit"
+
+  "$HOME/.local/bin/lazygit" --version
+}
 
 install_current_node() {
   if command -v node >/dev/null 2>&1 && node -e "process.exit(Number(process.versions.node.split('.')[0]) >= 22 ? 0 : 1)"; then
@@ -97,6 +144,7 @@ install_latest_neovim() {
   "$bin_dir/nvim" --version | head -n 1
 }
 
+install_lazygit
 install_current_node
 install_latest_neovim
 
