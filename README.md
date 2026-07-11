@@ -143,9 +143,37 @@ Linked and installed config paths:
   tool-specific instruction paths:
   `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
   `~/.gemini/GEMINI.md`
-- `scripts/ai.sh` can copy `~/dotfiles/.agents/skills` to `~/.agents/skills`
-- If `~/dotfiles/.agents/rules` exists, `scripts/ai.sh` can copy Codex rules to
-  `~/.codex/rules`
+- The dotfiles repo is the single source of truth for global agent skills and
+  rules. `scripts/ai.sh` can install that source into the global skills/rules
+  paths and into selected tool-specific paths when a tool requires its own
+  location.
+- Skill install targets currently managed by `scripts/ai.sh`:
+  `~/.agents/skills`, `~/.codex/skills`, and `~/.claude/skills`.
+- Rule install targets currently managed by `scripts/ai.sh`:
+  `~/.agents/rules` and `~/.codex/rules`.
+
+Current global skills:
+
+- `project-orientation`: inspect local instructions, architecture docs, test
+  commands, and repo structure before making assumptions.
+- `systems-cpp-design`: C++ ownership, lifetime, error handling, threading, and
+  debuggability guidance for systems work.
+- `clean-architecture-boundaries`: keep CLI, domain, hardware/OS adapters, and
+  infrastructure concerns separated according to the project's architecture.
+- `serviceability-tool-design`: design diagnostics and customer/operator support
+  tooling around actionable evidence.
+- `failure-oriented-design`: handle missing hardware, timeouts, permissions,
+  malformed data, partial responses, and inconsistent state.
+- `terminal-cli-contracts`: preserve flags, stdout/stderr behavior, exit codes,
+  help text, and machine-readable schemas.
+- `pytest-for-cpp-systems`: pytest strategy for C++ binaries, integration flows,
+  fake/simulated hardware, subprocess checks, and marked hardware tests.
+- `code-review-for-systems-cpp`: review checklist for systems C++, CLI
+  compatibility, serviceability, architecture, and tests.
+- `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
+  push discipline.
+- `architecture-decision-records`: when and how to document meaningful
+  architecture decisions.
 
 ## Make It Yours
 
@@ -153,6 +181,10 @@ This is a personal setup. Before running it on a new machine, review:
 
 - `.agents/AGENTS.md`: global AI assistant instructions that can be deployed to
   `~/AGENTS.md`.
+- `.agents/skills`: repo source of truth for global skills installed by
+  `scripts/ai.sh`.
+- `.agents/rules`: repo source of truth for compact global rules installed by
+  `scripts/ai.sh`.
 - `git/.gitconfig`: Git defaults and identity.
 - `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
 - `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that
@@ -199,7 +231,7 @@ Default layout:
 
 Default sizes:
 
-    Codex:  65 columns
+    Codex:  91 columns
     Neovim: remaining left space
 
 For any project:
@@ -212,7 +244,7 @@ Example:
 
 Override pane sizes:
 
-    DEV_CODEX_WIDTH=65 devdot
+    DEV_CODEX_WIDTH=91 devdot
 
 Yazi is still installed and configured, but it is no longer part of the default
 dev layout. Use `y` to open Yazi, `yy` to open Yazi and cd to the selected

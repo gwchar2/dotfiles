@@ -192,6 +192,16 @@ copy_file() {
   echo "installed: $target"
 }
 
+copy_dir_contents() {
+  local source="$1"
+  local target="$2"
+  local label="$3"
+
+  mkdir -p "$target"
+  cp -R "$source"/. "$target"/
+  echo "installed $label: $target"
+}
+
 ingest_before_symlink() {
   local target="$1"
   local agents_target="$2"
@@ -307,31 +317,46 @@ deploy_ai_configs() {
 
 transfer_ai_skills() {
   local source="$DOTFILES_DIR/.agents/skills"
-  local target="$HOME/.agents/skills"
+  local shared_target="$HOME/.agents/skills"
+  local codex_target="$HOME/.codex/skills"
+  local claude_target="$HOME/.claude/skills"
 
   if (($# == 0)) || [[ ! -d "$source" ]]; then
     return
   fi
 
-  if prompt_yes_no "Transfer shared global skills from .agents/skills to ~/.agents/skills? Creates the destination if missing. (y/n)"; then
-    mkdir -p "$target"
-    cp -R "$source"/. "$target"/
-    echo "installed skills: $target"
+  if prompt_yes_no "Install this repo's global agent skills for the selected AI tools? Copies the single dotfiles source of truth into the global skills path and any selected tool-specific skills path this installer supports. (y/n)"; then
+    copy_dir_contents "$source" "$shared_target" "global agent skills"
+
+    if contains_tool codex "$@"; then
+      copy_dir_contents "$source" "$codex_target" "Codex global agent skills"
+    fi
+
+    if contains_tool claude "$@"; then
+      copy_dir_contents "$source" "$claude_target" "Claude global agent skills"
+    fi
+
+    if contains_tool copilot "$@" || contains_tool cursor "$@" || contains_tool gemini "$@"; then
+      echo "note: Copilot, Cursor, and Gemini do not have a native skills path managed by this installer; the installed global skills copy is available in $shared_target"
+    fi
   fi
 }
 
 transfer_ai_rules() {
   local source="$DOTFILES_DIR/.agents/rules"
+  local shared_target="$HOME/.agents/rules"
   local codex_target="$HOME/.codex/rules"
 
   if (($# == 0)) || [[ ! -d "$source" ]]; then
     return
   fi
 
-  if contains_tool codex "$@" && prompt_yes_no "Transfer Codex rules from .agents/rules to ~/.codex/rules? Creates the destination if missing. (y/n)"; then
-    mkdir -p "$codex_target"
-    cp -R "$source"/. "$codex_target"/
-    echo "installed rules: $codex_target"
+  if prompt_yes_no "Install this repo's global agent rules for the selected AI tools? Copies the single dotfiles source of truth into the global rules path and any selected tool-specific rules path this installer supports. (y/n)"; then
+    copy_dir_contents "$source" "$shared_target" "global agent rules"
+
+    if contains_tool codex "$@"; then
+      copy_dir_contents "$source" "$codex_target" "Codex global agent rules"
+    fi
   fi
 }
 
