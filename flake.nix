@@ -15,6 +15,16 @@
     };
 
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
   outputs =
@@ -30,7 +40,7 @@
       username = "gwchar2";
       darwinSystem = "aarch64-darwin";
       linuxSystem = "x86_64-linux";
-      specialArgs = { inherit self username; };
+      specialArgs = { inherit inputs self username; };
     in
     {
       darwinConfigurations.mac = nix-darwin.lib.darwinSystem {

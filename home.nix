@@ -39,7 +39,7 @@ in
         wl-clipboard
         xclip
       ]
-      ++ lib.optional (pkgs ? herdr) pkgs.herdr;
+      ++ lib.optional (pkgs.stdenv.isLinux && pkgs ? herdr) pkgs.herdr;
 
     sessionVariables = {
       EDITOR = "nvim";

@@ -1,57 +1,52 @@
-{ username, ... }:
+{
+  config,
+  inputs,
+  username,
+  ...
+}:
 
 {
   nix-homebrew = {
     enable = true;
     user = username;
     autoMigrate = true;
-    enableRosetta = true;
+    enableRosetta = false;
+    mutableTaps = false;
+
+    taps = {
+      "homebrew/homebrew-core" = inputs.homebrew-core;
+      "homebrew/homebrew-cask" = inputs.homebrew-cask;
+    };
   };
 
   homebrew = {
     enable = true;
+    taps = builtins.attrNames config.nix-homebrew.taps;
 
     onActivation = {
-      autoUpdate = true;
+      autoUpdate = false;
       cleanup = "uninstall";
       upgrade = true;
     };
 
     brews = [
-      "bat"
       "bear"
       "binutils"
       "cmake"
       "cppcheck"
-      "curl"
       "dotnet"
-      "eza"
-      "fd"
-      "fzf"
       "gcovr"
-      "gh"
-      "git"
       "herdr"
-      "jq"
-      "lazygit"
       "lcov"
       "llvm"
       "nasm"
-      "neovim"
       "ninja"
       "node"
       "pipx"
       "python"
-      "ripgrep"
       "rust"
       "shellcheck"
       "shfmt"
-      "starship"
-      "yazi"
-      "zoxide"
-      "zsh"
-      "zsh-autosuggestions"
-      "zsh-syntax-highlighting"
     ];
 
     casks = [

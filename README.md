@@ -57,7 +57,8 @@ The repo is intentionally split into two kinds of files:
 - hide desktop icons
 - tap-to-click
 
-`homebrew.nix` owns macOS Homebrew packages and casks:
+`homebrew.nix` owns the Homebrew installation, pinned Homebrew taps, and macOS
+Homebrew packages/casks:
 
 - WezTerm
 - herdr
@@ -107,15 +108,18 @@ Run:
 ```
 
 On macOS, `bootstrap.sh` installs Determinate Nix if needed, then applies the
-flake. If `darwin-rebuild` is not installed yet, `rebuild.sh` bootstraps it via
-`nix run`.
+flake. The installer runs with `--no-confirm`, so a clean Apple Silicon Mac can
+be set up from this repository without a separate Nix install step. If
+`darwin-rebuild` is not installed yet, `rebuild.sh` bootstraps it via `nix run`.
 
 ```sh
 darwin-rebuild switch --flake ~/dotfiles#mac
 ```
 
-Homebrew is not installed manually. `homebrew.nix` enables `nix-homebrew`, and
-the Darwin rebuild installs Homebrew plus the declared brews and casks.
+Homebrew is not installed manually. `homebrew.nix` enables `nix-homebrew`, pins
+the official `homebrew/core` and `homebrew/cask` taps, and the Darwin rebuild
+installs Homebrew plus the declared brews and casks. Rosetta Homebrew is disabled
+by default; this setup targets native Apple Silicon packages on M-series Macs.
 
 After the first setup, apply changes with:
 
