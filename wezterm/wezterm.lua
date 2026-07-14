@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local config = wezterm.config_builder and wezterm.config_builder() or {}
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
 -- Windows WezTerm opens directly into WSL Ubuntu in the WSL home directory.
 -- macOS WezTerm opens into a persistent tmux session.
@@ -14,7 +15,7 @@ if wezterm.target_triple:find("windows") then
     "zsh",
     "-l",
   }
-elseif wezterm.target_triple:find("darwin") then
+elseif is_darwin then
   config.default_prog = {
     "/bin/zsh",
     "-l",
@@ -25,7 +26,17 @@ end
 
 wezterm.on("gui-startup", function(cmd)
   local _, _, window = wezterm.mux.spawn_window(cmd or {})
-  window:gui_window():maximize()
+  local gui_window = window:gui_window()
+
+  if is_darwin then
+    local screen = wezterm.gui.screens().active
+    local inset = 20
+
+    gui_window:set_position(screen.x + inset, screen.y + inset)
+    gui_window:set_inner_size(screen.width - (inset * 2), screen.height - (inset * 2))
+  else
+    gui_window:maximize()
+  end
 end)
 
 -- General behavior
@@ -43,6 +54,11 @@ config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_background_opacity = 0.97
 config.text_background_opacity = 1.0
 config.font_size = 10.0
+
+if is_darwin then
+  config.window_background_opacity = 0.94
+  config.macos_window_background_blur = 24
+end
 
 config.font = wezterm.font_with_fallback({
   "JetBrainsMono Nerd Font",
