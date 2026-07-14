@@ -47,8 +47,13 @@ alias cx='codex'
 
 # Dev sessions
 alias dev='"$DOTFILES_DIR/scripts/dev.sh"'
-alias devdot='"$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
-alias devdot-reset='DEV_RESET=1 "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  alias devdot='DEV_RIGHT_COMMAND=copilot "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+  alias devdot-reset='DEV_RESET=1 DEV_RIGHT_COMMAND=copilot "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+else
+  alias devdot='"$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+  alias devdot-reset='DEV_RESET=1 "$DOTFILES_DIR/scripts/dev.sh" dotfiles "$DOTFILES_DIR"'
+fi
 
 #CodeRabbit CLI
 alias crs='cr auth status'

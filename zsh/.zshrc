@@ -20,7 +20,13 @@ if [[ -n "${WSL_DISTRO_NAME:-}" ]]; then
 fi
 
 # Dotfiles config
-[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
-[ -f "$HOME/.config/zsh/custom.zsh" ] && source "$HOME/.config/zsh/custom.zsh"
-[ -f "$HOME/.config/zsh/local.zsh" ] && source "$HOME/.config/zsh/local.zsh"
-[ -f "$HOME/.config/zsh/work.zsh" ] && source "$HOME/.config/zsh/work.zsh"
+_zsh_config_dir="${HOME}/.config/zsh"
+if [[ -n "${DOTFILES_DIR:-}" && -d "$DOTFILES_DIR/zsh" ]]; then
+  _zsh_config_dir="$DOTFILES_DIR/zsh"
+fi
+
+[ -f "$_zsh_config_dir/aliases.zsh" ] && source "$_zsh_config_dir/aliases.zsh"
+[ -f "$_zsh_config_dir/custom.zsh" ] && source "$_zsh_config_dir/custom.zsh"
+[ -f "$_zsh_config_dir/local.zsh" ] && source "$_zsh_config_dir/local.zsh"
+[ -f "$_zsh_config_dir/work.zsh" ] && source "$_zsh_config_dir/work.zsh"
+unset _zsh_config_dir

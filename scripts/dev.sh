@@ -4,7 +4,8 @@ set -euo pipefail
 SESSION_NAME="${1:-dev}"
 START_DIR="${2:-$PWD}"
 
-CODEX_WIDTH="${DEV_CODEX_WIDTH:-${DEV_RIGHT_WIDTH:-91}}"
+RIGHT_WIDTH="${DEV_CODEX_WIDTH:-${DEV_RIGHT_WIDTH:-91}}"
+RIGHT_COMMAND="${DEV_RIGHT_COMMAND:-codex}"
 RESET_SESSION="${DEV_RESET:-${DEV_RECREATE:-0}}"
 ATTACH_SESSION="${DEV_ATTACH:-1}"
 
@@ -29,13 +30,13 @@ fi
 # Left: Neovim
 nvim_pane="$(tmux new-session -d -s "$SESSION_NAME" -c "$START_DIR" -n dev -P -F '#{pane_id}' 'nvim; exec zsh')"
 
-# Right: Codex
-codex_pane="$(tmux split-window -h -t "$nvim_pane" -c "$START_DIR" -l "$CODEX_WIDTH" -P -F '#{pane_id}' 'codex; exec zsh')"
+# Right: AI assistant
+assistant_pane="$(tmux split-window -h -t "$nvim_pane" -c "$START_DIR" -l "$RIGHT_WIDTH" -P -F '#{pane_id}' "$RIGHT_COMMAND; exec zsh")"
 
-# Resize columns: Codex fixed, Neovim gets the remaining space.
-tmux resize-pane -t "$codex_pane" -x "$CODEX_WIDTH" || true
+# Resize columns: assistant fixed, Neovim gets the remaining space.
+tmux resize-pane -t "$assistant_pane" -x "$RIGHT_WIDTH" || true
 tmux select-layout -t "$SESSION_NAME:dev" even-horizontal >/dev/null 2>&1 || true
-tmux resize-pane -t "$codex_pane" -x "$CODEX_WIDTH" || true
+tmux resize-pane -t "$assistant_pane" -x "$RIGHT_WIDTH" || true
 
 # Focus editor
 tmux select-pane -t "$nvim_pane"

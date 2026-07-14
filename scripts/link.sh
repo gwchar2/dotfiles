@@ -17,6 +17,27 @@ link_item() {
     fi
 }
 
+ensure_macos_zshrc_loader() {
+    local target="$HOME/.zshrc"
+    local marker="# dotfiles bootstrap: source managed zsh config"
+
+    [[ "$(uname -s)" == "Darwin" ]] || return 0
+    [[ -e "$target" && ! -L "$target" ]] || return 0
+
+    if grep -Fq "$marker" "$target"; then
+        echo "configured: $target loads dotfiles zsh config"
+        return 0
+    fi
+
+    {
+        printf '\n%s\n' "$marker"
+        printf 'export DOTFILES_DIR=%q\n' "$DOTFILES_DIR"
+        printf "[ -f \"\$DOTFILES_DIR/zsh/.zshrc\" ] && source \"\$DOTFILES_DIR/zsh/.zshrc\"\n"
+    } >>"$target"
+
+    echo "configured: $target loads dotfiles zsh config"
+}
+
 ensure_codex_config() {
     local config_file="$HOME/.codex/config.toml"
 
@@ -35,6 +56,7 @@ ensure_codex_config() {
 link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
+ensure_macos_zshrc_loader
 
 link_item "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 link_item "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"

@@ -246,6 +246,10 @@ Override pane sizes:
 
     DEV_CODEX_WIDTH=91 devdot
 
+Override the right pane command:
+
+    DEV_RIGHT_COMMAND=copilot devdot
+
 Yazi is still installed and configured, but it is no longer part of the default
 dev layout. Use `y` to open Yazi, `yy` to open Yazi and cd to the selected
 directory on exit, or use Neovim's `Space sf`, `Space gf`, `Space sg`,
