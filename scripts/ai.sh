@@ -57,7 +57,7 @@ parse_ai_selection() {
       return 1
     fi
 
-    if ! contains_tool "$lower" "${SELECTED_AI_TOOLS[@]}"; then
+    if ((${#SELECTED_AI_TOOLS[@]} == 0)) || ! contains_tool "$lower" "${SELECTED_AI_TOOLS[@]}"; then
       SELECTED_AI_TOOLS+=("$lower")
     fi
   done
