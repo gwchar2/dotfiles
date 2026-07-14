@@ -13,6 +13,7 @@ shell_scripts=(
   scripts/link.sh
   scripts/ai.sh
   scripts/nvim.sh
+  scripts/vscode.sh
   scripts/unlink.sh
   scripts/dev.sh
   scripts/copy_template.sh
@@ -47,6 +48,7 @@ for path in \
   scripts/macos.sh \
   scripts/ai.sh \
   scripts/dev.sh \
+  scripts/vscode.sh \
   zsh/.zshenv \
   zsh/.zshrc \
   zsh \
@@ -55,6 +57,8 @@ for path in \
   nvim \
   starship \
   yazi \
+  vscode/macos/settings.json \
+  vscode/macos/keybindings.json \
   wezterm \
   wezterm/wezterm-cheatsheet.md \
   tmux/tmux-cheatsheet.md \

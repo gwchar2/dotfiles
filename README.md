@@ -137,6 +137,12 @@ Linked and installed config paths:
 - `~/dotfiles/starship` -> `~/.config/starship`
 - `~/dotfiles/yazi` -> `~/.config/yazi`
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
+- macOS only: `scripts/vscode.sh` can overwrite VS Code user settings from
+  `~/dotfiles/vscode/macos/settings.json` to
+  `~/Library/Application Support/Code/User/settings.json`
+- macOS only: `scripts/vscode.sh` can overwrite VS Code user keybindings from
+  `~/dotfiles/vscode/macos/keybindings.json` to
+  `~/Library/Application Support/Code/User/keybindings.json`
 - `~/.codex/config.toml` is created or updated with `disable_paste_burst = true`
 - `scripts/ai.sh` can deploy `~/dotfiles/.agents/AGENTS.md` to `~/AGENTS.md`
 - For selected AI tools, `~/AGENTS.md` can be copied or symlinked to
@@ -202,6 +208,7 @@ This is a personal setup. Before running it on a new machine, review:
 - `docs/`: platform and tool setup notes.
 - `templates/`: project templates.
 - `codex/`: Codex-specific notes and cheatsheets.
+- `vscode/`: macOS VS Code settings and keybindings templates.
 
 ## Check
 

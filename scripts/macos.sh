@@ -29,3 +29,5 @@ for tool in pytest ruff black mypy; do
     pipx install "$tool"
   fi
 done
+
+"$DOTFILES_DIR/scripts/vscode.sh"

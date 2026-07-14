@@ -1,0 +1,172 @@
+{
+    "window.openFilesInNewWindow": "off",
+    "window.openFoldersInNewWindow": "off",
+    "window.confirmSaveUntitledWorkspace": false,
+    "window.menuBarVisibility": "compact",
+    "window.openWithoutArgumentsInNewWindow": "off",
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "Dobri Next -C07- One",
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.hidesExplorerArrows": true,
+    "workbench.activityBar.location": "top",
+    "workbench.secondarySideBar.defaultVisibility": "hidden",
+    "workbench.editor.enablePreview": false,
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.tips.enabled": false,
+    "workbench.tree.enableStickyScroll": false,
+    "workbench.tree.indent": 8,
+    "workbench.tree.renderIndentGuides": "none",
+    "workbench.commandPalette.showAskInChat": false,
+    "zenMode.fullScreen": false,
+    "zenMode.centerLayout": false,
+    "breadcrumbs.enabled": false,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.fileNesting.expand": false,
+    "explorer.compactFolders": false,
+    "explorer.decorations.badges": false,
+    "editor.minimap.enabled": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {},
+    "editor.rename.enablePreview": false,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 4,
+    "editor.indentSize": "tabSize",
+    "[cpp]": {
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "editor.formatOnPaste": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "[c]": {
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "editor.formatOnPaste": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "terminal.integrated.stickyScroll.enabled": false,
+    "terminal.integrated.initialHint": false,
+    "terminal.integrated.commandsToSkipShell": [
+        "psl.stepIn",
+        "psl.stepOut",
+        "psl.stepOver",
+        "psl.sendToHostTerminal"
+    ],
+    "git.autofetch": true,
+    "git.openRepositoryInParentFolders": "always",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.blame.statusBarItem.enabled": true,
+    "gitlens.gitCommands.skipConfirmations": [
+        "fetch:command",
+        "stash-push:command",
+        "switch:command",
+        "pull:command"
+    ],
+    "cmake.showOptionsMovedNotification": false,
+    "cmake.showConfigureWithDebuggerNotification": false,
+    "cmake.options.statusBarVisibility": "visible",
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "cmake.additionalCompilerSearchDirs": [
+        "/opt/homebrew/bin",
+        "/usr/local/bin"
+    ],
+    "cmake.options.advanced": {
+        "build": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        },
+        "launch": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        },
+        "debug": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        },
+        "cpack": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "ctest": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "workflowPreset": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "workflow": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "packagePreset": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        },
+        "testPreset": {
+            "statusBarVisibility": "hidden",
+            "inheritDefault": "visible"
+        }
+    },
+    "C_Cpp.files.exclude": {
+        "**/.vscode": true,
+        "**/.vs": true
+    },
+    "clang-format.style": "file",
+    "clang-format.language.c.enable": false,
+    "clang-format.language.cpp.enable": false,
+    "code-runner.defaultLanguage": "cpp",
+    "debug.onTaskErrors": "abort",
+    "lldb.suppressUpdateNotifications": true,
+    "chat.agent.enabled": false,
+    "chat.tips.enabled": false,
+    "chat.viewSessions.orientation": "stacked",
+    "chat.agent.sandbox.enabled": "on",
+    "chat.agent.sandbox.fileSystem.linux": {
+        "denyRead": [],
+        "allowWrite": [
+            "."
+        ],
+        "denyWrite": []
+    },
+    "github.copilot.nextEditSuggestions.enabled": false,
+    "github.copilot.nextEditSuggestions.fixes": false,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "rust": false
+    },
+    "githubPullRequests.codingAgent.codeLens": false,
+    "githubPullRequests.codingAgent.enabled": false,
+    "windowsaistudio.extendCopilotInstructions": false,
+    "extensions.ignoreRecommendations": true,
+    "redhat.telemetry.enabled": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "liveServer.settings.donotVerifyTags": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "hediet.vscode-drawio.resizeImages": null,
+    "hediet.vscode-drawio.customLibraries": [],
+    "hediet.vscode-drawio.appearance": "automatic",
+    "security.workspace.trust.untrustedFiles": "open",
+    "security.allowedUNCHosts": [
+        "wildwest"
+    ],
+    "@azure.argTenant": "",
+    "editor.stickyScroll.enabled": false,
+    "todo-tree.ripgrep.ripgrep": "/opt/homebrew/bin/rg",
+    "workbench.settings.applyToAllProfiles": [
+        "todo-tree.ripgrep.ripgrep"
+    ],
+    "makefile.configureOnOpen": true,
+}

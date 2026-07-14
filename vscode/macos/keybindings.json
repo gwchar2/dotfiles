@@ -1,0 +1,506 @@
+[
+    // Close active file
+    {
+        "key": "alt+q",
+        "command": "workbench.action.closeActiveEditor"
+    },
+    // #region Settings and Keybindings files
+    {
+        "key": "alt+shift+s",
+        "command": "workbench.action.openSettingsJson",
+        "when": "activeEditor != 'workbench.editor.settings'"
+    },
+    // Open keybindings workbench.action.openGlobalKeybindingsFile DOES NOT WORK! so we hard code the path...
+    {
+        "key": "alt+k",
+        "command": "vscode.open",
+        "args": "file:///Users/ttoledo/Library/Application%20Support/Code/User/keybindings.json"
+    },
+    // #endregion
+    // #region Sidebar and Command Pallette Toggles
+    // Toggle sidebar focus
+    {
+        "key": "alt+b",
+        "command": "workbench.action.focusSideBar",
+        "when": "!terminalFocus"
+    },
+    // Open / Close command palette
+    {
+        "key": "alt+p",
+        "command": "workbench.action.closeQuickOpen",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "alt+p",
+        "command": "workbench.action.showCommands",
+        "when": "!inQuickOpen"
+    },
+    // Open / Close extensions sidebar
+    {
+        "key": "alt+x",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.extensions'"
+    },
+    {
+        "key": "alt+x",
+        "command": "workbench.view.extensions",
+        "when": "activeViewlet != 'workbench.view.extensions'"
+    },
+    // Open / Close explorer sidebar
+    {
+        "key": "alt+e",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.explorer'"
+    },
+    {
+        "key": "alt+e",
+        "command": "workbench.view.explorer",
+        "when": "activeViewlet != 'workbench.view.explorer'"
+    },
+    // Open / Close tree sidebar
+    {
+        "key": "alt+t",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.extension.todo-tree-container'"
+    },
+    {
+        "key": "alt+t",
+        "command": "workbench.view.extension.todo-tree-container",
+        "when": "activeViewlet != 'workbench.view.extension.todo-tree-container'"
+    },
+    // Open / Close github pull requests sidebar
+    {
+        "key": "alt+s",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.scm'"
+    },
+    {
+        "key": "alt+s",
+        "command": "workbench.view.scm",
+        "when": "activeViewlet != 'workbench.view.scm'"
+    },
+    // Open / Close container sidebar
+    {
+        "key": "alt+c",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.extension.containersView'"
+    },
+    {
+        "key": "alt+c",
+        "command": "workbench.view.extension.containersView",
+        "when": "activeViewlet != 'workbench.view.extension.containersView'"
+    },
+    // Open / Close debugger sidebar
+    {
+        "key": "alt+d",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.debug'"
+    },
+    {
+        "key": "alt+d",
+        "command": "workbench.view.debug",
+        "when": "activeViewlet != 'workbench.view.debug'"
+    },
+    // Open / Close search sidebar 
+    {
+        "key": "cmd+shift+f",
+        "command": "workbench.action.closeSidebar",
+        "when": "activeViewlet == 'workbench.view.search'"
+    },
+    {
+        "key": "cmd+shift+f",
+        "command": "workbench.view.search",
+        "when": "activeViewlet != 'workbench.view.search'"
+    },
+    // Focus search results + expand / collapse
+    {
+        "key": "cmd+shift+g",
+        "command": "search.action.focusSearchList"
+    },
+    {
+        "key": "cmd+alt+;",
+        "command": "search.action.collapseSearchResults"
+    },
+    {
+        "key": "cmd+alt+'",
+        "command": "search.action.expandSearchResults"
+    },
+    // #endregion
+    // #region Run and Build Configurations
+    // Build / Run
+    {
+        "key": "cmd+r",
+        "command": "code-runner.run"
+    },
+    {
+        "key": "cmd+r",
+        "command": "cmake.build",
+        "when": "cmake:enableFullFeatureSet && !cmake:hideBuildCommand"
+    },
+    {
+        "key": "cmd+b",
+        "command": "-workbench.action.tasks.build",
+        "when": "taskCommandsRegistered"
+    },
+    {
+        "key": "cmd+alt+j",
+        "command": "-code-runner.runByLanguage"
+    },
+    // #endregion   
+    // #region Code Editting
+    // Focus active text editor
+    {
+        "key": "alt+h",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "!terminalFocus"
+    },
+    // Goto specific line
+    {
+        "key": "cmd+g",
+        "command": "workbench.action.gotoLine"
+    },
+    // Next / previous editor
+    {
+        "key": "cmd+l",
+        "command": "workbench.action.nextEditor",
+        "when": "!terminalFocus && !listFocus && !suggestWidgetVisible && !inQuickOpen && !inputBoxFocus"
+    },
+    {
+        "key": "cmd+k",
+        "command": "workbench.action.previousEditor",
+        "when": "!terminalFocus && !listFocus && !suggestWidgetVisible && !inQuickOpen && !inputBoxFocus"
+    },
+    // Split editor
+    {
+        "key": "cmd+n",
+        "command": "workbench.action.splitEditor",
+        "when": "inputFocus"
+    },
+    // Split editor down
+    {
+        "key": "cmd+alt+n",
+        "command": "workbench.action.splitEditorDown",
+        "when": "inputFocus"
+    },
+    // Close group
+    {
+        "key": "cmd+w",
+        "command": "workbench.action.closeGroup"
+    },
+    // Close all groups
+    {
+        "key": "cmd+shift+w",
+        "command": "workbench.action.closeAllEditors"
+    },
+    // Navigate forward / back
+    {
+        "key": "cmd+.",
+        "command": "workbench.action.navigateForward",
+        "when": "canNavigateForward"
+    },
+    {
+        "key": "cmd+,",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    // Navigate left / right / up / down
+    {
+        "key": "cmd+j",
+        "command": "workbench.action.navigateLeft",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+;",
+        "command": "workbench.action.navigateRight",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+up",
+        "command": "workbench.action.navigateUp",
+        "when": "editorFocus"
+    },
+    {
+        "key": "cmd+down",
+        "command": "workbench.action.navigateDown",
+        "when": "editorFocus"
+    },
+    // Open specific file in editor
+    {
+        "key": "cmd+1",
+        "command": "workbench.action.openEditorAtIndex1",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+2",
+        "command": "workbench.action.openEditorAtIndex2",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+3",
+        "command": "workbench.action.openEditorAtIndex3",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+4",
+        "command": "workbench.action.openEditorAtIndex4",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+5",
+        "command": "workbench.action.openEditorAtIndex5",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+6",
+        "command": "workbench.action.openEditorAtIndex6",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+7",
+        "command": "workbench.action.openEditorAtIndex7",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+8",
+        "command": "workbench.action.openEditorAtIndex8",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+9",
+        "command": "workbench.action.openEditorAtIndex9",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+0",
+        "command": "workbench.action.openEditorAtIndex10",
+        "when": "!terminalFocus"
+    },
+    // #endregion
+    // #region Folding
+    {
+        "key": "cmd+-",
+        "command": "editor.foldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+=",
+        "command": "editor.unfoldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+[",
+        "command": "editor.fold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+]",
+        "command": "editor.unfold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    // #endregion
+    // #region File Explorer and File Management
+    // Explorer view 
+    {
+        "key": "cmd+n",
+        "command": "explorer.newFile",
+        "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    },
+    // Explorer: collapse all folders
+    {
+        "key": "cmd+\\",
+        "command": "workbench.files.action.collapseExplorerFolders",
+        "when": "explorerViewletVisible"
+    },
+    // Explorer: reveal active file
+    {
+        "key": "alt+\\",
+        "command": "workbench.files.action.showActiveFileInExplorer"
+    },
+    // Explorer: new folder
+    {
+        "key": "cmd+shift+n",
+        "command": "explorer.newFolder",
+        "when": "explorerViewletVisible && !inputFocus"
+    },
+    // #endregion
+    // #region Terminal
+    // Toggle Terminal
+    {
+        "key": "cmd+t",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "cmd+t",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminalFocus"
+    },
+    // New terminal (When focused)
+    {
+        "key": "cmd+n",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalFocus"
+    },
+    // Terminal kill (When focused)
+    {
+        "key": "cmd+x",
+        "command": "workbench.action.terminal.kill",
+        "when": "terminalFocus"
+    },
+    // Focus next / previous terminal
+    {
+        "key": "cmd+k",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "cmd+l",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus"
+    },
+    // Terminal clear
+    {
+        "key": "cmd+y",
+        "command": "workbench.action.terminal.clear",
+        "when": "terminalFocus"
+    },
+    // Split terminal
+    {
+        "key": "alt+n",
+        "command": "workbench.action.terminal.split",
+        "when": "terminalFocus"
+    },
+    // #endregion
+    // #region Removed Default Keybindings
+    {
+        "key": "cmd+h",
+        "command": "-editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "cmd+w",
+        "command": "-psl.stepOver",
+        "when": "psl.gtmDebug && terminalFocus"
+    },
+    {
+        "key": "cmd+w",
+        "command": "-workbench.action.closeActiveEditor"
+    },
+    {
+        "key": "cmd+w",
+        "command": "-workbench.action.closeGroup",
+        "when": "activeEditorGroupEmpty && multipleEditorGroups"
+    },
+    {
+        "key": "cmd+k w",
+        "command": "-workbench.action.closeEditorsInGroup"
+    },
+    {
+        "key": "cmd+k cmd+w",
+        "command": "-workbench.action.closeAllEditors"
+    },
+    {
+        "key": "cmd+k cmd+shift+w",
+        "command": "-workbench.action.closeAllGroups"
+    },
+    {
+        "key": "cmd+shift+w",
+        "command": "-workbench.action.closeWindow"
+    },
+    {
+        "key": "cmd+shift+e",
+        "command": "-workbench.view.explorer",
+        "when": "viewContainer.workbench.view.explorer.enabled"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-psl.stepOut",
+        "when": "psl.gtmDebug && terminalFocus"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-workbench.action.quickOpenNavigateNextInFilePicker",
+        "when": "inFilesPicker && inQuickOpen"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-editor.action.toggleScreenReaderAccessibilityMode",
+        "when": "accessibilityHelpIsShown"
+    },
+    {
+        "key": "cmd+q",
+        "command": "-psl.stepIn",
+        "when": "psl.gtmDebug && terminalFocus"
+    },
+    {
+        "key": "cmd+q",
+        "command": "-workbench.action.quickOpenNavigateNextInViewPicker",
+        "when": "inQuickOpen && inViewsPicker"
+    },
+    {
+        "key": "cmd+j",
+        "command": "-workbench.action.togglePanel"
+    },
+    {
+        "key": "cmd+m",
+        "command": "-editor.action.toggleTabFocusMode"
+    },
+    {
+        "key": "cmd+m r",
+        "command": "-bicep.forceModulesRestore",
+        "when": "resourceLangId == 'bicep'"
+    },
+    {
+        "key": "cmd+shift+[",
+        "command": "-editor.fold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "cmd+shift+]",
+        "command": "-editor.unfold",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "alt+h",
+        "command": "-git.viewFileHistory"
+    },
+    {
+        "key": "cmd+l",
+        "command": "-workbench.action.browser.focusUrlInput",
+        "when": "activeEditor == 'workbench.editor.browser'"
+    },
+    {
+        "key": "cmd+l",
+        "command": "-workbench.action.chat.newChat",
+        "when": "chatIsEnabled && inChat && chatLocation == 'panel'"
+    },
+    {
+        "key": "cmd+l",
+        "command": "-expandLineSelection",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "cmd+l",
+        "command": "-notebook.centerActiveCell",
+        "when": "notebookEditorFocused"
+    },
+    {
+        "key": "alt+h",
+        "command": "-testing.toggleTestingPeekHistory",
+        "when": "testing.isPeekVisible"
+    },
+    {
+        "key": "alt+h",
+        "command": "-editor.action.accessibilityHelpOpenHelpLink",
+        "when": "accessibilityHelpIsShown"
+    },
+    {
+        "key": "cmd+shift+n",
+        "command": "-workbench.action.newWindow"
+    },
+    //#endregion
+]
