@@ -141,8 +141,8 @@ Linked and installed config paths:
 - `scripts/ai.sh` can deploy `~/dotfiles/.agents/AGENTS.md` to `~/AGENTS.md`
 - For selected AI tools, `~/AGENTS.md` can be copied or symlinked to
   tool-specific instruction paths:
-  `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and
-  `~/.gemini/GEMINI.md`
+  `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md`,
+  `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and `~/.gemini/GEMINI.md`
 - The dotfiles repo is the single source of truth for global agent skills and
   rules. `scripts/ai.sh` can install that source into the global skills/rules
   paths and into selected tool-specific paths when a tool requires its own

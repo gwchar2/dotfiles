@@ -65,4 +65,4 @@ If tools are already installed:
 - Neovim and tmux keybindings are installed by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
 - The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
 - Codex paste behavior is installed by ensuring `disable_paste_burst = true` in `~/.codex/config.toml`.
-- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional shared skills migration, and optional Codex/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.
+- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional shared skills migration, and optional Codex/Copilot/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.

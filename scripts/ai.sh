@@ -286,6 +286,7 @@ deploy_ai_configs() {
   local agents_source="$DOTFILES_DIR/.agents/AGENTS.md"
   local agents_target="$HOME/AGENTS.md"
   local codex_target="$HOME/.codex/AGENTS.md"
+  local copilot_target="$HOME/.copilot/copilot-instructions.md"
   local claude_target="$HOME/.claude/CLAUDE.md"
   local cursor_target="$HOME/.cursor/cursor.md"
   local gemini_target="$HOME/.gemini/GEMINI.md"
@@ -300,6 +301,10 @@ deploy_ai_configs() {
 
   if contains_tool codex "${selected_tools[@]}"; then
     deploy_tool_markdown "Codex" "$codex_target" "$agents_target"
+  fi
+
+  if contains_tool copilot "${selected_tools[@]}"; then
+    deploy_tool_markdown "Copilot" "$copilot_target" "$agents_target"
   fi
 
   if contains_tool claude "${selected_tools[@]}"; then
