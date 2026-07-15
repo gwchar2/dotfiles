@@ -302,7 +302,7 @@ These bindings are split by terminal layer:
 | Copy latest completed Codex output | `Ctrl-O` or `/copy` | Codex |
 | Exit Codex | `Ctrl-C` or `/exit` | Codex |
 
-Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`; the macOS WezTerm config starts `herdr --session codex` when Herdr is installed.
+Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`; the macOS WezTerm config starts `herdr` when Herdr is installed.
 
 Herdr defaults installed by `scripts/link.sh`: `Ctrl-b` prefix, `Alt+Arrow`
 pane focus, `Shift+Arrow` pane splits, and `Ctrl-Alt-Left` /

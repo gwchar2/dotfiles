@@ -20,7 +20,7 @@ elseif is_darwin then
     "/bin/zsh",
     "-l",
     "-c",
-    "if command -v herdr >/dev/null 2>&1; then exec herdr --session codex; else exec /bin/zsh -l; fi",
+    "if command -v herdr >/dev/null 2>&1; then exec herdr; else exec /bin/zsh -l; fi",
   }
 end
 
