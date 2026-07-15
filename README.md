@@ -137,6 +137,10 @@ Linked and installed config paths:
 - `~/dotfiles/starship` -> `~/.config/starship`
 - `~/dotfiles/yazi` -> `~/.config/yazi`
 - macOS only: `~/dotfiles/wezterm` -> `~/.config/wezterm`
+- If one of these managed link targets already exists as a regular file or
+  directory, `scripts/link.sh` asks before replacing it in an interactive shell.
+  In non-interactive runs it backs the target up first, then installs the
+  managed symlink.
 - macOS only: `scripts/vscode.sh` can overwrite VS Code user settings from
   `~/dotfiles/vscode/macos/settings.json` to
   `~/Library/Application Support/Code/User/settings.json`
@@ -230,6 +234,10 @@ This starts or attaches a tmux session named `dotfiles` at `~/dotfiles`.
 If an old session is already open, recreate the saved layout with:
 
     devdot-reset
+
+This is only for intentionally discarding an existing tmux session layout. It is
+not required after running the installer; `scripts/install.sh` installs the
+managed configs and reloads tmux and Herdr best-effort.
 
 Default layout:
 

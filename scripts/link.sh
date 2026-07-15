@@ -3,17 +3,56 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+prompt_yes_no() {
+    local prompt="$1"
+    local answer
+
+    while true; do
+        if ! read -r -p "$prompt " answer; then
+            return 1
+        fi
+
+        case "$answer" in
+            y | Y | yes | YES | Yes) return 0 ;;
+            n | N | no | NO | No | "") return 1 ;;
+            *) echo "Please answer y or n." ;;
+        esac
+    done
+}
+
+backup_target() {
+    local target="$1"
+    local backup
+
+    backup="$target.backup.$(date +%Y%m%d%H%M%S)"
+    mv "$target" "$backup"
+    echo "backed up: $target -> $backup"
+}
+
 link_item() {
     local source="$1"
     local target="$2"
 
     mkdir -p "$(dirname "$target")"
 
-    if [ -L "$target" ] || [ ! -e "$target" ]; then
+    if [ -L "$target" ]; then
         ln -sfn "$source" "$target"
         echo "linked: $target -> $source"
+    elif [ ! -e "$target" ]; then
+        ln -sfn "$source" "$target"
+        echo "linked: $target -> $source"
+    elif [[ -t 0 ]]; then
+        if prompt_yes_no "Replace existing $target with managed dotfiles link? The existing target will be backed up first. (y/n)"; then
+            backup_target "$target"
+            ln -sfn "$source" "$target"
+            echo "linked: $target -> $source"
+        else
+            echo "skip: $target already exists and is not a symlink"
+        fi
     else
-        echo "skip: $target already exists and is not a symlink"
+        backup_target "$target"
+        ln -sfn "$source" "$target"
+        echo "linked: $target -> $source"
     fi
 }
 
@@ -193,6 +232,24 @@ ensure_herdr_config() {
     echo "configured: $config_file Herdr defaults"
 }
 
+reload_runtime_configs() {
+    if command -v tmux >/dev/null 2>&1 && [[ -f "$HOME/.tmux.conf" ]]; then
+        if tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1; then
+            echo "reloaded: tmux config"
+        else
+            echo "note: tmux config installed; no running tmux server was reloaded"
+        fi
+    fi
+
+    if command -v herdr >/dev/null 2>&1; then
+        if herdr server reload-config >/dev/null 2>&1; then
+            echo "reloaded: Herdr config"
+        else
+            echo "note: Herdr config installed; no running Herdr server was reloaded"
+        fi
+    fi
+}
+
 link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
@@ -210,3 +267,4 @@ fi
 
 ensure_codex_config
 ensure_herdr_config
+reload_runtime_configs
