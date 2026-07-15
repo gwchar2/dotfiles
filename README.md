@@ -99,9 +99,9 @@ Clone the repo:
     git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
     cd ~/dotfiles
 
-Run the bootstrap entrypoint:
+Run the installer:
 
-    ./bootstrap.sh
+    ./scripts/install.sh
 
 This automatically runs the correct setup for the current machine:
 
@@ -115,10 +115,6 @@ writes a WezTerm shim that loads the real config from this repo. From WSL, run:
     powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
 
 ## Install
-
-    ./bootstrap.sh
-
-Equivalent direct installer:
 
     ./scripts/install.sh
 
@@ -203,7 +199,7 @@ This is a personal setup. Before running it on a new machine, review:
 
 ## Repo Layout
 
-- `bootstrap.sh`: top-level fresh-machine entrypoint.
+- `scripts/install.sh`: top-level fresh-machine entrypoint.
 - `scripts/`: OS install, config linking, AI setup, Neovim bootstrap, checks, and
   tmux dev-layout helpers.
 - `.agents/`: shared global agent instructions, skills, and optional rules.

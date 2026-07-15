@@ -11,9 +11,9 @@ Clone the dotfiles repo into WSL:
     git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
     cd ~/dotfiles
 
-Run the bootstrap entrypoint:
+Run the installer:
 
-    ./bootstrap.sh
+    ./scripts/install.sh
 
 This runs:
 

@@ -17,7 +17,7 @@ Clone the dotfiles repo:
 
 Run the installer:
 
-    ./bootstrap.sh
+    ./scripts/install.sh
 
 This runs:
 

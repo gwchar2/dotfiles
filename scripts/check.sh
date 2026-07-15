@@ -6,7 +6,6 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$DOTFILES_DIR"
 
 shell_scripts=(
-  bootstrap.sh
   scripts/install.sh
   scripts/wsl.sh
   scripts/macos.sh
