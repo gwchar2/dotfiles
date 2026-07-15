@@ -3,7 +3,7 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-VALID_AI_TOOLS=(codex copilot claude cursor)
+VALID_AI_TOOLS=(codex copilot gemini claude cursor)
 HERDR_AI_TOOLS=(codex copilot claude cursor)
 SELECTED_AI_TOOLS=()
 
@@ -87,7 +87,7 @@ select_ai_tools() {
   fi
 
   while true; do
-    read -r -p "AI environments to install (space-separated, case-insensitive; example: codex copilot; supported: codex copilot claude cursor; Enter skips): " raw
+    read -r -p "AI environments to install (space-separated, case-insensitive; example: codex copilot; supported: codex copilot gemini claude cursor; Enter skips): " raw
     if parse_ai_selection "$raw"; then
       return
     fi
@@ -139,6 +139,22 @@ install_copilot_cli() {
   fi
 
   run_install_script "https://gh.io/copilot-install" bash
+}
+
+install_gemini_cli() {
+  if command -v gemini >/dev/null 2>&1; then
+    echo "already installed: gemini"
+    return
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    run_install brew install gemini-cli
+  elif command -v npm >/dev/null 2>&1; then
+    run_install npm install -g @google/gemini-cli
+  else
+    echo "skip: install gemini requires Homebrew or npm" >&2
+    return 1
+  fi
 }
 
 install_cursor_agent() {
@@ -265,6 +281,9 @@ install_selected_ai_tools() {
       copilot)
         install_copilot_cli
         ;;
+      gemini)
+        install_gemini_cli
+        ;;
       cursor)
         install_cursor_agent
         ;;
@@ -287,6 +306,10 @@ install_herdr_integrations() {
       run_install herdr integration install "$tool"
     fi
   done
+
+  if contains_tool gemini "$@"; then
+    echo "note: Herdr does not provide a Gemini integration installer in this version"
+  fi
 }
 
 deploy_ai_configs() {
@@ -297,6 +320,7 @@ deploy_ai_configs() {
   local copilot_target="$HOME/.copilot/copilot-instructions.md"
   local claude_target="$HOME/.claude/CLAUDE.md"
   local cursor_target="$HOME/.cursor/cursor.md"
+  local gemini_target="$HOME/.gemini/GEMINI.md"
 
   if ((${#selected_tools[@]} == 0)); then
     return
@@ -322,6 +346,9 @@ deploy_ai_configs() {
     deploy_tool_markdown "Cursor" "$cursor_target" "$agents_target"
   fi
 
+  if contains_tool gemini "${selected_tools[@]}"; then
+    deploy_tool_markdown "Gemini" "$gemini_target" "$agents_target"
+  fi
 }
 
 transfer_ai_skills() {
@@ -345,8 +372,8 @@ transfer_ai_skills() {
       copy_dir_contents "$source" "$claude_target" "Claude global agent skills"
     fi
 
-    if contains_tool copilot "$@" || contains_tool cursor "$@"; then
-      echo "note: Copilot and Cursor do not have a native skills path managed by this installer; the installed global skills copy is available in $shared_target"
+    if contains_tool copilot "$@" || contains_tool cursor "$@" || contains_tool gemini "$@"; then
+      echo "note: Copilot, Cursor, and Gemini do not have a native skills path managed by this installer; the installed global skills copy is available in $shared_target"
     fi
   fi
 }
