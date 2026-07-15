@@ -3,7 +3,7 @@ local config = wezterm.config_builder and wezterm.config_builder() or {}
 local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
 -- Windows WezTerm opens directly into WSL Ubuntu in the WSL home directory.
--- macOS WezTerm opens into a persistent tmux session.
+-- macOS WezTerm opens Herdr when available, otherwise a normal login shell.
 if wezterm.target_triple:find("windows") then
   config.default_prog = {
     "wsl.exe",
@@ -20,7 +20,7 @@ elseif is_darwin then
     "/bin/zsh",
     "-l",
     "-c",
-    "exec tmux new-session -A -s main",
+    "if command -v herdr >/dev/null 2>&1; then exec herdr --session codex; else exec /bin/zsh -l; fi",
   }
 end
 

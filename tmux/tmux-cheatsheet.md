@@ -79,7 +79,7 @@
 | Behavior | Setting |
 |---|---|
 | tmux mouse handling | `mouse on` |
-| Single left-click | Select pane only; not forwarded into the active TUI |
+| Single left-click | Select pane and forward the click into the active TUI |
 | Left-click drag | Start tmux copy-mode selection |
 | Copy mouse selection | Press `c` after selecting |
 | Paste system clipboard text | WezTerm: `Ctrl-Shift-V` or right-click |

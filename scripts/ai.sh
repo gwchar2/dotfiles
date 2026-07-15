@@ -4,6 +4,7 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 VALID_AI_TOOLS=(codex copilot gemini claude cursor)
+HERDR_AI_TOOLS=(codex copilot claude cursor)
 SELECTED_AI_TOOLS=()
 
 is_valid_ai_tool() {
@@ -49,11 +50,20 @@ parse_ai_selection() {
 
   SELECTED_AI_TOOLS=()
 
+  if [[ ! "$raw" =~ ^[[:alpha:][:space:]]*$ ]]; then
+    echo "Invalid AI environment selection: use spaces only between tool names." >&2
+    echo "Example: codex copilot" >&2
+    echo "Supported tools: ${VALID_AI_TOOLS[*]}" >&2
+    return 1
+  fi
+
   for word in $raw; do
     lower="$(printf '%s' "$word" | tr '[:upper:]' '[:lower:]')"
 
     if ! is_valid_ai_tool "$lower"; then
-      echo "string '$word' is unrecognized" >&2
+      echo "Unrecognized AI environment: $word" >&2
+      echo "Use spaces only between supported tool names. Example: codex copilot" >&2
+      echo "Supported tools: ${VALID_AI_TOOLS[*]}" >&2
       return 1
     fi
 
@@ -77,7 +87,7 @@ select_ai_tools() {
   fi
 
   while true; do
-    read -r -p "What AI Environment do you want to install? Codex, Copilot, Gemini, Claude Code, Cursor? (Choose zero or more) " raw
+    read -r -p "AI environments to install (space-separated, case-insensitive; example: codex copilot; supported: codex copilot gemini claude cursor; Enter skips): " raw
     if parse_ai_selection "$raw"; then
       return
     fi
@@ -281,6 +291,27 @@ install_selected_ai_tools() {
   done
 }
 
+install_herdr_integrations() {
+  local tool
+
+  (($# > 0)) || return
+
+  if ! command -v herdr >/dev/null 2>&1; then
+    echo "skip: Herdr integrations require herdr" >&2
+    return
+  fi
+
+  for tool in codex copilot claude cursor; do
+    if contains_tool "$tool" "$@" && contains_tool "$tool" "${HERDR_AI_TOOLS[@]}"; then
+      run_install herdr integration install "$tool"
+    fi
+  done
+
+  if contains_tool gemini "$@"; then
+    echo "note: Herdr does not provide a Gemini integration installer in this version"
+  fi
+}
+
 deploy_ai_configs() {
   local -a selected_tools=("$@")
   local agents_source="$DOTFILES_DIR/.agents/AGENTS.md"
@@ -368,6 +399,7 @@ transfer_ai_rules() {
 main() {
   select_ai_tools
   install_selected_ai_tools "${SELECTED_AI_TOOLS[@]}"
+  install_herdr_integrations "${SELECTED_AI_TOOLS[@]}"
   deploy_ai_configs "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_skills "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_rules "${SELECTED_AI_TOOLS[@]}"

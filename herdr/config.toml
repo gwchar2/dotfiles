@@ -1,0 +1,16 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+b"
+focus_pane_left = "alt+left"
+focus_pane_down = "alt+down"
+focus_pane_up = "alt+up"
+focus_pane_right = "alt+right"
+split_vertical = "shift+right"
+split_horizontal = "shift+down"
+
+[ui]
+mouse_capture = true
+
+[session]
+resume_agents_on_restore = false

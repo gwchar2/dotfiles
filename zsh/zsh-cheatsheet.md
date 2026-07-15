@@ -73,5 +73,5 @@
 | `dev` | Start/attach default tmux dev session |
 | `dev <name>` | Start/attach named tmux dev session |
 | `dev <name> <path>` | Start/attach session at specific path |
-| `devdot` | Start/attach dotfiles dev session with Neovim and AI assistant panes; macOS uses Copilot |
+| `devdot` | Start/attach dotfiles dev session with Neovim and AI assistant panes; defaults to Codex |
 | `devdot-reset` | Recreate dotfiles dev session with saved layout |

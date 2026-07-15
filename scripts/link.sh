@@ -53,6 +53,79 @@ ensure_codex_config() {
     echo "configured: $config_file disable_paste_burst = true"
 }
 
+set_toml_section_key() {
+    local config_file="$1"
+    local section="$2"
+    local key="$3"
+    local value="$4"
+    local temp_file
+
+    temp_file="$(mktemp)"
+
+    awk -v section="$section" -v key="$key" -v value="$value" '
+        BEGIN {
+            in_section = 0
+            section_seen = 0
+            key_set = 0
+        }
+        /^\[/ {
+            if (in_section && !key_set) {
+                print key " = " value
+                key_set = 1
+            }
+            in_section = ($0 == "[" section "]")
+            if (in_section) {
+                section_seen = 1
+                key_set = 0
+            }
+        }
+        in_section && $0 ~ "^[[:space:]]*#?[[:space:]]*" key "[[:space:]]*=" {
+            if (!key_set) {
+                print key " = " value
+                key_set = 1
+            }
+            next
+        }
+        { print }
+        END {
+            if (in_section && !key_set) {
+                print key " = " value
+            } else if (!section_seen) {
+                print ""
+                print "[" section "]"
+                print key " = " value
+            }
+        }
+    ' "$config_file" >"$temp_file"
+
+    mv "$temp_file" "$config_file"
+}
+
+ensure_herdr_config() {
+    local config_file="$HOME/.config/herdr/config.toml"
+
+    mkdir -p "$(dirname "$config_file")"
+    touch "$config_file"
+
+    if grep -q '^onboarding[[:space:]]*=' "$config_file"; then
+        perl -0pi -e 's/^onboarding[[:space:]]*=.*$/onboarding = false/m' "$config_file"
+    else
+        printf 'onboarding = false\n' >>"$config_file"
+    fi
+
+    set_toml_section_key "$config_file" "keys" "prefix" '"ctrl+b"'
+    set_toml_section_key "$config_file" "keys" "focus_pane_left" '"alt+left"'
+    set_toml_section_key "$config_file" "keys" "focus_pane_down" '"alt+down"'
+    set_toml_section_key "$config_file" "keys" "focus_pane_up" '"alt+up"'
+    set_toml_section_key "$config_file" "keys" "focus_pane_right" '"alt+right"'
+    set_toml_section_key "$config_file" "keys" "split_vertical" '"shift+right"'
+    set_toml_section_key "$config_file" "keys" "split_horizontal" '"shift+down"'
+    set_toml_section_key "$config_file" "ui" "mouse_capture" "true"
+    set_toml_section_key "$config_file" "session" "resume_agents_on_restore" "false"
+
+    echo "configured: $config_file Herdr defaults"
+}
+
 link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
@@ -69,3 +142,4 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
 fi
 
 ensure_codex_config
+ensure_herdr_config

@@ -57,6 +57,7 @@ for path in \
   nvim \
   starship \
   yazi \
+  herdr \
   vscode/macos/settings.json \
   vscode/macos/keybindings.json \
   wezterm \
