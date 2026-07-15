@@ -3,7 +3,7 @@ local config = wezterm.config_builder and wezterm.config_builder() or {}
 local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
 -- Windows WezTerm opens directly into WSL Ubuntu in the WSL home directory.
--- macOS WezTerm opens Herdr when available, otherwise a normal login shell.
+-- macOS WezTerm opens a normal login shell.
 if wezterm.target_triple:find("windows") then
   config.default_prog = {
     "wsl.exe",
@@ -19,8 +19,6 @@ elseif is_darwin then
   config.default_prog = {
     "/bin/zsh",
     "-l",
-    "-c",
-    "if command -v herdr >/dev/null 2>&1; then exec herdr; else exec /bin/zsh -l; fi",
   }
 end
 

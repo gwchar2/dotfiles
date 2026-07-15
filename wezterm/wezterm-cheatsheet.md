@@ -16,7 +16,7 @@ Windows WezTerm -> WSL Ubuntu -> tmux / Neovim / Yazi / Codex
 
 On macOS:
 
-macOS WezTerm -> macOS shell -> Herdr / Neovim / Yazi / Codex
+macOS WezTerm -> macOS shell
 
 ## Actual Config File
 
@@ -44,7 +44,7 @@ C:\Users\hwath\.wezterm.lua
 | Platform | Behavior |
 |---|---|
 | Windows | WezTerm opens WSL Ubuntu |
-| macOS | WezTerm opens or attaches to Herdr when Herdr is installed; otherwise it opens a login shell |
+| macOS | WezTerm opens a normal login shell |
 
 ## Appearance
 
