@@ -6,8 +6,20 @@ focus_pane_left = "alt+left"
 focus_pane_down = "alt+down"
 focus_pane_up = "alt+up"
 focus_pane_right = "alt+right"
+previous_tab = "ctrl+alt+left"
+next_tab = "ctrl+alt+right"
 split_vertical = "shift+right"
 split_horizontal = "shift+down"
+
+[[keys.command]]
+key = "shift+left"
+type = "shell"
+command = "herdr pane split --current --direction right --focus >/dev/null && herdr pane swap --direction left >/dev/null"
+
+[[keys.command]]
+key = "shift+up"
+type = "shell"
+command = "herdr pane split --current --direction down --focus >/dev/null && herdr pane swap --direction up >/dev/null"
 
 [ui]
 mouse_capture = true

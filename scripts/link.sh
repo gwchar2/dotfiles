@@ -101,6 +101,69 @@ set_toml_section_key() {
     mv "$temp_file" "$config_file"
 }
 
+ensure_herdr_command_key() {
+    local config_file="$1"
+    local key="$2"
+    local command="$3"
+    local temp_file
+
+    temp_file="$(mktemp)"
+
+    awk -v key="$key" -v command="$command" '
+        function flush_block() {
+            if (!in_block) {
+                return
+            }
+
+            if (block_key != key) {
+                for (i = 1; i <= block_count; i++) {
+                    print block_lines[i]
+                }
+            }
+        }
+
+        /^\[\[keys\.command\]\]$/ {
+            flush_block()
+            in_block = 1
+            block_count = 1
+            block_key = ""
+            block_lines[block_count] = $0
+            next
+        }
+
+        in_block && /^\[/ {
+            flush_block()
+            in_block = 0
+            block_count = 0
+            block_key = ""
+            print
+            next
+        }
+
+        in_block {
+            block_count++
+            block_lines[block_count] = $0
+            if ($0 == "key = \"" key "\"") {
+                block_key = key
+            }
+            next
+        }
+
+        { print }
+
+        END {
+            flush_block()
+            print ""
+            print "[[keys.command]]"
+            print "key = \"" key "\""
+            print "type = \"shell\""
+            print "command = \"" command "\""
+        }
+    ' "$config_file" >"$temp_file"
+
+    mv "$temp_file" "$config_file"
+}
+
 ensure_herdr_config() {
     local config_file="$HOME/.config/herdr/config.toml"
 
@@ -118,8 +181,12 @@ ensure_herdr_config() {
     set_toml_section_key "$config_file" "keys" "focus_pane_down" '"alt+down"'
     set_toml_section_key "$config_file" "keys" "focus_pane_up" '"alt+up"'
     set_toml_section_key "$config_file" "keys" "focus_pane_right" '"alt+right"'
+    set_toml_section_key "$config_file" "keys" "previous_tab" '"ctrl+alt+left"'
+    set_toml_section_key "$config_file" "keys" "next_tab" '"ctrl+alt+right"'
     set_toml_section_key "$config_file" "keys" "split_vertical" '"shift+right"'
     set_toml_section_key "$config_file" "keys" "split_horizontal" '"shift+down"'
+    ensure_herdr_command_key "$config_file" "shift+left" "herdr pane split --current --direction right --focus >/dev/null && herdr pane swap --direction left >/dev/null"
+    ensure_herdr_command_key "$config_file" "shift+up" "herdr pane split --current --direction down --focus >/dev/null && herdr pane swap --direction up >/dev/null"
     set_toml_section_key "$config_file" "ui" "mouse_capture" "true"
     set_toml_section_key "$config_file" "session" "resume_agents_on_restore" "false"
 
