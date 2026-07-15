@@ -13,6 +13,7 @@ macOS WezTerm -> zsh -> Herdr / Neovim / Yazi / Codex
 ## Main tools
 
 - WezTerm
+- Herdr
 - zsh
 - tmux
 - Neovim
@@ -137,6 +138,9 @@ Linked and installed config paths:
   directory, `scripts/link.sh` asks before replacing it in an interactive shell.
   In non-interactive runs it backs the target up first, then installs the
   managed symlink.
+- `~/.config/herdr/config.toml` is created or updated with managed Herdr
+  defaults for `Ctrl-b`, pane focus, pane splits, tab switching, mouse capture,
+  and session restore behavior.
 - macOS only: `scripts/vscode.sh` can overwrite VS Code user settings from
   `~/dotfiles/vscode/macos/settings.json` to
   `~/Library/Application Support/Code/User/settings.json`
@@ -200,8 +204,9 @@ This is a personal setup. Before running it on a new machine, review:
 ## Repo Layout
 
 - `scripts/install.sh`: top-level fresh-machine entrypoint.
-- `scripts/`: OS install, config linking, AI setup, Neovim bootstrap, checks, and
-  tmux dev-layout helpers.
+- `scripts/`: OS install, Windows WezTerm shim, config linking, AI setup,
+  Neovim bootstrap, macOS VS Code config, checks, templates, unlinking, and tmux
+  dev-layout helpers.
 - `.agents/`: shared global agent instructions, skills, and optional rules.
 - `zsh/`, `tmux/`, `nvim/`, `wezterm/`, `starship/`, `yazi/`: tool configs.
 - `homebrew/`: macOS package list.
@@ -298,6 +303,10 @@ These bindings are split by terminal layer:
 | Exit Codex | `Ctrl-C` or `/exit` | Codex |
 
 Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%USERPROFILE%\.wezterm.lua` as a shim to `~/dotfiles/wezterm/wezterm.lua`. WSL and macOS install tmux by linking `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`; that tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode. macOS also links `~/dotfiles/wezterm` to `~/.config/wezterm`; the macOS WezTerm config starts `herdr --session codex` when Herdr is installed.
+
+Herdr defaults installed by `scripts/link.sh`: `Ctrl-b` prefix, `Alt+Arrow`
+pane focus, `Shift+Arrow` pane splits, and `Ctrl-Alt-Left` /
+`Ctrl-Alt-Right` tab switching.
 
 AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
 
