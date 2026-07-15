@@ -24,7 +24,6 @@ macOS WezTerm -> zsh
 - Codex CLI
 - Claude Code
 - GitHub Copilot CLI
-- Gemini CLI
 - Cursor Agent
 - CodeRabbit CLI
 - GitHub CLI
@@ -152,7 +151,7 @@ Linked and installed config paths:
 - For selected AI tools, `~/AGENTS.md` can be copied or symlinked to
   tool-specific instruction paths:
   `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md`,
-  `~/.claude/CLAUDE.md`, `~/.cursor/cursor.md`, and `~/.gemini/GEMINI.md`
+  `~/.claude/CLAUDE.md`, and `~/.cursor/cursor.md`
 - The dotfiles repo is the single source of truth for global agent skills and
   rules. `scripts/ai.sh` can install that source into the global skills/rules
   paths and into selected tool-specific paths when a tool requires its own
@@ -308,7 +307,7 @@ Herdr defaults installed by `scripts/link.sh`: `Ctrl-b` prefix, `Alt+Arrow`
 pane focus, `Shift+Arrow` pane splits, and `Ctrl-Alt-Left` /
 `Ctrl-Alt-Right` tab switching.
 
-AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
+AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
 
 ## Cheat sheets
 

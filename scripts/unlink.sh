@@ -20,7 +20,6 @@ unlink_item "$HOME/.codex/AGENTS.md"
 unlink_item "$HOME/.copilot/copilot-instructions.md"
 unlink_item "$HOME/.claude/CLAUDE.md"
 unlink_item "$HOME/.cursor/cursor.md"
-unlink_item "$HOME/.gemini/GEMINI.md"
 
 unlink_item "$HOME/.tmux.conf"
 unlink_item "$HOME/.gitconfig"
