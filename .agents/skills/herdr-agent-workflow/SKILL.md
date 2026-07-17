@@ -1,6 +1,9 @@
 ---
 name: herdr-agent-workflow
-description: Use when working in Herdr, starting or controlling agents, using the /task workflow, coordinating sub-agents, creating Herdr workspaces, or combining Herdr with Treehouse or git worktrees for isolated coding work.
+description: >-
+  Use when working in Herdr, starting or controlling agents, using the /task
+  workflow, coordinating sub-agents, creating Herdr workspaces, or combining
+  Herdr with Treehouse or git worktrees for isolated coding work.
 ---
 
 # Herdr Agent Workflow
@@ -48,7 +51,8 @@ When approved, keep each sub-agent isolated:
 1. Lease one Treehouse worktree per sub-agent.
 2. Start the agent in Herdr with an explicit `--cwd` for that worktree.
 3. Give each agent a narrow assignment and success criteria.
-4. Monitor with `herdr agent read`, `herdr agent wait`, and `herdr agent send`.
+4. Monitor with `herdr agent read`, `herdr agent wait`, and
+   `herdr agent send`.
 5. Require each sub-agent to report branch, path, commits, tests, and blockers.
 6. Integrate results in the supervisor task branch.
 7. Resolve conflicts, validate, and create the final coherent commit.
@@ -61,16 +65,14 @@ is opened or pushed.
 
 ## Useful Herdr Commands
 
-```sh
-herdr
-herdr session attach default
-herdr session list --json
-herdr workspace create --cwd <path> --label <label>
-herdr agent start <name> --cwd <path> --workspace <id> -- <argv...>
-herdr agent read <target> --lines 80
-herdr agent send <target> <text>
-herdr agent wait <target> --status idle --timeout 600000
-```
+- `herdr`
+- `herdr session attach default`
+- `herdr session list --json`
+- `herdr workspace create --cwd PATH --label LABEL`
+- `herdr agent start NAME --cwd PATH --workspace WORKSPACE_ID -- COMMAND ARG`
+- `herdr agent read TARGET --lines 80`
+- `herdr agent send TARGET TEXT`
+- `herdr agent wait TARGET --status idle --timeout 600000`
 
 Use `herdr worktree` helpers when they fit the task, but prefer Treehouse for
 durable reusable leases.
