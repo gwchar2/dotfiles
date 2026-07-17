@@ -25,6 +25,14 @@
 - Treat destructive, mutating, privileged, or hardware-affecting operations as
   unsafe by default. Use clear guardrails and ask before taking irreversible
   action.
+- For nontrivial coding work, use an isolated task branch or worktree. For
+  Herdr-supervised work, prefer Treehouse leased worktrees and keep one coding
+  agent per leased worktree.
+- Default to solo execution. Spawn or command sub-agents only when the task is
+  complex, parallelizable, and the user has explicitly approved the proposed
+  agents, scopes, branches, and worktrees.
+- When supervising sub-agents, the supervisor owns final integration,
+  conflict resolution, validation, and the final coherent commit.
 - Commit completed coherent work with a clear message after finishing a task.
 - Do not add `Co-authored-by`, AI attribution, generated-by notices, or similar
   metadata.

@@ -1,4 +1,6 @@
 # Core
+tap "rtk-ai/tap"
+
 brew "git"
 brew "gh"
 brew "curl"
@@ -39,6 +41,7 @@ brew "gcovr"
 brew "nasm"
 brew "binutils"
 brew "pipx"
+brew "rtk"
 
 # Apps
 cask "wezterm"

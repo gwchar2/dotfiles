@@ -127,6 +127,22 @@ run_install_script() {
   fi
 }
 
+install_rtk_cli() {
+  if command -v rtk >/dev/null 2>&1; then
+    echo "already installed: rtk"
+    return
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    run_install brew install rtk
+  elif command -v curl >/dev/null 2>&1; then
+    run_install_script "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh" sh
+  else
+    echo "skip: install rtk requires Homebrew or curl" >&2
+    return 1
+  fi
+}
+
 install_copilot_cli() {
   if command -v copilot >/dev/null 2>&1; then
     echo "already installed: copilot"
@@ -293,6 +309,7 @@ install_selected_ai_tools() {
 
 install_herdr_integrations() {
   local tool
+  local extra_tool
 
   (($# > 0)) || return
 
@@ -310,6 +327,47 @@ install_herdr_integrations() {
   if contains_tool gemini "$@"; then
     echo "note: Herdr does not provide a Gemini integration installer in this version"
   fi
+
+  for extra_tool in ${HERDR_EXTRA_INTEGRATIONS:-}; do
+    if herdr integration status 2>/dev/null | grep -Eq "^${extra_tool}: "; then
+      run_install herdr integration install "$extra_tool"
+    else
+      echo "skip: unknown Herdr integration: $extra_tool" >&2
+    fi
+  done
+}
+
+configure_rtk_integrations() {
+  local tool
+
+  (($# > 0)) || return
+
+  install_rtk_cli || return
+
+  if ! command -v rtk >/dev/null 2>&1 && [[ "${AI_INSTALL_DRY_RUN:-}" != "1" ]]; then
+    echo "skip: RTK integrations require rtk" >&2
+    return
+  fi
+
+  for tool in "$@"; do
+    case "$tool" in
+      codex)
+        run_install rtk init -g --auto-patch --codex
+        ;;
+      claude)
+        run_install rtk init -g --auto-patch
+        ;;
+      copilot)
+        run_install rtk init -g --auto-patch --copilot
+        ;;
+      gemini)
+        run_install rtk init -g --auto-patch --gemini
+        ;;
+      cursor)
+        run_install rtk init -g --auto-patch --agent cursor
+        ;;
+    esac
+  done
 }
 
 deploy_ai_configs() {
@@ -396,13 +454,28 @@ transfer_ai_rules() {
   fi
 }
 
+transfer_ai_commands() {
+  local source="$DOTFILES_DIR/.agents/commands"
+  local shared_target="$HOME/.agents/commands"
+
+  if (($# == 0)) || [[ ! -d "$source" ]]; then
+    return
+  fi
+
+  if prompt_yes_no "Install this repo's shared agent commands for the selected AI tools? Copies the single dotfiles source of truth into the global commands path. (y/n)"; then
+    copy_dir_contents "$source" "$shared_target" "global agent commands"
+  fi
+}
+
 main() {
   select_ai_tools
   install_selected_ai_tools "${SELECTED_AI_TOOLS[@]}"
   install_herdr_integrations "${SELECTED_AI_TOOLS[@]}"
+  configure_rtk_integrations "${SELECTED_AI_TOOLS[@]}"
   deploy_ai_configs "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_skills "${SELECTED_AI_TOOLS[@]}"
   transfer_ai_rules "${SELECTED_AI_TOOLS[@]}"
+  transfer_ai_commands "${SELECTED_AI_TOOLS[@]}"
 }
 
 main "$@"

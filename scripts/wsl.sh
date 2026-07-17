@@ -144,9 +144,18 @@ install_latest_neovim() {
   "$bin_dir/nvim" --version | head -n 1
 }
 
+install_rtk() {
+  if command -v rtk >/dev/null 2>&1; then
+    return
+  fi
+
+  curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+}
+
 install_lazygit
 install_current_node
 install_latest_neovim
+install_rtk
 
 if ! command -v rustup >/dev/null 2>&1; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y

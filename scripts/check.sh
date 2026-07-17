@@ -70,7 +70,8 @@ for path in \
   homebrew/Brewfile \
   .agents/AGENTS.md \
   .agents/skills \
-  .agents/rules; do
+  .agents/rules \
+  .agents/commands; do
   if [[ ! -e "$path" ]]; then
     echo "missing README path: $path" >&2
     exit 1

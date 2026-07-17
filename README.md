@@ -140,7 +140,7 @@ Linked and installed config paths:
   managed symlink.
 - `~/.config/herdr/config.toml` is created or updated with managed Herdr
   defaults for `Ctrl-b`, pane focus, pane splits, tab switching, mouse capture,
-  and session restore behavior.
+  and AI-agent session resume after Herdr restores.
 - macOS only: `scripts/vscode.sh` can overwrite VS Code user settings from
   `~/dotfiles/vscode/macos/settings.json` to
   `~/Library/Application Support/Code/User/settings.json`
@@ -156,11 +156,17 @@ Linked and installed config paths:
 - The dotfiles repo is the single source of truth for global agent skills and
   rules. `scripts/ai.sh` can install that source into the global skills/rules
   paths and into selected tool-specific paths when a tool requires its own
-  location.
+  location. Shared agent commands are also installed from the dotfiles source
+  into `~/.agents/commands`.
 - Skill install targets currently managed by `scripts/ai.sh`:
   `~/.agents/skills`, `~/.codex/skills`, and `~/.claude/skills`.
 - Rule install targets currently managed by `scripts/ai.sh`:
   `~/.agents/rules` and `~/.codex/rules`.
+- Command install targets currently managed by `scripts/ai.sh`:
+  `~/.agents/commands`.
+- `scripts/ai.sh` installs and initializes RTK for the selected AI tools. Extra
+  Herdr integrations can be installed by setting `HERDR_EXTRA_INTEGRATIONS` to a
+  space-separated list supported by the local Herdr version.
 
 Current global skills:
 
@@ -182,8 +188,19 @@ Current global skills:
   compatibility, serviceability, architecture, and tests.
 - `git-worktree-agent-workflow`: agent branch/worktree, staging, commit, PR, and
   push discipline.
+- `worktree-pool-workflow`: Treehouse leased worktrees and fallback git
+  worktree handling for isolated agent work.
+- `herdr-agent-workflow`: Herdr session, workspace, agent-control, and
+  Treehouse isolation workflow. Defaults to solo work and requires user approval
+  before spawning sub-agents.
 - `architecture-decision-records`: when and how to document meaningful
   architecture decisions.
+
+Current shared commands:
+
+- `/task`: scoped coding task workflow. It uses the current work branch as the
+  base, defaults to one agent in one isolated worktree, and asks before spawning
+  sub-agents.
 
 ## Make It Yours
 
@@ -195,6 +212,8 @@ This is a personal setup. Before running it on a new machine, review:
   `scripts/ai.sh`.
 - `.agents/rules`: repo source of truth for compact global rules installed by
   `scripts/ai.sh`.
+- `.agents/commands`: repo source of truth for shared agent commands installed
+  by `scripts/ai.sh`.
 - `git/.gitconfig`: Git defaults and identity.
 - `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
 - `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that
@@ -207,7 +226,8 @@ This is a personal setup. Before running it on a new machine, review:
 - `scripts/`: OS install, Windows WezTerm shim, config linking, AI setup,
   Neovim bootstrap, macOS VS Code config, checks, templates, unlinking, and tmux
   dev-layout helpers.
-- `.agents/`: shared global agent instructions, skills, and optional rules.
+- `.agents/`: shared global agent instructions, skills, optional rules, and
+  commands.
 - `zsh/`, `tmux/`, `nvim/`, `wezterm/`, `starship/`, `yazi/`: tool configs.
 - `homebrew/`: macOS package list.
 - `docs/`: platform and tool setup notes.
@@ -306,7 +326,9 @@ Windows installs WezTerm outside WSL with `scripts/windows.ps1`, which writes `%
 
 Herdr defaults installed by `scripts/link.sh`: `Ctrl-b` prefix, `Alt+Arrow`
 pane focus, `Shift+Arrow` pane splits, and `Ctrl-Alt-Left` /
-`Ctrl-Alt-Right` tab switching.
+`Ctrl-Alt-Right` tab switching. Herdr agent panes are configured to resume their
+native sessions after a Herdr restore when the relevant Herdr integration
+supports it.
 
 AI CLIs do not share one universal keybinding system. WezTerm and tmux bindings apply to any terminal program beneath them, but Codex, Claude Code, Gemini, Copilot, and Cursor each own their own in-app shortcuts and config formats. Shared behavior should live in WezTerm or tmux when possible; app-specific actions need per-tool support.
 

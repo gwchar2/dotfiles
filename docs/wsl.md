@@ -67,4 +67,5 @@ If tools are already installed:
 - The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
 - WezTerm keybindings, including `Ctrl-Shift-C` copy and `Ctrl-Shift-V` paste, are installed on Windows through the generated `%USERPROFILE%\.wezterm.lua` shim.
 - Codex paste behavior is installed by ensuring `disable_paste_burst = true` in `~/.codex/config.toml`.
-- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional shared skills migration, and optional Codex/Copilot/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.
+- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional shared skills/rules/commands migration, and optional Codex/Copilot/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.
+- RTK is installed by default and initialized for selected AI tools when possible.

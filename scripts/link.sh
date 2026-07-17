@@ -227,7 +227,7 @@ ensure_herdr_config() {
     ensure_herdr_command_key "$config_file" "shift+left" "herdr pane split --current --direction right --focus >/dev/null && herdr pane swap --direction left >/dev/null"
     ensure_herdr_command_key "$config_file" "shift+up" "herdr pane split --current --direction down --focus >/dev/null && herdr pane swap --direction up >/dev/null"
     set_toml_section_key "$config_file" "ui" "mouse_capture" "true"
-    set_toml_section_key "$config_file" "session" "resume_agents_on_restore" "false"
+    set_toml_section_key "$config_file" "session" "resume_agents_on_restore" "true"
 
     echo "configured: $config_file Herdr defaults"
 }
