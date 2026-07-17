@@ -20,6 +20,8 @@ Default to one agent working in one isolated worktree.
 4. Create a task branch from the user's current work branch.
 5. Do the work, run focused validation, and commit a coherent result.
 6. Report branch, worktree path, tests, skipped checks, and remaining risks.
+7. Ask for confirmation before opening or pushing the final PR back to the
+   user's work branch.
 
 Do not spawn sub-agents for simple or local tasks.
 
@@ -51,8 +53,11 @@ When approved, keep each sub-agent isolated:
 6. Integrate results in the supervisor task branch.
 7. Resolve conflicts, validate, and create the final coherent commit.
 
-The supervisor owns final integration. Do not ask sub-agents to push, open PRs,
-or mutate the user's main checkout.
+The supervisor owns final integration. The supervisor may control sub-agent
+handoff, review, merge, or PR-style workflows inside the task, but sub-agents
+must not mutate the user's main checkout. The final PR from the supervisor task
+branch to the user's work branch requires explicit user confirmation before it
+is opened or pushed.
 
 ## Useful Herdr Commands
 

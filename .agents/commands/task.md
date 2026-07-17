@@ -1,7 +1,6 @@
 # /task
 
-Use `/task` for a scoped coding assignment. Ticket or issue IDs may be included
-in the prompt, but `/ticket` is not a separate workflow.
+Use `/task` for a scoped coding assignment. Ticket or issue IDs may be included in the prompt.
 
 ## Default Workflow
 
@@ -14,9 +13,10 @@ in the prompt, but `/ticket` is not a separate workflow.
 7. Run focused validation.
 8. Commit a coherent result.
 9. Report branch, worktree path, checks run, skipped checks, and risks.
-10. Prepare a PR only after explicit user confirmation.
+10. Do not open the final PR back to the user's work branch until the user
+    explicitly confirms.
 
-## Sub-Agent Approval Gate
+## Sub-Agent Approval Gate:
 
 Do not spawn sub-agents for simple tasks.
 
@@ -36,6 +36,10 @@ If the user does not approve, continue solo.
 - One coding agent gets one leased worktree.
 - Sub-agents do not share a dirty checkout.
 - Sub-agents report branch, path, commits, tests, and blockers.
+- The supervisor may control sub-agent handoff, review, merge, or PR-style
+  workflows inside the task, as long as each sub-agent remains isolated and the
+  supervisor owns the final integration.
 - The supervisor performs final integration, conflict resolution, validation,
   and the final commit.
-- Do not push or open a PR without explicit user approval.
+- The final PR from the supervisor task branch to the user's work branch
+  requires explicit user confirmation before it is opened or pushed.

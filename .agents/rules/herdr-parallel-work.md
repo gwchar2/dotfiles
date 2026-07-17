@@ -11,5 +11,8 @@
 - Never run multiple coding agents in the same dirty checkout.
 - Supervisors own final integration, conflict resolution, validation, and the
   final coherent commit.
+- Supervisors may control sub-agent handoff, review, merge, or PR-style
+  workflows inside the task when each sub-agent remains isolated.
 - Do not return, remove, or delete dirty worktrees without explicit approval.
-- Do not push or open PRs without explicit user approval.
+- The final PR from the supervisor task branch to the user's work branch
+  requires explicit user confirmation before it is opened or pushed.
