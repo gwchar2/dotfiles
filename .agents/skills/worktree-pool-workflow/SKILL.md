@@ -1,6 +1,10 @@
 ---
 name: worktree-pool-workflow
-description: Manage isolated git worktrees for agent tasks, parallel work, expensive builds, C++ development, or reusable clean environments. Use when using Treehouse-like worktree pooling, creating task worktrees, leasing worktrees, returning worktrees, or avoiding dependency rebuilds across agent sessions.
+description: >-
+  Manage isolated git worktrees for agent tasks, parallel work, expensive
+  builds, C++ development, or reusable clean environments. Use when using
+  Treehouse-like worktree pooling, creating task worktrees, leasing worktrees,
+  returning worktrees, or avoiding dependency rebuilds across agent sessions.
 ---
 
 # Worktree Pool Workflow
@@ -43,12 +47,10 @@ on each other or rebuilding dependencies every session.
 
 Use Treehouse leases for automation:
 
-```sh
-treehouse get --lease --lease-holder <agent-or-task-name>
-treehouse status
-treehouse return <path>
-treehouse prune
-```
+- `treehouse get --lease --lease-holder AGENT_OR_TASK_NAME`
+- `treehouse status`
+- `treehouse return PATH`
+- `treehouse prune`
 
 Release leases when the task is done and the worktree is clean or intentionally
 kept for review.
@@ -57,12 +59,10 @@ kept for review.
 
 Use plain git worktrees:
 
-```sh
-git worktree add ../repo-task-name -b task/name <base-branch>
-git worktree list
-git worktree remove ../repo-task-name
-git worktree prune
-```
+- `git worktree add ../repo-task-name -b task/name BASE_BRANCH`
+- `git worktree list`
+- `git worktree remove ../repo-task-name`
+- `git worktree prune`
 
 Check cleanliness and branch ownership manually before removal.
 
