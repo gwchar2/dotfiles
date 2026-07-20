@@ -4,6 +4,8 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OS="$(uname -s)"
 
+export RTK_TELEMETRY_DISABLED=1
+
 case "$OS" in
   Linux)
     if grep -qi microsoft /proc/version 2>/dev/null; then
@@ -25,5 +27,11 @@ case "$OS" in
 esac
 
 "$DOTFILES_DIR/scripts/link.sh"
-"$DOTFILES_DIR/scripts/nvim.sh"
-"$DOTFILES_DIR/scripts/ai.sh"
+
+if ! "$DOTFILES_DIR/scripts/nvim.sh"; then
+  echo "skip: Neovim bootstrap failed" >&2
+fi
+
+if ! "$DOTFILES_DIR/scripts/ai.sh"; then
+  echo "skip: AI setup failed" >&2
+fi

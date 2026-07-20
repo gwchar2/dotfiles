@@ -13,6 +13,10 @@ export NVIM_THEME="nord"
 export STARSHIP_THEME="nord"
 export WEZTERM_THEME="nord"
 
+# RTK
+# Keep RTK command filtering local-only; do not send usage telemetry.
+export RTK_TELEMETRY_DISABLED=1
+
 # User / prompt
 export DEFAULT_USER="$(whoami)"
 

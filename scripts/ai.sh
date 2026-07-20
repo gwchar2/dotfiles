@@ -127,6 +127,74 @@ run_install_script() {
   fi
 }
 
+set_toml_section_key() {
+  local config_file="$1"
+  local section="$2"
+  local key="$3"
+  local value="$4"
+  local temp_file
+
+  temp_file="$(mktemp)"
+
+  awk -v section="$section" -v key="$key" -v value="$value" '
+    BEGIN {
+      in_section = 0
+      section_seen = 0
+      key_set = 0
+    }
+    /^\[/ {
+      if (in_section && !key_set) {
+        print key " = " value
+        key_set = 1
+      }
+      in_section = ($0 == "[" section "]")
+      if (in_section) {
+        section_seen = 1
+        key_set = 0
+      }
+    }
+    in_section && $0 ~ "^[[:space:]]*#?[[:space:]]*" key "[[:space:]]*=" {
+      if (!key_set) {
+        print key " = " value
+        key_set = 1
+      }
+      next
+    }
+    { print }
+    END {
+      if (in_section && !key_set) {
+        print key " = " value
+      } else if (!section_seen) {
+        print ""
+        print "[" section "]"
+        print key " = " value
+      }
+    }
+  ' "$config_file" >"$temp_file"
+
+  mv "$temp_file" "$config_file"
+}
+
+ensure_rtk_privacy_config_file() {
+  local config_file="$1"
+
+  mkdir -p "$(dirname "$config_file")"
+  touch "$config_file"
+  set_toml_section_key "$config_file" "telemetry" "enabled" "false"
+  echo "configured: $config_file RTK telemetry disabled"
+}
+
+ensure_rtk_privacy_config() {
+  local xdg_config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+  export RTK_TELEMETRY_DISABLED=1
+  ensure_rtk_privacy_config_file "$xdg_config_home/rtk/config.toml"
+
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    ensure_rtk_privacy_config_file "$HOME/Library/Application Support/rtk/config.toml"
+  fi
+}
+
 install_rtk_cli() {
   if command -v rtk >/dev/null 2>&1; then
     echo "already installed: rtk"
@@ -136,7 +204,7 @@ install_rtk_cli() {
   if command -v brew >/dev/null 2>&1; then
     run_install brew install rtk
   elif command -v curl >/dev/null 2>&1; then
-    run_install_script "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh" sh
+    RTK_TELEMETRY_DISABLED=1 run_install_script "https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh" sh
   else
     echo "skip: install rtk requires Homebrew or curl" >&2
     return 1
@@ -282,26 +350,36 @@ install_selected_ai_tools() {
     case "$tool" in
       codex)
         if ! command -v codex >/dev/null 2>&1; then
-          run_install_script "https://chatgpt.com/codex/install.sh" sh
+          if ! run_install_script "https://chatgpt.com/codex/install.sh" sh; then
+            echo "skip: install codex failed" >&2
+          fi
         else
           echo "already installed: codex"
         fi
         ;;
       claude)
         if ! command -v claude >/dev/null 2>&1; then
-          run_install_script "https://claude.ai/install.sh" bash
+          if ! run_install_script "https://claude.ai/install.sh" bash; then
+            echo "skip: install claude failed" >&2
+          fi
         else
           echo "already installed: claude"
         fi
         ;;
       copilot)
-        install_copilot_cli
+        if ! install_copilot_cli; then
+          echo "skip: install copilot failed" >&2
+        fi
         ;;
       gemini)
-        install_gemini_cli
+        if ! install_gemini_cli; then
+          echo "skip: install gemini failed" >&2
+        fi
         ;;
       cursor)
-        install_cursor_agent
+        if ! install_cursor_agent; then
+          echo "skip: install cursor failed" >&2
+        fi
         ;;
     esac
   done
@@ -311,7 +389,7 @@ install_herdr_integrations() {
   local tool
   local extra_tool
 
-  (($# > 0)) || return
+  (($# > 0)) || return 0
 
   if ! command -v herdr >/dev/null 2>&1; then
     echo "skip: Herdr integrations require herdr" >&2
@@ -320,7 +398,9 @@ install_herdr_integrations() {
 
   for tool in codex copilot claude cursor; do
     if contains_tool "$tool" "$@" && contains_tool "$tool" "${HERDR_AI_TOOLS[@]}"; then
-      run_install herdr integration install "$tool"
+      if ! run_install herdr integration install "$tool"; then
+        echo "skip: Herdr integration install failed for $tool" >&2
+      fi
     fi
   done
 
@@ -330,7 +410,9 @@ install_herdr_integrations() {
 
   for extra_tool in ${HERDR_EXTRA_INTEGRATIONS:-}; do
     if herdr integration status 2>/dev/null | grep -Eq "^${extra_tool}: "; then
-      run_install herdr integration install "$extra_tool"
+      if ! run_install herdr integration install "$extra_tool"; then
+        echo "skip: Herdr integration install failed for $extra_tool" >&2
+      fi
     else
       echo "skip: unknown Herdr integration: $extra_tool" >&2
     fi
@@ -340,9 +422,12 @@ install_herdr_integrations() {
 configure_rtk_integrations() {
   local tool
 
-  (($# > 0)) || return
+  (($# > 0)) || return 0
 
-  install_rtk_cli || return
+  if ! install_rtk_cli; then
+    echo "skip: install rtk failed" >&2
+    return 0
+  fi
 
   if ! command -v rtk >/dev/null 2>&1 && [[ "${AI_INSTALL_DRY_RUN:-}" != "1" ]]; then
     echo "skip: RTK integrations require rtk" >&2
@@ -352,19 +437,29 @@ configure_rtk_integrations() {
   for tool in "$@"; do
     case "$tool" in
       codex)
-        run_install rtk init -g --auto-patch --codex
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch --codex; then
+          echo "skip: RTK initialization failed for codex" >&2
+        fi
         ;;
       claude)
-        run_install rtk init -g --auto-patch
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch; then
+          echo "skip: RTK initialization failed for claude" >&2
+        fi
         ;;
       copilot)
-        run_install rtk init -g --auto-patch --copilot
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch --copilot; then
+          echo "skip: RTK initialization failed for copilot" >&2
+        fi
         ;;
       gemini)
-        run_install rtk init -g --auto-patch --gemini
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch --gemini; then
+          echo "skip: RTK initialization failed for gemini" >&2
+        fi
         ;;
       cursor)
-        run_install rtk init -g --auto-patch --agent cursor
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch --agent cursor; then
+          echo "skip: RTK initialization failed for cursor" >&2
+        fi
         ;;
     esac
   done
@@ -468,6 +563,8 @@ transfer_ai_commands() {
 }
 
 main() {
+  export RTK_TELEMETRY_DISABLED=1
+  ensure_rtk_privacy_config
   select_ai_tools
   install_selected_ai_tools "${SELECTED_AI_TOOLS[@]}"
   install_herdr_integrations "${SELECTED_AI_TOOLS[@]}"

@@ -22,6 +22,10 @@ This runs:
     ./scripts/nvim.sh
     ./scripts/ai.sh
 
+Ubuntu package setup and config linking are required. Neovim bootstrap and
+optional tool integrations report failures and continue to later setup stages
+where possible.
+
 Install the Windows WezTerm shim from PowerShell or from WSL:
 
     powershell.exe -ExecutionPolicy Bypass -File "$(wslpath -w scripts/windows.ps1)"
@@ -55,17 +59,30 @@ If tools are already installed:
 
 - Work inside WSL at ~/dotfiles.
 - Do not work from /mnt/c/... unless specifically needed.
-- From PowerShell or Command Prompt, use `wsl ~` or `wsl --cd ~` to start in the WSL home directory. Plain `wsl` inherits the Windows current directory.
+- From PowerShell or Command Prompt, use `wsl ~` or `wsl --cd ~` to start in the
+  WSL home directory. Plain `wsl` inherits the Windows current directory.
 - WezTerm is installed on Windows, not inside WSL.
 - Windows WezTerm loads `%USERPROFILE%\.wezterm.lua`.
 - `scripts/windows.ps1` makes that file load `~/dotfiles/wezterm/wezterm.lua`.
-- Neovim is installed from the latest official GitHub release into `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
+- Neovim is installed from the latest official GitHub release into
+  `~/.local/opt/nvim-linux-x86_64`, with `~/.local/bin/nvim` pointing to it.
 - `jq`, zsh autosuggestions, and zsh syntax highlighting are installed through apt.
 - `lazygit` is installed from the latest GitHub release because it is not
   available in every supported Ubuntu apt repository.
-- Neovim and tmux keybindings are installed in WSL by symlinking `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to `~/.tmux.conf`.
-- The installed tmux config enables mouse wheel scrolling and mouse drag selection through tmux copy mode.
-- WezTerm keybindings, including `Ctrl-Shift-C` copy and `Ctrl-Shift-V` paste, are installed on Windows through the generated `%USERPROFILE%\.wezterm.lua` shim.
-- Codex paste behavior is installed by ensuring `disable_paste_burst = true` in `~/.codex/config.toml`.
-- `scripts/ai.sh` prompts for selected AI environments, optional global context files, optional shared skills/rules/commands migration, and optional Codex/Copilot/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.
-- RTK is installed by default and initialized for selected AI tools when possible.
+- Neovim and tmux keybindings are installed in WSL by symlinking
+  `~/dotfiles/nvim` to `~/.config/nvim` and `~/dotfiles/tmux/tmux.conf` to
+  `~/.tmux.conf`.
+- The installed tmux config enables mouse wheel scrolling and mouse drag
+  selection through tmux copy mode.
+- WezTerm keybindings, including `Ctrl-Shift-C` copy and `Ctrl-Shift-V` paste,
+  are installed on Windows through the generated `%USERPROFILE%\.wezterm.lua`
+  shim.
+- Codex paste behavior is installed by ensuring `disable_paste_burst = true` in
+  `~/.codex/config.toml`.
+- `scripts/ai.sh` prompts for selected AI environments, optional global context
+  files, optional shared skills/rules/commands migration, and optional
+  Codex/Copilot/Claude/Cursor/Gemini symlinks to `~/AGENTS.md`.
+- RTK is installed by default and initialized for selected AI tools when
+  possible. The installer disables RTK telemetry before initialization by
+  exporting `RTK_TELEMETRY_DISABLED=1` and writing `telemetry.enabled = false`
+  to RTK config.

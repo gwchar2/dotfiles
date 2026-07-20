@@ -3,6 +3,8 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+export RTK_TELEMETRY_DISABLED=1
+
 if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew is not installed."
   echo "Install Homebrew first: https://brew.sh"
@@ -18,16 +20,24 @@ if command -v rustup >/dev/null 2>&1; then
 fi
 
 if ! command -v coderabbit >/dev/null 2>&1; then
-  curl -fsSL https://cli.coderabbit.ai/install.sh | CI=1 sh
+  if ! curl -fsSL https://cli.coderabbit.ai/install.sh | CI=1 sh; then
+    echo "skip: install coderabbit failed" >&2
+  fi
 fi
 
 # Python CLI tools
-pipx ensurepath >/dev/null 2>&1 || true
+if command -v pipx >/dev/null 2>&1; then
+  pipx ensurepath >/dev/null 2>&1 || true
 
-for tool in pytest ruff black mypy; do
-  if ! command -v "$tool" >/dev/null 2>&1; then
-    pipx install "$tool"
-  fi
-done
+  for tool in pytest ruff black mypy; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      if ! pipx install "$tool"; then
+        echo "skip: install $tool with pipx failed" >&2
+      fi
+    fi
+  done
+else
+  echo "skip: Python CLI tools require pipx" >&2
+fi
 
 "$DOTFILES_DIR/scripts/vscode.sh"

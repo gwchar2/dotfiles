@@ -32,6 +32,7 @@ echo "checking referenced README paths"
 for path in \
   docs/wsl.md \
   docs/macos.md \
+  docs/macos-install-handoff.md \
   docs/dev-tools.md \
   CONTRIBUTING.md \
   LICENSE \

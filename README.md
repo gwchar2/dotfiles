@@ -82,6 +82,7 @@ the first interactive Neovim launch.
 
 - WSL: docs/wsl.md
 - macOS: docs/macos.md
+- macOS install handoff: docs/macos-install-handoff.md
 - Dev tools: docs/dev-tools.md
 
 ## Templates
@@ -108,6 +109,11 @@ This automatically runs the correct setup for the current machine:
 
 - WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 - macOS: scripts/macos.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
+
+OS package setup and config linking are required steps. Neovim bootstrap, AI
+CLI installers, Herdr integrations, RTK initialization, CodeRabbit, and pipx
+tool installs report failures per step and continue where possible so one
+optional tool does not stop the rest of the setup.
 
 On Windows, WezTerm runs outside WSL. The Windows helper installs Claude Code
 for Windows if needed, ensures WSL has sandbox/clipboard prerequisites, and
@@ -164,7 +170,9 @@ Linked and installed config paths:
   `~/.agents/rules` and `~/.codex/rules`.
 - Command install targets currently managed by `scripts/ai.sh`:
   `~/.agents/commands`.
-- `scripts/ai.sh` installs and initializes RTK for the selected AI tools. Extra
+- `scripts/ai.sh` installs and initializes RTK for the selected AI tools. RTK
+  telemetry is disabled with `RTK_TELEMETRY_DISABLED=1` and managed
+  `telemetry.enabled = false` config before any RTK initialization runs. Extra
   Herdr integrations can be installed by setting `HERDR_EXTRA_INTEGRATIONS` to a
   space-separated list supported by the local Herdr version.
 

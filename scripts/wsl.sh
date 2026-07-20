@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export RTK_TELEMETRY_DISABLED=1
+
 sudo apt update
 
 sudo apt install -y \
@@ -149,7 +151,7 @@ install_rtk() {
     return
   fi
 
-  curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | sh
+  curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | RTK_TELEMETRY_DISABLED=1 sh
 }
 
 install_lazygit
