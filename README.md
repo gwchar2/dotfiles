@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal terminal/dev setup for WSL Ubuntu and macOS.
+Personal terminal/dev setup for WSL Ubuntu, RHEL 8 SSH servers, and macOS.
 
 ## WSL / Windows Flow
 
@@ -9,6 +9,10 @@ Windows WezTerm -> WSL Ubuntu -> zsh -> tmux / Neovim / Yazi / Codex
 ## macOS Flow
 
 macOS WezTerm -> zsh
+
+## RHEL 8 Flow
+
+SSH client -> RHEL 8 -> zsh -> tmux / Neovim / Yazi / Codex
 
 ## Main tools
 
@@ -81,6 +85,7 @@ the first interactive Neovim launch.
 ## Setup docs
 
 - WSL: docs/wsl.md
+- RHEL 8: docs/rhel8.md
 - macOS: docs/macos.md
 - macOS install handoff: docs/macos-install-handoff.md
 - Dev tools: docs/dev-tools.md
@@ -109,6 +114,7 @@ This automatically runs the correct setup for the current machine:
 
 - WSL Ubuntu: scripts/wsl.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 - macOS: scripts/macos.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
+- RHEL 8: scripts/rhel8.sh + scripts/link.sh + scripts/nvim.sh + scripts/ai.sh
 
 OS package setup and config linking are required steps. Neovim bootstrap, AI
 CLI installers, Herdr integrations, RTK initialization, CodeRabbit, and pipx
@@ -224,7 +230,7 @@ This is a personal setup. Before running it on a new machine, review:
   by `scripts/ai.sh`.
 - `git/.gitconfig`: Git defaults and identity.
 - `zsh/aliases.zsh`: command aliases, including AI and dev-session shortcuts.
-- `homebrew/Brewfile`, `scripts/wsl.sh`, and `scripts/macos.sh`: packages that
+- `homebrew/Brewfile`, `scripts/wsl.sh`, `scripts/rhel8.sh`, and `scripts/macos.sh`: packages that
   will be installed.
 - `scripts/ai.sh`: optional AI CLI installers and instruction-file symlinks.
 

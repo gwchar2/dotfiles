@@ -1,6 +1,12 @@
 # Homebrew on macOS
-if [[ "$OSTYPE" == darwin* ]] && [ -x /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ "$OSTYPE" == darwin* ]]; then
+  for _brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$_brew_bin" ]]; then
+      eval "$("$_brew_bin" shellenv)"
+      break
+    fi
+  done
+  unset _brew_bin
 fi
 
 # Starship
@@ -31,8 +37,10 @@ source_if_readable() {
 }
 
 source_if_readable /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source_if_readable /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source_if_readable /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source_if_readable /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source_if_readable /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source_if_readable /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 unfunction source_if_readable
 

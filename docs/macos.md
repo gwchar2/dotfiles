@@ -6,10 +6,6 @@ macOS WezTerm -> zsh -> tmux / Neovim / Yazi / Codex
 
 ## Fresh macOS setup
 
-Install Homebrew first:
-
-    https://brew.sh
-
 Clone the dotfiles repo:
 
     git clone https://github.com/gwchar2/dotfiles.git ~/dotfiles
@@ -29,6 +25,12 @@ This runs:
 Homebrew setup and config linking are required. Neovim bootstrap and optional
 tool integrations report failures and continue to later setup stages where
 possible.
+
+If Homebrew is missing, an interactive install offers the official Homebrew
+installer. A non-interactive install exits with instructions instead of running
+an unattended privileged bootstrap. Existing Homebrew installations are found
+at both Apple Silicon and Intel default paths even when `brew` is not yet on
+`PATH`.
 
 ## Manual link only
 
@@ -61,6 +63,10 @@ If tools are already installed:
 - WezTerm is installed through Homebrew Cask.
 - macOS uses ~/.config/wezterm.
 - zsh is the default shell on modern macOS.
+- Existing regular config files are preserved. The installer adds idempotent
+  loaders to existing `.zshenv` and `.zshrc` files and skips other occupied
+  config targets. Set `DOTFILES_REPLACE_EXISTING=1` only when you explicitly
+  want occupied targets backed up and replaced with managed links.
 - Homebrew packages are listed in homebrew/Brewfile.
 - `jq`, `lazygit`, zsh autosuggestions, and zsh syntax highlighting are
   installed through Homebrew.

@@ -6,14 +6,41 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export RTK_TELEMETRY_DISABLED=1
 
 if ! command -v brew >/dev/null 2>&1; then
-  echo "Homebrew is not installed."
-  echo "Install Homebrew first: https://brew.sh"
-  exit 1
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$brew_bin" ]]; then
+      eval "$("$brew_bin" shellenv)"
+      break
+    fi
+  done
 fi
+
+if ! command -v brew >/dev/null 2>&1; then
+  if [[ ! -t 0 ]]; then
+    echo "Homebrew is required but is not installed. Install it from https://brew.sh and rerun this script." >&2
+    exit 1
+  fi
+
+  echo "Homebrew is not installed. The official installer will prompt before making changes."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$brew_bin" ]]; then
+      eval "$("$brew_bin" shellenv)"
+      break
+    fi
+  done
+fi
+
+command -v brew >/dev/null 2>&1 || {
+  echo "Homebrew installation completed but brew is unavailable in this shell." >&2
+  exit 1
+}
 
 brew update
 brew bundle --file "$DOTFILES_DIR/homebrew/Brewfile"
-brew upgrade neovim tmux node || true
+
+brew_prefix="$(brew --prefix)"
+export PATH="$brew_prefix/bin:$HOME/.local/bin:$PATH"
 
 if command -v rustup >/dev/null 2>&1; then
   rustup component add rustfmt clippy >/dev/null 2>&1 || true
@@ -25,10 +52,7 @@ if ! command -v coderabbit >/dev/null 2>&1; then
   fi
 fi
 
-# Python CLI tools
 if command -v pipx >/dev/null 2>&1; then
-  pipx ensurepath >/dev/null 2>&1 || true
-
   for tool in pytest ruff black mypy; do
     if ! command -v "$tool" >/dev/null 2>&1; then
       if ! pipx install "$tool"; then

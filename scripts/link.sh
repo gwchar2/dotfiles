@@ -2,6 +2,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+OS="${DOTFILES_OS:-$(uname -s)}"
 
 prompt_yes_no() {
     local prompt="$1"
@@ -41,6 +42,10 @@ link_item() {
     elif [ ! -e "$target" ]; then
         ln -sfn "$source" "$target"
         echo "linked: $target -> $source"
+    elif [[ "${DOTFILES_REPLACE_EXISTING:-}" == "1" ]]; then
+        backup_target "$target"
+        ln -sfn "$source" "$target"
+        echo "linked: $target -> $source"
     elif [[ -t 0 ]]; then
         if prompt_yes_no "Replace existing $target with managed dotfiles link? The existing target will be backed up first. (y/n)"; then
             backup_target "$target"
@@ -49,6 +54,8 @@ link_item() {
         else
             echo "skip: $target already exists and is not a symlink"
         fi
+    elif [[ "$OS" == "Darwin" ]]; then
+        echo "skip: preserving existing macOS target: $target"
     else
         backup_target "$target"
         ln -sfn "$source" "$target"
@@ -56,11 +63,12 @@ link_item() {
     fi
 }
 
-ensure_macos_zshrc_loader() {
-    local target="$HOME/.zshrc"
-    local marker="# dotfiles bootstrap: source managed zsh config"
+ensure_macos_zsh_loader() {
+    local target="$1"
+    local managed_file="$2"
+    local marker="# dotfiles bootstrap: source managed $managed_file"
 
-    [[ "$(uname -s)" == "Darwin" ]] || return 0
+    [[ "$OS" == "Darwin" ]] || return 0
     [[ -e "$target" && ! -L "$target" ]] || return 0
 
     if grep -Fq "$marker" "$target"; then
@@ -71,7 +79,9 @@ ensure_macos_zshrc_loader() {
     {
         printf '\n%s\n' "$marker"
         printf 'export DOTFILES_DIR=%q\n' "$DOTFILES_DIR"
-        printf "[ -f \"\$DOTFILES_DIR/zsh/.zshrc\" ] && source \"\$DOTFILES_DIR/zsh/.zshrc\"\n"
+        # The generated loader expands DOTFILES_DIR when zsh reads it.
+        # shellcheck disable=SC2016
+        printf '[ -f "$DOTFILES_DIR/zsh/%s" ] && source "$DOTFILES_DIR/zsh/%s"\n' "$managed_file" "$managed_file"
     } >>"$target"
 
     echo "configured: $target loads dotfiles zsh config"
@@ -253,7 +263,8 @@ reload_runtime_configs() {
 link_item "$DOTFILES_DIR/zsh/.zshenv" "$HOME/.zshenv"
 link_item "$DOTFILES_DIR/zsh/.zshrc" "$HOME/.zshrc"
 link_item "$DOTFILES_DIR/zsh" "$HOME/.config/zsh"
-ensure_macos_zshrc_loader
+ensure_macos_zsh_loader "$HOME/.zshenv" ".zshenv"
+ensure_macos_zsh_loader "$HOME/.zshrc" ".zshrc"
 
 link_item "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 link_item "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
@@ -261,7 +272,7 @@ link_item "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 link_item "$DOTFILES_DIR/starship" "$HOME/.config/starship"
 link_item "$DOTFILES_DIR/yazi" "$HOME/.config/yazi"
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
+if [[ "$OS" == "Darwin" ]]; then
     link_item "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
 fi
 

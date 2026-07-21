@@ -8,6 +8,7 @@ cd "$DOTFILES_DIR"
 shell_scripts=(
   scripts/install.sh
   scripts/wsl.sh
+  scripts/rhel8.sh
   scripts/macos.sh
   scripts/link.sh
   scripts/ai.sh
@@ -16,6 +17,7 @@ shell_scripts=(
   scripts/unlink.sh
   scripts/dev.sh
   scripts/copy_template.sh
+  scripts/test.sh
 )
 
 echo "checking shell syntax"
@@ -31,6 +33,7 @@ fi
 echo "checking referenced README paths"
 for path in \
   docs/wsl.md \
+  docs/rhel8.md \
   docs/macos.md \
   docs/macos-install-handoff.md \
   docs/dev-tools.md \
@@ -45,6 +48,7 @@ for path in \
   scripts/windows.ps1 \
   scripts/nvim.sh \
   scripts/wsl.sh \
+  scripts/rhel8.sh \
   scripts/macos.sh \
   scripts/ai.sh \
   scripts/dev.sh \
@@ -80,3 +84,5 @@ for path in \
 done
 
 echo "checks passed"
+
+"$DOTFILES_DIR/scripts/test.sh"
