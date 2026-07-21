@@ -62,4 +62,20 @@ grep -Fqx '# existing tmux config' "$test_home/.tmux.conf"
 [[ "$(grep -Fc '# dotfiles bootstrap: source managed .zshenv' "$test_home/.zshenv")" -eq 1 ]]
 [[ "$(grep -Fc '# dotfiles bootstrap: source managed .zshrc' "$test_home/.zshrc")" -eq 1 ]]
 
+echo "testing RTK Codex initialization arguments"
+ai_home="$test_home/ai-home"
+mkdir -p "$ai_home"
+output="$(
+  HOME="$ai_home" \
+    XDG_CONFIG_HOME="$ai_home/.config" \
+    AI_ENVIRONMENTS=codex \
+    AI_INSTALL_DRY_RUN=1 \
+    "$DOTFILES_DIR/scripts/ai.sh"
+)"
+assert_contains "$output" "rtk init -g --codex"
+if [[ "$output" == *"--auto-patch --codex"* ]]; then
+  echo "RTK Codex initialization used incompatible arguments" >&2
+  exit 1
+fi
+
 echo "installer tests passed"

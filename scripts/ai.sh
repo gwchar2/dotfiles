@@ -437,7 +437,8 @@ configure_rtk_integrations() {
   for tool in "$@"; do
     case "$tool" in
       codex)
-        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --auto-patch --codex; then
+        # Codex uses AGENTS.md and RTK.md, so RTK rejects hook auto-patching.
+        if ! RTK_TELEMETRY_DISABLED=1 run_install rtk init -g --codex; then
           echo "skip: RTK initialization failed for codex" >&2
         fi
         ;;
